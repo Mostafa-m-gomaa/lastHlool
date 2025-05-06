@@ -86,7 +86,7 @@ export function ShowPopOver({item}) {
                       <div>{item?.receipt || "غير موجود"}</div>
       
                       <div>{item?.deposit || "غير موجود"}</div>
-                      <div>{item?.depositPaymentMethod === "رقمي"  ? "supervisor" : item?.depositPaymentMethod}</div>
+                      <div>{item?.depositPaymentMethod === "رقمي"  ? "شبكي" : item?.depositPaymentMethod}</div>
                       <div>{item?.restMoneyPaymentMethod || "غير موجود"}</div>
                       <div>{item?.notes || "غير موجود"}</div>
                       <div>{item?.quantity || "غير موجود"}</div>
@@ -123,7 +123,7 @@ export function ShowPopOver({item}) {
               <div className="">سعر الطلبية</div>
               <div className="">المنطقة</div>
               <div className="">تاريخ الميلاد</div>
-              <div className="">اسم العميل</div>
+           
               <div className="">تاريخ التوصيل</div>
               <div className="">حالة التوصيل</div>
       
@@ -152,12 +152,12 @@ export function ShowPopOver({item}) {
                     <div>{item?.orderPrice || "غير موجود"}</div>
                     <div>{item?.country || "غير موجود"}</div>
                     <div>{formatDate(item?.birthDate)}</div>
-                    <div>{item?.customerName || "غير موجود"}</div>
+            
                     <div>{formatDate(item?.deliveryDate)}</div>
                     <div>{item?.deliveryStatus || "غير موجود"}</div>
                     <div>{item?.receipt || "غير موجود"}</div>
                     <div>{item?.deposit || "غير موجود"}</div>
-                    <div>{item?.depositPaymentMethod === "رقمي"  ? "supervisor" : item?.depositPaymentMethod}</div>          
+                    <div>{item?.depositPaymentMethod === "رقمي"  ? "شبكي" : item?.depositPaymentMethod}</div>          
                     <div>{item?.notes || "غير موجود"}</div>
                     <div>{item?.quantity || "غير موجود"}</div>
                     <div>{item?.salesManCommission || "غير موجود"}</div>

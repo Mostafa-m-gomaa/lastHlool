@@ -42,7 +42,7 @@ export function OrdersTable({orders}) {
       <TableHeader className=" bg-gray-100 ">
         <TableRow className="capitalize text-[15px] lg:text-[20px] font-bold *:w-[200px] *:border-2">
           <TableHead className="">المنتج</TableHead>
-          <TableHead className="">اسم العميل</TableHead>
+          {/* <TableHead className="">اسم العميل</TableHead> */}
           <TableHead className="">رقم سند العربون</TableHead>
           <TableHead className ="">الجنس</TableHead>
           <TableHead className="">المتبقي علي انتهاء المنتج</TableHead>
@@ -94,7 +94,7 @@ export function OrdersTable({orders}) {
     theOrders.map((item, index) => (
       <TableRow key={item._id || index} className="text-[14px] lg:text-[18px] *:w-[200px]">
         <TableCell>{index +1} - {item?.product || "N/A"}</TableCell>
-        <TableCell>{item?.customerName || "N/A"}</TableCell>
+        {/* <TableCell>{item?.customerName || "N/A"}</TableCell> */}
         <TableCell>{item?.receipt || "N/A"}</TableCell>
         <TableCell>{item?.gender || "N/A"}</TableCell>
         <TableCell>{item?.expireAfter || "N/A"}</TableCell>
