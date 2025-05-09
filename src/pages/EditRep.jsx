@@ -1170,7 +1170,11 @@ const EditReport = () => {
       toast.error("برجاء تفعيل الحاسبة");
     } else if (checkOutGoings === false) {
       toast.error("برجاء حساب المخرجات");
-    } else {
+    }
+     else if(cashWithMe + cash < 0){
+          toast.error("لا يمكن ان يكون المبلغ الاجمالي اصغر من صفر")
+        }
+    else {
       values.outgoings = outgoings;
       values.categorizedMoney = categorizedMoney;
 
@@ -1197,6 +1201,13 @@ const EditReport = () => {
   if (isError) {
     return <div className="text-red-500 text-center py-10">حدث خطأ في تحميل بيانات التقرير</div>;
   }
+
+
+  useEffect(()=>{
+  if(cashWithMe + cash < 0){
+    toast.error("المبلغ المدخل اكبر من المبلغ المتاح")
+  }
+  } , [cash , cashWithMe])
 
   return (
     <div className="w-full py-6 flex flex-col gap-8 items-center">
@@ -1230,7 +1241,7 @@ const EditReport = () => {
                         <option value="كاش">كاش</option>
                         <option value="تحويل بنك أهلي">تحويل بنك أهلي</option>
                         <option value="تحويل بنك راجحي">تحويل بنك راجحي</option>
-                        <option value="supervisor">رقمي</option>
+                        <option value="شبكي">شبكي</option>
                       </Field>
 
                       <CustomInput
@@ -1324,7 +1335,7 @@ const EditReport = () => {
                           const updatedDeliveredOrders = [...values?.deliveredOrders];
                           updatedDeliveredOrders[index] = {
                             ...updatedDeliveredOrders[index],
-                            customerName: order.customerName || "",
+                            customerName: order?.customersData[0]?.customerName || "",
                             deliveryReceipt: order.DeliveryReceipt || "",
                             order: order._id || "",
                             deservedSalesManCommission: order.salesManCommission || "",
@@ -1396,7 +1407,7 @@ const EditReport = () => {
                                     <option value="كاش">كاش</option>
                                     <option value="تحويل بنك أهلي">تحويل بنك أهلي</option>
                                     <option value="تحويل بنك راجحي">تحويل بنك راجحي</option>
-                                    <option value="supervisor">رقمي</option>
+                                    <option value="شبكي">شبكي</option>
                                   </Field>
 
                                   <Button

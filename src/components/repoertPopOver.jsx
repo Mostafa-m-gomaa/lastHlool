@@ -63,7 +63,7 @@ export function ReportPopOver({item}) {
     <span><span>{item?.deposit}</span> : <span>مبلغ العربون</span></span>
     <span><span>{item?.depositPaymentMethod}</span> : <span>طريقة الدفع</span></span>
     <span><span>{item?.product}</span> : <span>المنتج</span></span>
-    <span><span>{item?.quantity}</span> : <span>الكمية</span></span>
+  
     <span><span>{item?.salesMan}</span> : <span>المندوب</span></span>
   
   </div>

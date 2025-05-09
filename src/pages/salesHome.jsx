@@ -147,6 +147,7 @@ const cashItems = myCash?.data || []
      {localStorage.getItem("role") === "sales" && <SalesTargets />}
     <CustomBarChart delivered={data?.deliveredOrdersAnalytics || []} />
     {/* <AreaChartComponent /> */}
+    <AreaChartComponent sales={data?.createdOrdersAnalytics || []}  />
           </div>
         
         </div>}

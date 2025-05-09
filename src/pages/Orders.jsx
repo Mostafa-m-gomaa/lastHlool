@@ -116,7 +116,7 @@ const exportToExcel = () => {
     "تاريخ البيع": formatDate(item?.sellingDate),
     "الكمية": item?.quantity || "N/A",
     "سعر المنتج": item?.productPrice || "N/A",
-    "سعر الطلبية": item?.orderPrice || "N/A",
+   
     "العربون": item?.deposit || "N/A",
     "طريقة دفع العربون": item?.depositPaymentMethod || "N/A",
     "المتبقي منذ دفع العربون": item?.daysAgo || "N/A",

@@ -211,7 +211,7 @@ const AddOrder = () => {
     queryKey: ['products'],
     queryFn: getAvailableProducts
   })
-
+console.log("product" ,products)
   const productsItems = products?.data || []
   const [productQuantity, setProductQuantity] = useState(1)
 
@@ -233,7 +233,8 @@ const AddOrder = () => {
     deposit: '',
     depositPaymentMethod: '',
     deliveryDate: '',
-    notes: ''
+    notes: '' ,
+    productPrice: 0, 
   }
 
   const mutation = useMutation({
@@ -256,6 +257,7 @@ const AddOrder = () => {
     mutation.mutate(values)
    
   }
+
 
   return (
     <div className='w-[100%] mx-auto flex flex-col gap-3'>
@@ -288,13 +290,16 @@ const AddOrder = () => {
                 onChange={(e) => {
                   const selectedOption = e.target.options[e.target.selectedIndex]
                   const quantity = selectedOption.getAttribute('data-sayed') || 1
+                  const price = selectedOption.getAttribute('data-price') || 0;
                   setProductQuantity(Number(quantity))
                   setFieldValue('product', e.target.value)
+                  setFieldValue('productPrice', parseFloat(price));
+          
                 }}
               >
                 <option value=''>اختر المنتج</option>
                 {productsItems.map((item) => (
-                  <option data-sayed={item?.quantity} key={item._id} value={item._id}>
+                  <option data-sayed={item?.quantity} data-price={item?.price || 0} key={item._id} value={item._id}>
                     {item.title}
                   </option>
                 ))}
@@ -340,7 +345,7 @@ const AddOrder = () => {
                   <option value='كاش'>كاش</option>
                   <option value='تحويل بنك أهلي'>تحويل بنك أهلي</option>
                   <option value='تحويل بنك راجحي'>تحويل بنك راجحي</option>
-                  <option value='supervisor'>رقمي</option>
+                  <option value='شبكي'>شبكي</option>
                 </Field>
                 {touched.depositPaymentMethod && errors.depositPaymentMethod && <div className='text-red-500'>{errors.depositPaymentMethod}</div>}
               </div>

@@ -9,6 +9,7 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
+import clsx from "clsx"
 
 
 
@@ -42,17 +43,19 @@ export function OrdersTable({orders}) {
       <TableHeader className=" bg-gray-100 ">
         <TableRow className="capitalize text-[15px] lg:text-[20px] font-bold *:w-[200px] *:border-2">
           <TableHead className="">المنتج</TableHead>
-          {/* <TableHead className="">اسم العميل</TableHead> */}
+          <TableHead className="">بيانات العملاء</TableHead>
+      
+       
           <TableHead className="">رقم سند العربون</TableHead>
-          <TableHead className ="">الجنس</TableHead>
+          
           <TableHead className="">المتبقي علي انتهاء المنتج</TableHead>
-          <TableHead className=""> تاريخ الميلاد العميل</TableHead>
+    
           <TableHead className="">اسم المشرف</TableHead>
           <TableHead className="">اسم المندوب</TableHead>
           <TableHead className="">تاريخ البيع</TableHead>
           <TableHead className="">الكمية</TableHead>
           <TableHead className="">سعر المنتج</TableHead>
-          <TableHead className="">سعر الطلبية</TableHead>
+     
           <TableHead className="">العربون</TableHead>
           <TableHead className="">طريقة دفع العربون</TableHead>
           <TableHead className="">المتبقي منذ دفع العربون</TableHead>
@@ -71,7 +74,6 @@ export function OrdersTable({orders}) {
           <TableHead className="">المدينة</TableHead>
           <TableHead className="">ملاحظات</TableHead>
           <TableHead className="">تاريخ التحديث</TableHead>
-          <TableHead className="">رقم الهاتف</TableHead>
           <TableHead className ="">رقم الطلب</TableHead>
           <TableHead className="">تاريخ الانشاء</TableHead>
           <TableHead className ="">تاريخ انتهاء المنتج</TableHead>
@@ -94,17 +96,48 @@ export function OrdersTable({orders}) {
     theOrders.map((item, index) => (
       <TableRow key={item._id || index} className="text-[14px] lg:text-[18px] *:w-[200px]">
         <TableCell>{index +1} - {item?.product || "N/A"}</TableCell>
-        {/* <TableCell>{item?.customerName || "N/A"}</TableCell> */}
+
+<TableCell >
+        {item?.customersData?.map((customer, i) => (
+          <div key={i}  className="flex flex-col py-[10px] bg-white">
+           <span> {customer?.customerName || "N/A"}</span> 
+           <span> {customer?.phone || "N/A"}</span> 
+           <span> {customer?.gender || "N/A"}</span> 
+           <span> {customer?.birthDate ? formatDate(customer?.birthDate) : "N/A"}</span> 
+            </div>
+        ))}
+</TableCell>
+
+{/* <TableCell >
+
+        {item?.customersData?.map((customer, i) => (
+          <span key={i} >{customer?.gender || "N/A"}</span>
+        ))}
+</TableCell>
+<TableCell >
+
+        {item?.customersData?.map((customer, i) => (
+          <span key={i} >{customer?.phone || "N/A"}</span>
+        ))}
+</TableCell>
+<TableCell >
+
+        {item?.customersData?.map((customer, i) => (
+          <span key={i} >{customer?.customerName ? formatDate(customer?.birthDate): "N/A"}</span>
+        ))}
+</TableCell> */}
+     
+    
         <TableCell>{item?.receipt || "N/A"}</TableCell>
-        <TableCell>{item?.gender || "N/A"}</TableCell>
+   
         <TableCell>{item?.expireAfter || "N/A"}</TableCell>
-        <TableCell>{formatDate(item?.birthDate)}</TableCell>
+      
         <TableCell>{item?.supervisor?.name || "N/A"}</TableCell>
         <TableCell>{item?.salesPerson?.name || "N/A"}</TableCell>
         <TableCell>{formatDate(item?.sellingDate)}</TableCell>
         <TableCell>{item?.quantity || "N/A"}</TableCell>
         <TableCell>{item?.productPrice || "N/A"}</TableCell>
-        <TableCell>{item?.orderPrice || "N/A"}</TableCell>
+
         <TableCell>{item?.deposit || "N/A"}</TableCell>
         <TableCell>{item?.depositPaymentMethod || "N/A"}</TableCell>
         <TableCell>{item?.daysAgo || "N/A"}</TableCell>
@@ -123,7 +156,7 @@ export function OrdersTable({orders}) {
         <TableCell>{item?.city || "N/A"}</TableCell>
         <TableCell>{item?.notes || "N/A"}</TableCell>
         <TableCell>{formatDate(item?.updatedAt)}</TableCell>
-        <TableCell>{item?.phone || "N/A"}</TableCell>
+ 
         <TableCell>{item?.orderNumber || "N/A"}</TableCell>
         <TableCell>{formatDate(item?.createdAt)}</TableCell>
         <TableCell>{formatDate(item?.productEndDate) || "N/A"}</TableCell>

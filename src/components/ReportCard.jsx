@@ -79,7 +79,7 @@ const ReportCard = ({item , number , ...props}) => {
                 <div className="flex flex-col lg:flex-row items-center gap-2">
                   <ReportPopOver item={item} />
                   <Button><Link to={`/home/onereport/${item?._id}`}>عرض بالتفصيل</Link></Button>
-                  {! localStorage.getItem("role") === "supervisor"  &&  <Button onClick={mutation.mutate}>السماح بالتعديل</Button>}
+                  {localStorage.getItem("role") != "supervisor"  &&  <Button onClick={mutation.mutate}>السماح بالتعديل</Button>}
                   {localStorage.getItem("role") === "supervisor" && numberToUpdate > 0  &&  <Button><Link to={`/home/editreport/${item._id}`} >تعديل</Link></Button>}
                   {/* <Button><Link to={`/home/editreport/${item._id}`} >تعديل</Link></Button> */}
 

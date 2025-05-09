@@ -47,7 +47,7 @@ export function ShowPopOver({item}) {
           <div className="w-[45%] bg-myBlue text-white text-center flex flex-col gap-4 py-3  *:min-h-[60px] text-[13px] lg:text-[16px]"> 
                <div className="">المنتج</div>
                 <div className="">سعر المنتج</div>
-                <div className="">سعر الطلبية</div>
+            
                 <div className="">البلد</div>
                 <div className="">تاريخ الانشاء</div>
                 <div className="">تاريخ التوصيل</div>
@@ -76,7 +76,7 @@ export function ShowPopOver({item}) {
           <div className="w-[53%] text-center flex flex-col gap-4 py-3 *:min-h-[60px] *:max-h-[60px] text-[13px] lg:text-[16px]">
                       <div>{item?.product || "غير موجود"}</div>
                       <div>{item?.productPrice || "غير موجود"}</div>
-                      <div>{item?.orderPrice || "غير موجود"}</div>
+                     
                       <div>{item?.country || "غير موجود"}</div>
                       <div>{formatDate(item?.createdAt)}</div>
                       <div>{formatDate(item?.deliveryDate)}</div>
@@ -86,7 +86,7 @@ export function ShowPopOver({item}) {
                       <div>{item?.receipt || "غير موجود"}</div>
       
                       <div>{item?.deposit || "غير موجود"}</div>
-                      <div>{item?.depositPaymentMethod === "رقمي"  ? "شبكي" : item?.depositPaymentMethod}</div>
+                      <div>{item?.depositPaymentMethod  || ""}</div>
                       <div>{item?.restMoneyPaymentMethod || "غير موجود"}</div>
                       <div>{item?.notes || "غير موجود"}</div>
                       <div>{item?.quantity || "غير موجود"}</div>
@@ -120,7 +120,7 @@ export function ShowPopOver({item}) {
         <div className="w-[45%] bg-myBlue text-white text-center flex flex-col gap-4 py-3  *:min-h-[60px] text-[13px] lg:text-[16px]"> 
              <div className="">المنتج</div>
               <div className="">سعر المنتج</div>
-              <div className="">سعر الطلبية</div>
+      
               <div className="">المنطقة</div>
               <div className="">تاريخ الميلاد</div>
            
@@ -149,7 +149,7 @@ export function ShowPopOver({item}) {
         <div className="w-[53%] text-center flex flex-col gap-4 py-3 *:min-h-[60px] *:max-h-[60px] text-[13px] lg:text-[16px]">
                     <div>{item?.product || "غير موجود"}</div>
                     <div>{item?.productPrice || "غير موجود"}</div>
-                    <div>{item?.orderPrice || "غير موجود"}</div>
+             
                     <div>{item?.country || "غير موجود"}</div>
                     <div>{formatDate(item?.birthDate)}</div>
             
@@ -157,7 +157,7 @@ export function ShowPopOver({item}) {
                     <div>{item?.deliveryStatus || "غير موجود"}</div>
                     <div>{item?.receipt || "غير موجود"}</div>
                     <div>{item?.deposit || "غير موجود"}</div>
-                    <div>{item?.depositPaymentMethod === "رقمي"  ? "شبكي" : item?.depositPaymentMethod}</div>          
+                    <div>{item?.depositPaymentMethod || ""}</div>          
                     <div>{item?.notes || "غير موجود"}</div>
                     <div>{item?.quantity || "غير موجود"}</div>
                     <div>{item?.salesManCommission || "غير موجود"}</div>

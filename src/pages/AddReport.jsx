@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Field, Form, FieldArray } from "formik";
 import * as Yup from "yup";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -219,6 +219,9 @@ if(hasbaCheck === false){
 else if(checkOutGoings === false){
       toast.error("برجاء حساب المخرجات")
     }
+    else if(cashWithMe + cash < 0){
+      toast.error("لا يمكن ان يكون المبلغ الاجمالي اصغر من صفر")
+    }
     else{
       values.outgoings = outgoings;
       values.categorizedMoney = categorizedMoney;
@@ -311,7 +314,11 @@ return Array.from(commissionMap.values())
 
   // categorize money function 
 
-
+useEffect(()=>{
+if(cashWithMe + cash < 0){
+  toast.error("المبلغ المدخل اكبر من المبلغ المتاح")
+}
+} , [cash , cashWithMe])
 
 
   const calculateCategorizedMoney = (values) => {
@@ -420,7 +427,7 @@ return Array.from(commissionMap.values())
                     <option value="كاش">كاش</option>
                     <option value="تحويل بنك أهلي">تحويل بنك أهلي</option>
                     <option value="تحويل بنك راجحي">تحويل بنك راجحي</option>
-                    <option value="supervisor">رقمي</option>
+                    <option value="شبكي">شبكي</option>
                     </Field>
                
                     <CustomInput
@@ -515,7 +522,7 @@ return Array.from(commissionMap.values())
     const updatedDeliveredOrders = [...values.deliveredOrders];
     updatedDeliveredOrders[index] = {
       ...updatedDeliveredOrders[index],
-      customerName: order.customerName || "",
+      customerName: order.customersData[0]?.customerName || "",
       deliveryReceipt: order.DeliveryReceipt || "",
       order: order._id || "",
       deservedSalesManCommission: order.salesManCommission || "",
@@ -574,7 +581,7 @@ return Array.from(commissionMap.values())
           <option value="كاش">كاش</option> 
           <option value="تحويل بنك أهلي">تحويل بنك أهلي</option>
           <option value="تحويل بنك راجحي">تحويل بنك راجحي</option>
-          <option value="supervisor">رقمي</option>
+          <option value="شبكي">شبكي</option>
                               </Field>
 
                               <Button type="button" onClick={() => removeRestOrderCost(restIndex)}>حذف</Button>
@@ -661,7 +668,7 @@ return Array.from(commissionMap.values())
       <div className="flex flex-col border-2 border-black p-4 rounded-md gap-2 w-full">
         <h2>العمولات المستحقة</h2>
         <div>{cashWithMe} الصندوق</div>
-        <div>{cash} اجمالي المبلغ لهذا التقرير</div>
+        {/* <div>{cash} اجمالي المبلغ لهذا التقرير</div> */}
         <div>{cash + cashWithMe} الاجمالي الكلي:</div>
         {commessions.map((item, i) =>
           item.userId === undefined ? null : (
@@ -780,12 +787,20 @@ return Array.from(commissionMap.values())
   )}
 </FieldArray>
 
-<CustomInput
+{/* <CustomInput
+            name={`reportDate`}
+            label="تاريخ التقرير"
+            type={"date"}
+         
+          /> */}
+    
+<Custom
             name={`reportDate`}
             label="تاريخ التقرير"
             type={"date"}
          
           />
+    
           
 <Button onClick={generateOutgoings} type="button">حساب المخرجات</Button>
 

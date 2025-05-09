@@ -87,7 +87,7 @@ const retrieveMutation = useMutation({
                   <div className="max-w-full flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex  *:items-center *:rounded-md  *:text-center  *:gap-2 *:flex-row-reverse  ">
                     <div><span> اسم العميل الاول</span> : <span>{item?.customersData[0]?.customerName}</span> </div>
                     <div><span>رقم سند العربون</span> : <span>{item.receipt || "لا يوجد رقم سند"}</span> </div>
-                    <div><span>تاريخ الميلاد</span> : <span>{formatDate(item.birthDate)}</span> </div>
+                    <div><span>تاريخ الميلاد</span> : <span>{formatDate(item?.customersData[0]?.birthDate)}</span> </div>
 
                   </div>
     </div>

@@ -159,7 +159,7 @@
 
 import Custom from '@/formik/CustomInput'
 import React, { useState, useEffect } from 'react'
-import { addOrderValidation } from '@/validation/Validation'
+import { addOrderValidation, editOrderValidation } from '@/validation/Validation'
 import { Formik, Form, Field, FieldArray } from 'formik'
 import { Button } from '@/components/ui/button'
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
@@ -172,6 +172,7 @@ import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { updateOrder } from '@/api/orders'
 import { getOneOrder } from '@/api/orders'
+
 
 const EditOrder = () => {
   const queryClient = useQueryClient()
@@ -221,7 +222,8 @@ const orderData = order?.data || {}
     deposit: orderData?.deposit || '',
     depositPaymentMethod: orderData?.depositPaymentMethod || '',
     deliveryDate: orderData?.deliveryDate || '',
-    notes: orderData?.notes || ''
+    notes: orderData?.notes || '' ,
+    productPrice: 0, 
   }
 
 
@@ -230,10 +232,11 @@ const orderData = order?.data || {}
 const mutation = useMutation({
   mutationFn: ({ values, id }) => updateOrder(values, id),
   onSuccess: (res) => {
-    console.log(res)
+    console.log("response", res)
       if(res.status === "success") {
         queryClient.invalidateQueries({ queryKey: ["orders"] });
         toast.success("تم تعديل الطلب بنجاح");
+    
       }
   },
   onError: (err) => {
@@ -242,12 +245,12 @@ const mutation = useMutation({
 });
 
 const onSubmit = (values) => {
-  // const filteredValues = Object.fromEntries(
-  //     Object.entries(values).filter(([_, value]) => value !== "")
-  // );
+  const filteredValues = Object.fromEntries(
+      Object.entries(values).filter(([_, value]) => value !== "")
+  );
 
   
-  mutation.mutate({ values , id });
+  mutation.mutate({ values : filteredValues , id });
  
 };
 
@@ -255,7 +258,7 @@ const onSubmit = (values) => {
 
   return (
     <div className='w-[100%] mx-auto flex flex-col gap-3'>
-      <h1 className='py-12'>املأ البيانات الأتية لأضافة طلب</h1>
+      <h1 className='py-12'>املأ البيانات الأتية لتعديل الطلب</h1>
       <Formik initialValues={initialValues} onSubmit={onSubmit} >
         {({ errors, touched, values, setFieldValue }) => {
           useEffect(() => {
@@ -284,13 +287,15 @@ const onSubmit = (values) => {
                 onChange={(e) => {
                   const selectedOption = e.target.options[e.target.selectedIndex]
                   const quantity = selectedOption.getAttribute('data-sayed') || 1
+                  const price = selectedOption.getAttribute('data-price') || 0
                   setProductQuantity(Number(quantity))
                   setFieldValue('product', e.target.value)
+                  setFieldValue('productPrice', price)
                 }}
               >
                 <option value=''>اختر المنتج</option>
                 {productsItems.map((item) => (
-                  <option data-sayed={item?.quantity} key={item._id} value={item._id}>
+                  <option data-price={item?.price} data-sayed={item?.quantity} key={item._id} value={item._id}>
                     {item.title}
                   </option>
                 ))}
@@ -336,7 +341,7 @@ const onSubmit = (values) => {
                   <option value='كاش'>كاش</option>
                   <option value='تحويل بنك أهلي'>تحويل بنك أهلي</option>
                   <option value='تحويل بنك راجحي'>تحويل بنك راجحي</option>
-                  <option value='supervisor'>رقمي</option>
+                  <option value='شبكي'>شبكي</option>
                 </Field>
                 {touched.depositPaymentMethod && errors.depositPaymentMethod && <div className='text-red-500'>{errors.depositPaymentMethod}</div>}
               </div>

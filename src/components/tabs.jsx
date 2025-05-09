@@ -54,18 +54,18 @@ export function TabsDemo({ setDeliveryStatus, filterChang, categorizedOrders }) 
   return (
     <Tabs defaultValue="" className="w-[100%] mx-auto">
       <TabsList className="w-full min-h-fit flex flex-wrap justify-center gap-4 *:w-[45%] *:lg:w-[10%] *:flex *:items-center *:gap-2">
-        <TabsTrigger onClick={() => filterChang("deliveryStatus", "تم التسليم")} value="تم الاستلام">
-          <BookCheck color="#0ea20b" /> <span className="text-[12px] lg:text-[15px]">تم التسليم</span>
-        </TabsTrigger>
-             
         <TabsTrigger onClick={() => filterChang("deliveryStatus", "غير جاهز للتسليم")} value="غير جاهزة للاستلام">
         <LoaderPinwheel />  <span className="text-[12px] lg:text-[15px]">غير جاهزة للاستلام</span>
         </TabsTrigger>
+        <TabsTrigger onClick={() => filterChang("deliveryStatus", "جاهز للتسليم")} value="جاهزة للاستلام">
+          <Rss color="#1387b9" /> <span className="text-[12px] lg:text-[15px]">جاهزة للاستلام</span>
+        </TabsTrigger>
+             
         <TabsTrigger onClick={() => filterChang("deliveryStatus", "قيد التوصيل")} value="قيد التوصيل">
           <MailCheck color="#b98d13" /> <span className="text-[12px] lg:text-[15px]">قيد التوصيل</span>
         </TabsTrigger>
-        <TabsTrigger onClick={() => filterChang("deliveryStatus", "جاهز للتسليم")} value="جاهزة للاستلام">
-          <Rss color="#1387b9" /> <span className="text-[12px] lg:text-[15px]">جاهزة للاستلام</span>
+        <TabsTrigger onClick={() => filterChang("deliveryStatus", "تم التسليم")} value="تم الاستلام">
+          <BookCheck color="#0ea20b" /> <span className="text-[12px] lg:text-[15px]">تم التسليم</span>
         </TabsTrigger>
         <TabsTrigger onClick={() => filterChang("deliveryStatus", "ملغي")} value="ملغي">
         <Ban color="#db0000" /><span className="text-[12px] lg:text-[15px]">الملغي</span>

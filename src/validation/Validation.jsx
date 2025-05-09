@@ -53,8 +53,17 @@ export const addOrderValidation = Yup.object({
   country: Yup.string().required('يجب أن تدخل البلد'),
   city: Yup.string().required('يجب أن تدخل المدينة'),
   deposit: Yup.number()
-    .typeError('يجب أن تدخل رقم صحيح')
-    .required('يجب أن تدخل الدفعة المقدمة'),
+    .typeError('مبلغ غير صالح')
+    .min(0, 'لا يمكن أن يكون أقل من صفر')
+    .test(
+      'max-deposit',
+      'مبلغ العربون أكبر من سعر المنتج',
+      function (value) {
+        const { productPrice } = this.parent;
+        if (!productPrice || !value) return true; // لو مش مختار منتج
+        return value <= productPrice;
+      }
+    ),
   product: Yup.string().required('يجب أن تختار المنتج'),
   notes: Yup.string(),
 
@@ -69,6 +78,31 @@ export const addOrderValidation = Yup.object({
     })
   )
     .min(1, 'يجب إدخال بيانات عميل واحد على الأقل'),
+})
+export const editOrderValidation = Yup.object({
+
+  deposit: Yup.number()
+    .typeError('مبلغ غير صالح')
+    .min(0, 'لا يمكن أن يكون أقل من صفر')
+    .test(
+      'max-deposit',
+      'مبلغ العربون أكبر من سعر المنتج',
+      function (value) {
+        const { productPrice } = this.parent;
+        return value <= productPrice;
+      }
+    ),
+  product: Yup.string().required('يجب أن تختار المنتج'),
+  notes: Yup.string(),
+
+  customersData: Yup.array().of(
+    Yup.object().shape({
+      phone: Yup.string()
+        .matches(/^05\d{8}$/, 'رقم الهاتف يجب أن يتكون من 10 أرقام ويبدأ بـ 05'),
+
+    })
+  )
+
 })
 
 
