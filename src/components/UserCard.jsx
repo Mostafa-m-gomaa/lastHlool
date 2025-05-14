@@ -60,9 +60,10 @@ const UserCard = ({number ,item}) => {
                   </div>
     </div>
     <div className="flex flex-col lg:flex-row items-center gap-2">
+      {item?.role !== "admin" && <AlertDelete id={item._id}/> }
 <Button  className=" p-1 h-fit lg:px-4 lg:py-2" ><Link to={`/home/updateuser/${item._id}`}><Pencil /></Link></Button>
-<AlertDelete id={item._id}/>
-<Button  className="p-1 h-fit text-[10px] lg:text-[14px] lg:px-4 lg:py-2" onClick ={()=>setActive(item._id , item.active)}>   {item.active ? " تعطيل " : "تنشيط"} {mutation.isPending ? <Loader2 className="animate-spin"/>:null}</Button>
+{item?.role !== "admin" && <Button  className="p-1 h-fit text-[10px] lg:text-[14px] lg:px-4 lg:py-2" onClick ={()=>setActive(item._id , item.active)}>   {item.active ? " تعطيل " : "تنشيط"} {mutation.isPending ? <Loader2 className="animate-spin"/>:null}</Button> }
+
    </div>
    </div>
          
