@@ -240,12 +240,15 @@ console.log("product" ,products)
   const mutation = useMutation({
     mutationFn: (values) => createOrder(values),
     onSuccess: (res) => {
-     
+     console.log(res)
       if(res.status === "success"){
 
         queryClient.invalidateQueries({ queryKey: ['orders'] })
         toast.success('تم اضافة الطلب  بنجاح')
         history('/home/myorders')
+      }
+      else if(res.status === "error"){
+           toast.error(res?.details[0])
       }
     },
     onError: (err) => {
@@ -255,6 +258,7 @@ console.log("product" ,products)
 
   const onSubmit = (values) => {
     mutation.mutate(values)
+    // console.log(values)
    
   }
 

@@ -33,7 +33,7 @@ const onProgressMutation = useMutation({
 
 
 const formatDate = (date) => {
-  if (!date) return "N/A"; // Return a default value if the date is undefined
+  if (!date) return "لايوجد"; // Return a default value if the date is undefined
   const validDate = new Date(date);
 
   if (isNaN(validDate.getTime())) {
@@ -108,7 +108,7 @@ const formatDate = (date) => {
                   <p><strong>المشرف</strong> {order?.order?.supervisor?.name}</p>
                   <p><strong>البائع</strong> {order?.order?.salesPerson?.name}</p>
                   <p><strong>المنتج</strong> {order?.order?.product}</p>
-                  <p><strong>المبلغ المتبقي لاستلام الطلب</strong> {order?.order?.orderPrice - order?.order?.deposit}</p>
+                  <p><strong>المبلغ المتبقي لاستلام الطلب</strong> {order?.remainingAmount}</p>
                   {order?.restOrderCost?.map((item, i) => (
                     <div key={i} className="flex flex-col gap-2">
                       <p><strong>المبلغ</strong> {item?.amount}</p>

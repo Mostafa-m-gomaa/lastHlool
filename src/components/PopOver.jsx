@@ -11,6 +11,7 @@ import { useMutation , useQueryClient } from "@tanstack/react-query"
 import { Form, Formik , Field } from "formik"
 import toast from "react-hot-toast"
 import { Settings } from 'lucide-react';
+import Custom from "@/formik/CustomInput"
 
 export function PopoverDemo({id }) {
     const queryClient = useQueryClient()
@@ -39,9 +40,10 @@ export function PopoverDemo({id }) {
 
 
     const onSubmit =(values)=>{
-        values.productIssuanceDate = new Date(values.productIssuanceDate).toISOString()
+        // values.productIssuanceDate = new Date(values.productIssuanceDate).toISOString()
 
         mutation.mutate({mutationId : id ,values})
+        // console.log(values)
     }
   return (
     <Popover>
@@ -57,7 +59,7 @@ export function PopoverDemo({id }) {
             <Formik initialValues={initialValues} onSubmit={onSubmit}>
                 {({...sayed})=>(
 
-            <Form className="grid grid-cols-3 items-center gap-4">
+            <Form className="flex flex-col items-center gap-4">
                 
               <Label htmlFor="width">سند التسليم</Label>
              
@@ -68,14 +70,9 @@ export function PopoverDemo({id }) {
                       className="col-span-2 h-8"
                       required
                     />
-                     <Label htmlFor="width">اصدار البطاقة</Label>
-              <Field
-              as={Input}
-              name="productIssuanceDate"
-              type="date"
-              className="col-span-2 h-8"
-              required
-            />
+                   
+                                <Custom name="productIssuanceDate" label="تاريخ اصدار البطاقة"  />
+
        <Button type="submit" disabled={mutation.isPending}>
         {mutation.isPending ? "Loading..." : "تحديث"}
        </Button>

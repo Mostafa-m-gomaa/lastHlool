@@ -87,7 +87,7 @@ if (isError) {
 
 const orderItems = orders?.data || []
 const formatDate = (date) => {
-  if (!date) return "N/A"; // Return a default value if the date is undefined
+  if (!date) return "لايوجد"; // Return a default value if the date is undefined
   const validDate = new Date(date);
 
   if (isNaN(validDate.getTime())) {
@@ -105,39 +105,39 @@ const formatDate = (date) => {
 const exportToExcel = () => {
   setLoader(true)
   const worksheetData = orderItems.map((item) => ({
-    "المنتج": item?.product || "N/A",
-    "اسم العميل": item?.customerName || "N/A",
-    "رقم سند العربون": item?.receipt || "N/A",
-    "الجنس": item?.gender || "N/A",
-    "المتبقي علي انتهاء المنتج": item?.expireAfter || "N/A",
+    "المنتج": item?.product || "لايوجد",
+    "اسم العميل": item?.customerName || "لايوجد",
+    "رقم سند العربون": item?.receipt || "لايوجد",
+    "الجنس": item?.gender || "لايوجد",
+    "المتبقي علي انتهاء المنتج": item?.expireAfter || "لايوجد",
     "تاريخ الميلاد العميل": formatDate(item?.birthDate),
-    "اسم المشرف": item?.supervisor?.name || "N/A",
-    "اسم المندوب": item?.salesPerson?.name || "N/A",
+    "اسم المشرف": item?.supervisor?.name || "لايوجد",
+    "اسم المندوب": item?.salesPerson?.name || "لايوجد",
     "تاريخ البيع": formatDate(item?.sellingDate),
-    "الكمية": item?.quantity || "N/A",
-    "سعر المنتج": item?.productPrice || "N/A",
+    "الكمية": item?.quantity || "لايوجد",
+    "سعر المنتج": item?.productPrice || "لايوجد",
    
-    "العربون": item?.deposit || "N/A",
-    "طريقة دفع العربون": item?.depositPaymentMethod || "N/A",
-    "المتبقي منذ دفع العربون": item?.daysAgo || "N/A",
-    "المبلغ المتبقي للطلب": item?.remainingAmount || "N/A",
-    "مسئول التوصيل": item?.deliveryMan?.name || "N/A",
+    "العربون": item?.deposit || "لايوجد",
+    "طريقة دفع العربون": item?.depositPaymentMethod || "لايوجد",
+    "المتبقي منذ دفع العربون": item?.daysAgo || "لايوجد",
+    "المبلغ المتبقي للطلب": item?.remainingAmount || "لايوجد",
+    "مسئول التوصيل": item?.deliveryMan?.name || "لايوجد",
     "تاريخ التسليم المتوقع": formatDate(item?.deliveryDate),
     "تاريخ التسليم": formatDate(item?.actualDeliveryDate),
-    "سند التسليم": item?.DeliveryReceipt || "N/A",
+    "سند التسليم": item?.DeliveryReceipt || "لايوجد",
     "اصدار البطاقة": item?.productIssuanceDate ? formatDate(item.productIssuanceDate) : "لا يوجد",
-    "طريقة دفع الدفعه الباقي": item?.restMoneyPaymentMethod || "N/A",
-    "عمولة المشرف": item?.supervisorCommission || "N/A",
-    "عمولة المندوب": item?.salesManCommission || "N/A",
-    "عمولة التوصيل": item?.deliveryCommission || "N/A",
-    "حالة التوصيل": item?.deliveryStatus || "N/A",
-    "البلد": item?.country || "N/A",
-    "ملاحظات": item?.notes || "N/A",
+    "طريقة دفع الدفعه الباقي": item?.restMoneyPaymentMethod || "لايوجد",
+    "عمولة المشرف": item?.supervisorCommission || "لايوجد",
+    "عمولة المندوب": item?.salesManCommission || "لايوجد",
+    "عمولة التوصيل": item?.deliveryCommission || "لايوجد",
+    "حالة التوصيل": item?.deliveryStatus || "لايوجد",
+    "البلد": item?.country || "لايوجد",
+    "ملاحظات": item?.notes || "لايوجد",
     "تاريخ التحديث": formatDate(item?.updatedAt),
-    "رقم الهاتف": item?.phone || "N/A",
-    "رقم الطلب": item?.orderNumber || "N/A",
+    "رقم الهاتف": item?.phone || "لايوجد",
+    "رقم الطلب": item?.orderNumber || "لايوجد",
     "تاريخ الانشاء": formatDate(item?.createdAt),
-    "تاريخ انتهاء المنتج": formatDate(item?.productEndDate) || "N/A",
+    "تاريخ انتهاء المنتج": formatDate(item?.productEndDate) || "لايوجد",
   }));
 
   const worksheet = XLSX.utils.json_to_sheet(worksheetData);

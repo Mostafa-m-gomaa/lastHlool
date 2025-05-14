@@ -15,7 +15,7 @@ const Card = ({number ,item , anim , ...props}) => {
 const role = localStorage.getItem("role")
 
 const formatDate = (date) => {
-  if (!date) return "N/A"; // Return a default value if the date is undefined
+  if (!date) return "لايوجد"; // Return a default value if the date is undefined
   const validDate = new Date(date);
 
   if (isNaN(validDate.getTime())) {
@@ -99,7 +99,7 @@ const retrieveMutation = useMutation({
                   {["manager" , "admin"].includes(role) &&  !["ملغي"].includes(props.deliveryStatus) ? <Button className="bg-red-500" type="button" disabled={cancelMutation.isPending} onClick={cancelMutation.mutate}>{cancelMutation.isPending ? <Loader2Icon className='animate-spin' />:"الغاء الطلب"}</Button> : null}
                   {["manager" , "admin"].includes(role) &&  ["ملغي"].includes(props.deliveryStatus) ? <Button  type="button" disabled={retrieveMutation.isPending} onClick={retrieveMutation.mutate}>{retrieveMutation.isPending ? <Loader2Icon className='animate-spin' />:"استرجاع الطلب"}</Button> : null}
                   <ShowPopOver item={item} />
-                 <Button><Link to={`/home/editorder/${item._id}`}>تعديل</Link></Button>
+                 <Button onClick ={()=>{localStorage.setItem("theOrder" , JSON.stringify(item))}}><Link to={`/home/editorder/${item._id}`}>تعديل</Link></Button>
                 </div>
 
    </div>

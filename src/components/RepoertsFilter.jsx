@@ -160,7 +160,7 @@ export function ReportsFilter({filterChange}) {
 
 
 
-  <DatePickerDemo searchFunc={filterChange} title="تاريخ الانشاء" type={"day"} /> 
+  {/* <DatePickerDemo searchFunc={filterChange} title="تاريخ الانشاء" type={"day"} />  */}
   <DatePickerDemo searchFunc={filterChange} title ="تاريخ التقرير" type={"reportDate"} /> 
 
  

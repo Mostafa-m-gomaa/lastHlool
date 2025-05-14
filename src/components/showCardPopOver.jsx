@@ -14,7 +14,7 @@ import {
 export function ShowPopOver({item}) {
 
   const formatDate = (date) => {
-    if (!date) return "N/A"; // Return a default value if the date is undefined
+    if (!date) return "لايوجد"; // Return a default value if the date is undefined
     const validDate = new Date(date);
   
     if (isNaN(validDate.getTime())) {
@@ -47,10 +47,10 @@ export function ShowPopOver({item}) {
           <div className="w-[45%] bg-myBlue text-white text-center flex flex-col gap-4 py-3  *:min-h-[60px] text-[13px] lg:text-[16px]"> 
                <div className="">المنتج</div>
                 <div className="">سعر المنتج</div>
-            
                 <div className="">البلد</div>
                 <div className="">تاريخ الانشاء</div>
-                <div className="">تاريخ التوصيل</div>
+                <div className="">تاريخ التوصيل المتوقع</div>
+                <div className="">تاريخ التوصيل الفعلي</div>
                 <div className="">حالة التوصيل</div>
                 <div className="">مسئول التوصيل</div>
                 <div className="">عمولة التوصيل</div>
@@ -80,6 +80,7 @@ export function ShowPopOver({item}) {
                       <div>{item?.country || "غير موجود"}</div>
                       <div>{formatDate(item?.createdAt)}</div>
                       <div>{formatDate(item?.deliveryDate)}</div>
+                      <div>{item?.actualDeliveryDate? formatDate(item?.actualDeliveryDate) : "لم يتم التسليم"}</div>
                       <div>{item?.deliveryStatus || "غير موجود"}</div>
                       <div>{item?.deliveryMan?.name || "غير موجود"}</div>
                       <div>{item?.deliveryCommission || "غير موجود"}</div>
@@ -122,9 +123,9 @@ export function ShowPopOver({item}) {
               <div className="">سعر المنتج</div>
       
               <div className="">المنطقة</div>
-              <div className="">تاريخ الميلاد</div>
            
-              <div className="">تاريخ التوصيل</div>
+              <div className="">تاريخ التوصيل المتوقع</div>
+              <div className="">تاريخ التوصيل الفعلي</div>
               <div className="">حالة التوصيل</div>
       
           
@@ -151,9 +152,10 @@ export function ShowPopOver({item}) {
                     <div>{item?.productPrice || "غير موجود"}</div>
              
                     <div>{item?.country || "غير موجود"}</div>
-                    <div>{formatDate(item?.birthDate)}</div>
+ 
             
                     <div>{formatDate(item?.deliveryDate)}</div>
+                    <div>{item?.actualDeliveryDate? formatDate(item?.actualDeliveryDate) : "لم يتم التسليم"}</div>
                     <div>{item?.deliveryStatus || "غير موجود"}</div>
                     <div>{item?.receipt || "غير موجود"}</div>
                     <div>{item?.deposit || "غير موجود"}</div>
@@ -165,10 +167,10 @@ export function ShowPopOver({item}) {
                     <div>{item?.supervisor?.name || "غير موجود"}</div>
                     <div>{item?.supervisorCommission || "غير موجود"}</div>
                     <div>{formatDate(item?.updatedAt)}</div>
-             <div className="flex flex-col min-h-[200px]">
+             <div className="flex flex-col min-h-[200px] ">
 
                     {item?.customersData?.map((customer, i) => (
-                <div key={i} className="flex flex-col  py-[10px]  bg-white">
+                <div key={i} className="flex flex-col  py-[10px]  bg-white border-2 border-black">
                   <div className="flex justify-around flex-row-reverse"><span>الاسم</span> <span>{customer?.customerName || " no data"}</span></div>
                   <div className="flex justify-around flex-row-reverse"><span>الجنس</span> <span>{customer?.gender || "no data "} </span></div>
                   <div className="flex justify-around flex-row-reverse"><span>الهاتف</span> <span>{customer?.phone || "no data"}</span></div>

@@ -13,15 +13,16 @@ import clsx from "clsx"
 
 
 
+
 export function OrdersTable({orders}) {
   const theOrders = orders || []
 
-
+console.log("the orders",theOrders)
  const role = localStorage.getItem("role")
 
  
  const formatDate = (date) => {
-  if (!date) return "N/A"; // Return a default value if the date is undefined
+  if (!date) return "لايوجد"; // Return a default value if the date is undefined
   const validDate = new Date(date);
 
   if (isNaN(validDate.getTime())) {
@@ -58,14 +59,14 @@ export function OrdersTable({orders}) {
      
           <TableHead className="">العربون</TableHead>
           <TableHead className="">طريقة دفع العربون</TableHead>
-          <TableHead className="">المتبقي منذ دفع العربون</TableHead>
+          {/* <TableHead className="">المتبقي منذ دفع العربون</TableHead> */}
           <TableHead className ="">المبلغ المتبقي للطلب</TableHead>
-          <TableHead className ="">مسئول التوصيل</TableHead>
+          {/* <TableHead className ="">مسئول التوصيل</TableHead> */}
           <TableHead className="">تاريخ التسليم المتوقع</TableHead>
           <TableHead className="">تاريخ التسليم الفعلي</TableHead>
           <TableHead className="">سند التسليم</TableHead>
           <TableHead className="">اصدار البطاقة</TableHead>
-          <TableHead className="">طريقة دفع الدفعه الباقي</TableHead>
+         
           <TableHead className="">عمولة المشرف</TableHead>
           <TableHead className="">عمولة المندوب</TableHead>
           <TableHead className ="">عمولة التوصيل</TableHead>
@@ -95,77 +96,60 @@ export function OrdersTable({orders}) {
   {theOrders.length > 0 ? (
     theOrders.map((item, index) => (
       <TableRow key={item._id || index} className="text-[14px] lg:text-[18px] *:w-[200px]">
-        <TableCell>{index +1} - {item?.product || "N/A"}</TableCell>
+        <TableCell>{index +1} - {item?.product || "لايوجد"}</TableCell>
 
 <TableCell >
         {item?.customersData?.map((customer, i) => (
           <div key={i}  className="flex flex-col py-[10px] bg-white">
-           <span> {customer?.customerName || "N/A"}</span> 
-           <span> {customer?.phone || "N/A"}</span> 
-           <span> {customer?.gender || "N/A"}</span> 
-           <span> {customer?.birthDate ? formatDate(customer?.birthDate) : "N/A"}</span> 
+           <span> {customer?.customerName || "لايوجد"}</span> 
+           <span> {customer?.phone || "لايوجد"}</span> 
+           <span> {customer?.gender || "لايوجد"}</span> 
+           <span> {customer?.birthDate ? formatDate(customer?.birthDate) : "لايوجد"}</span> 
             </div>
         ))}
 </TableCell>
 
-{/* <TableCell >
 
-        {item?.customersData?.map((customer, i) => (
-          <span key={i} >{customer?.gender || "N/A"}</span>
-        ))}
-</TableCell>
-<TableCell >
-
-        {item?.customersData?.map((customer, i) => (
-          <span key={i} >{customer?.phone || "N/A"}</span>
-        ))}
-</TableCell>
-<TableCell >
-
-        {item?.customersData?.map((customer, i) => (
-          <span key={i} >{customer?.customerName ? formatDate(customer?.birthDate): "N/A"}</span>
-        ))}
-</TableCell> */}
      
     
-        <TableCell>{item?.receipt || "N/A"}</TableCell>
+        <TableCell>{item?.receipt || "لايوجد"}</TableCell>
    
-        <TableCell>{item?.expireAfter || "N/A"}</TableCell>
+        <TableCell>{item?.expireAfter || "لايوجد"}</TableCell>
       
-        <TableCell>{item?.supervisor?.name || "N/A"}</TableCell>
-        <TableCell>{item?.salesPerson?.name || "N/A"}</TableCell>
+        <TableCell>{item?.supervisor?.name || "لايوجد"}</TableCell>
+        <TableCell>{item?.salesPerson?.name || "لايوجد"}</TableCell>
         <TableCell>{formatDate(item?.sellingDate)}</TableCell>
-        <TableCell>{item?.quantity || "N/A"}</TableCell>
-        <TableCell>{item?.productPrice || "N/A"}</TableCell>
-
-        <TableCell>{item?.deposit || "N/A"}</TableCell>
-        <TableCell>{item?.depositPaymentMethod || "N/A"}</TableCell>
-        <TableCell>{item?.daysAgo || "N/A"}</TableCell>
-        <TableCell>{ item?.remainingAmount || "N/A"}</TableCell>
-        <TableCell>{item?.deliveryMan?.name || "N/A"}</TableCell>
+        <TableCell>{item?.quantity || "لايوجد"}</TableCell>
+        <TableCell>{item?.productPrice || "لايوجد"}</TableCell>
+        <TableCell>{item?.deposit || "لايوجد"}</TableCell>
+        <TableCell>{item?.depositPaymentMethod || "لايوجد"}</TableCell>
+        <TableCell>{ item?.remainingAmount || "لايوجد"}</TableCell>
+       
         <TableCell>{formatDate(item?.deliveryDate)}</TableCell>
         <TableCell>{item?.actualDeliveryDate? formatDate(item?.actualDeliveryDate) : "لم يتم التسليم"}</TableCell>
-        <TableCell>{item?.DeliveryReceipt || "N/A"}</TableCell>
+        <TableCell>{item?.DeliveryReceipt || "لايوجد"}</TableCell>
+        {/* <TableCell>{item?.daysAgo || "لايوجد"}</TableCell> */}
+      
         <TableCell>{item?.productIssuanceDate ?formatDate(item.productIssuanceDate) : "لا يوجد"}</TableCell>
-        <TableCell>{item?.restMoneyPaymentMethod || "N/A"}</TableCell>
-        <TableCell>{item?.supervisorCommission || "N/A"}</TableCell>
-        <TableCell>{item?.salesManCommission || "N/A"}</TableCell>
-        <TableCell>{item?.deliveryCommission || "N/A"}</TableCell>
-        <TableCell>{item?.deliveryStatus || "N/A"}</TableCell>
-        <TableCell>{item?.country || "N/A"}</TableCell>
-        <TableCell>{item?.city || "N/A"}</TableCell>
-        <TableCell>{item?.notes || "N/A"}</TableCell>
+        {/* <TableCell>{item?.restMoneyPaymentMethod || "لايوجد"}</TableCell> */}
+        <TableCell>{item?.supervisorCommission || "لايوجد"}</TableCell>
+        <TableCell>{item?.salesManCommission || "لايوجد"}</TableCell>
+        <TableCell>{item?.deliveryCommission || "لايوجد"}</TableCell>
+        <TableCell>{item?.deliveryStatus || "لايوجد"}</TableCell>
+        <TableCell>{item?.country || "لايوجد"}</TableCell>
+        <TableCell>{item?.city || "لايوجد"}</TableCell>
+        <TableCell>{item?.notes || "لايوجد"}</TableCell>
         <TableCell>{formatDate(item?.updatedAt)}</TableCell>
  
-        <TableCell>{item?.orderNumber || "N/A"}</TableCell>
+        <TableCell>{item?.orderNumber || "لايوجد"}</TableCell>
         <TableCell>{formatDate(item?.createdAt)}</TableCell>
-        <TableCell>{formatDate(item?.productEndDate) || "N/A"}</TableCell>
+        <TableCell>{formatDate(item?.productEndDate) || "لايوجد"}</TableCell>
         {item?.extraDeposits?.length > 0 ?
         item?.extraDeposits?.map((item,i)=>(
           <>
-          <TableCell>{item?.deposit || "N/A"}</TableCell>
-          <TableCell>{item?.receipt || "N/A"}</TableCell>
-          <TableCell>{item?.paymentMethod || "N/A"}</TableCell>
+          <TableCell>{item?.deposit || "لايوجد"}</TableCell>
+          <TableCell>{item?.receipt || "لايوجد"}</TableCell>
+          <TableCell>{item?.paymentMethod || "لايوجد"}</TableCell>
           </>
         ))
        

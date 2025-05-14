@@ -92,8 +92,7 @@ export const editOrderValidation = Yup.object({
         return value <= productPrice;
       }
     ),
-  product: Yup.string().required('يجب أن تختار المنتج'),
-  notes: Yup.string(),
+
 
   customersData: Yup.array().of(
     Yup.object().shape({

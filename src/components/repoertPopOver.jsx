@@ -15,7 +15,7 @@ import MyTableRow from "./MyTableRow";
 export function ReportPopOver({item}) {
   
   const formatDate = (date) => {
-    if (!date) return "N/A"; // Return a default value if the date is undefined
+    if (!date) return "لايوجد"; // Return a default value if the date is undefined
     const validDate = new Date(date);
   
     if (isNaN(validDate.getTime())) {
