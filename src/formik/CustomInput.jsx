@@ -84,6 +84,8 @@ const Custom = ({ name, label, err }) => {
           <DatePicker
             selected={field.value ? new Date(field.value.split("-").reverse().join("-")) : null}
             onChange={handleDateChange}
+            showYearDropdown
+             yearDropdownItemNumber={100} 
             dateFormat="dd-MM-yyyy"
             className={`${
               err || (meta.touched && meta.error) ? "border-red-500 border-[2px]" : ""
