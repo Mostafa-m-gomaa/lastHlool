@@ -16,7 +16,7 @@ import clsx from "clsx"
 
 export function OrdersTable({orders}) {
   const theOrders = orders || []
-
+console.log("the orders",orders)
 console.log("the orders",theOrders)
  const role = localStorage.getItem("role")
 
@@ -56,10 +56,10 @@ console.log("the orders",theOrders)
           <TableHead className="">تاريخ البيع</TableHead>
           <TableHead className="">الكمية</TableHead>
           <TableHead className="">سعر المنتج</TableHead>
+          <TableHead className="">المتبقي منذ دفع العربون</TableHead>
      
           <TableHead className="">العربون</TableHead>
           <TableHead className="">طريقة دفع العربون</TableHead>
-          {/* <TableHead className="">المتبقي منذ دفع العربون</TableHead> */}
           <TableHead className ="">المبلغ المتبقي للطلب</TableHead>
           {/* <TableHead className ="">مسئول التوصيل</TableHead> */}
           <TableHead className="">تاريخ التسليم المتوقع</TableHead>
@@ -121,6 +121,7 @@ console.log("the orders",theOrders)
         <TableCell>{formatDate(item?.sellingDate)}</TableCell>
         <TableCell>{item?.quantity || "لايوجد"}</TableCell>
         <TableCell>{item?.productPrice || "لايوجد"}</TableCell>
+        <TableCell>{item?.daysAgo}</TableCell>
         <TableCell>{item?.deposit || "لايوجد"}</TableCell>
         <TableCell>{item?.depositPaymentMethod || "لايوجد"}</TableCell>
         <TableCell>{ item?.remainingAmount || "لايوجد"}</TableCell>
@@ -128,7 +129,6 @@ console.log("the orders",theOrders)
         <TableCell>{formatDate(item?.deliveryDate)}</TableCell>
         <TableCell>{item?.actualDeliveryDate? formatDate(item?.actualDeliveryDate) : "لم يتم التسليم"}</TableCell>
         <TableCell>{item?.DeliveryReceipt || "لايوجد"}</TableCell>
-        {/* <TableCell>{item?.daysAgo || "لايوجد"}</TableCell> */}
       
         <TableCell>{item?.productIssuanceDate ?formatDate(item.productIssuanceDate) : "لا يوجد"}</TableCell>
         {/* <TableCell>{item?.restMoneyPaymentMethod || "لايوجد"}</TableCell> */}
@@ -141,7 +141,7 @@ console.log("the orders",theOrders)
         <TableCell>{item?.notes || "لايوجد"}</TableCell>
         <TableCell>{formatDate(item?.updatedAt)}</TableCell>
  
-        <TableCell>{item?.orderNumber || "لايوجد"}</TableCell>
+        <TableCell>{index +1}</TableCell>
         <TableCell>{formatDate(item?.createdAt)}</TableCell>
         <TableCell>{formatDate(item?.productEndDate) || "لايوجد"}</TableCell>
         {item?.extraDeposits?.length > 0 ?

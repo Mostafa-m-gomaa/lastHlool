@@ -32,7 +32,6 @@ import Loader from "./Loader"
 
     const theProducts = products || []
 
-    console.log(theProducts)
 
     const setActive =(id , active)=>{
         const obj ={

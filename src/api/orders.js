@@ -78,6 +78,14 @@ export const getDeliveringOrders = (params = {} , page) => {
         })
     })
   }
+  export const deleteOrder =(id )=>{
+
+    const url = `/orders/${id}`
+    return fetchClient(url , {
+        method:"DELETE"
+  
+    })
+  }
 
   export const createOrder =(params)=>{
     const url = `/orders`
@@ -153,6 +161,11 @@ export const getMyReports = (params = {} , page) => {
         method:"PATCH"
     })
   }
+  export const deleteReport =(id)=>{
+    return fetchClient(`/reports/${id}`, {
+        method:"DELETE"
+    })
+  }
   export const getaAvailableRepsCountsToUpdate =(id)=>{
     return fetchClient(`/reports/countReportUpdatePermissions/${id}`)
   }
@@ -173,6 +186,14 @@ export const getMyReports = (params = {} , page) => {
     );
     const queryString = new URLSearchParams(filteredParams).toString();
     const url = queryString ? `/company-dues?limit=250 &&?page=${page}&&${queryString}` : `/company-dues?limit=250 &&?page=${page}`;
+    return fetchClient(url);
+  };
+  export const getMyDues = (params = {} , page) => {
+    const filteredParams = Object.fromEntries(
+      Object.entries(params).filter(([_, value]) => value) // Remove empty values
+    );
+    const queryString = new URLSearchParams(filteredParams).toString();
+    const url = queryString ? `/company-dues/mine?limit=250 &&?page=${page}&&${queryString}` : `/company-dues/mine?limit=250 &&?page=${page}`;
     return fetchClient(url);
   };
 

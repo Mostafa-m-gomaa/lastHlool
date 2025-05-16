@@ -66,7 +66,7 @@ const { data: orders, isLoading, isFetching, isError } = useQuery({
 });
 
 const orderItems = orders?.data || []
-console.log("orders", orders)
+
 
 
 if (isError) {

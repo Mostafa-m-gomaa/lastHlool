@@ -55,7 +55,12 @@ export function DatePickerDemo({searchFunc , ...props}) {
             searchFunc(props.type, getFormattedDate(selectedDate))
 
           }}
-          initialFocus
+          
+             initialFocus
+          // يجعل المستخدم قادر على اختيار السنة بسهولة
+          captionLayout="dropdown"
+          fromYear={1970}
+          toYear={new Date().getFullYear() + 10}
         />
       </PopoverContent>
     </Popover>

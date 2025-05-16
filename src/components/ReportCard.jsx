@@ -6,8 +6,8 @@ import reportIcon from '../assets/report.png'
 import { ShowPopOver } from './showCardPopOver';
 import { ReportPopOver } from './repoertPopOver';
 import { Link } from 'react-router-dom';
-import { availableRepsToUpdate  ,getaAvailableRepsCountsToUpdate} from '@/api/orders';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { availableRepsToUpdate  ,deleteReport,getaAvailableRepsCountsToUpdate} from '@/api/orders';
+import { useMutation, useQuery , useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
 
@@ -31,16 +31,29 @@ const ReportCard = ({item , number , ...props}) => {
   };
 
 
-
+const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: () => {
       return availableRepsToUpdate(item._id);
     } ,
     onSuccess: (data) => {
-      console.log(data);
+    
       if(data?.status === "success"){
         toast.success(data.message)
       }
+   
+    },
+  });
+  const deleteMutation = useMutation({
+    mutationFn: () => {
+      return deleteReport(item._id);
+    } ,
+    onSuccess: (data) => {
+    console.log(data)
+      if(data?.status === "success"){
+        toast.success("تم حذف التقرير بنجاح")
+        queryClient.invalidateQueries({queryKey:["reports"]})
+        }
    
     },
   });
@@ -64,23 +77,26 @@ const ReportCard = ({item , number , ...props}) => {
             <p className="absolute bottom-1 left-3  lg:bottom-4 lg:left-5 text-white text-[16px] lg:text-[20px]">{number < 10 ? `0${number}`: number}</p>
           </div>
    
-   <div className="flex w-[95%] mx-auto justify-between flex-row-reverse  items-center">
+   <div className="flex w-[95%] mx-auto justify-between flex-row-reverse  items-center ">
     
-    <img src={reportIcon} alt=""  className='w-[50px] lg:w-[80px]'/>
-    <div className="flex flex-col items-end gap-3 w-[70%]">
+    <img src={reportIcon} alt=""  className='w-[50px] lg:w-[80px] '/>
+    <div className="flex flex-col items-end gap-3 w-[70%] ">
     <h2 className="font-bold text-[15px] lg:text-xl">{item?.creator?.name || "not-found"}</h2>
-                  <div className="max-w-full flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex  *:items-center *:rounded-md  *:text-center  *:gap-2 *:flex-row-reverse  ">
+                  <div className=" max-w-full flex-wrap justify-end flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex  *:items-center *:rounded-md  *:text-center  *:gap-2 *:flex-row-reverse  ">
                     <div><span>الطلبات الجديد</span> : <span>{item?.newOrders.length || 0}</span> </div>
                     <div><span>الطلبات المسلمة</span> : <span>{item?.deliveredOrders.length || 0}</span> </div>
                     <div><span>تاريخ التقرير</span> : <span>{formatDate(item.reportDate)}</span> </div>
+                    <div><span>حالة التقرير</span> : <span>{item?.status}</span> </div>
 
                   </div>
     </div>
-                <div className="flex flex-col lg:flex-row items-center gap-2">
+                <div className="flex flex-col lg:flex-row items-center gap-2 ">
                   <ReportPopOver item={item} />
                   <Button><Link to={`/home/onereport/${item?._id}`}>عرض بالتفصيل</Link></Button>
                   {localStorage.getItem("role") != "supervisor"  &&  <Button onClick={mutation.mutate}>السماح بالتعديل</Button>}
+                  {localStorage.getItem("role") === "admin"  &&  <Button className="bg-red-600" disabled={deleteMutation.isPending} onClick={deleteMutation.mutate}>حذف</Button>}
                   {localStorage.getItem("role") === "supervisor" && numberToUpdate > 0  &&  <Button><Link to={`/home/editreport/${item._id}`} >تعديل</Link></Button>}
+                  {localStorage.getItem("role") === "validator" &&  <Button><Link to={`/home/editreport/${item._id}`} >تعديل</Link></Button>}
                   {/* <Button><Link to={`/home/editreport/${item._id}`} >تعديل</Link></Button> */}
 
                 </div>

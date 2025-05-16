@@ -63,7 +63,6 @@ const {data , isLoading , isError} = useQuery({
     })
 const cashItems = myCash?.data || []
 
- console.log(data)
 
   return (
     <div className="flex flex-col py-8 gap-4">

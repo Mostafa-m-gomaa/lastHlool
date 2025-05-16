@@ -14,6 +14,8 @@ import { Loader } from "lucide-react";
 const ReportCard = ({ report }) => {
     const queryClient = useQueryClient()
     const param =useParams().id
+    const totalIncome = report?.categorizedMoney?.reduce((acc, item) => acc + item.amount, 0) || 0
+
 const mutation = useMutation({
     mutationKey: "reports",
     mutationFn: () => approveReport(param),
@@ -141,7 +143,13 @@ const formatDate = (date) => {
               ))}
             </ul>
           ) : <p>لا يوجد تصنيف</p>}
+
+                <li  className="border p-2 rounded-lg *:flex *:flex-row-reverse *:gap-16 flex flex-col gap-2 *:items-center  *:text-[12px] *:lg:text-[15px] ">
+                  <p><strong>المبلغ الاجمالي </strong>  {totalIncome || 0}</p>
+        
+                </li>
         </CardContent>
+       
       </Card>
 
 

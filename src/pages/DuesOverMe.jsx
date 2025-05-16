@@ -4,7 +4,7 @@ import { useQuery   } from '@tanstack/react-query'
 import Loader from '@/components/Loader'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
-import { getCompanydues, getDues, getMyReports, getOrders, getReports } from '@/api/orders'
+import { getCompanydues, getDues, getMyDues, getMyReports, getOrders, getReports } from '@/api/orders'
 import toast from 'react-hot-toast'
 import { PaginationDemo } from '@/components/Pagination'
 import ReportCard from '@/components/ReportCard'
@@ -12,7 +12,7 @@ import { ReportsFilter } from '@/components/RepoertsFilter'
 import { DuesFilter } from '@/components/duesFilter'
 import DuesCard from '@/components/DuesCard'
 // import ComboboxDemo from '@/components/CompoBox'
-const SuperVisorsDues = () => {
+const DuesOverMe = () => {
 
 const [page, setPage] = useState(1);
 const [filters,setFilters]= useState({
@@ -32,17 +32,18 @@ const handleFilterChange = (key, value) => {
 
 const { data: dues , isLoading, isError} = useQuery({
   queryKey: [
-    "dues",
-    filters,
-    page
+    "duesoverme",
+  
   ],
   queryFn:({queryKey})=>{
     const params =queryKey[1] || {}
     const page = queryKey[2]
-    return getDues(params , page)
+    return getMyDues(params , page)
   },
 });
 
+
+console.log(dues);
 
 
 
@@ -53,7 +54,7 @@ if (isError) {
   
 
 
-const duesItems = dues?.data || []
+const duesItems = dues?.data || {}
 
 
   
@@ -66,9 +67,10 @@ const duesItems = dues?.data || []
  <DuesFilter filterChange={handleFilterChange}/>
       {isLoading ? <Loader />: 
           <div className='w-[98%] lg:w-[95%] mx-auto flex flex-col items-end gap-3 justify-center'>
-            {duesItems?.map((item)=>( 
+            {/* {duesItems?.map((item)=>( 
            <DuesCard key={item._id} item={item} />
-          ))}
+          ))} */}
+           <DuesCard item={duesItems} />
             </div>
    
           }
@@ -81,4 +83,4 @@ const duesItems = dues?.data || []
   )
 }
 
-export default SuperVisorsDues
+export default DuesOverMe

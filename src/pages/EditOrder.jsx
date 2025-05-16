@@ -210,7 +210,7 @@
 //                   <option value='كاش'>كاش</option>
 //                   <option value='تحويل بنك أهلي'>تحويل بنك أهلي</option>
 //                   <option value='تحويل بنك راجحي'>تحويل بنك راجحي</option>
-//                   <option value='شبكي'>شبكي</option>
+//                   <option value='شبكة'>شبكة</option>
 //                 </Field>
 //                 {touched.depositPaymentMethod && errors.depositPaymentMethod && <div className='text-red-500'>{errors.depositPaymentMethod}</div>}
 //               </div>
@@ -259,12 +259,28 @@ const EditOrder = () => {
   const [initialValues, setInitialValues] = useState(null)
   const [productQuantity, setProductQuantity] = useState(1)
 
-  const { data: order, isLoading: isOrderLoading } = useQuery({
-    queryKey: ['order', id],
-    queryFn: () => getOneOrder(id),
-    enabled: !!id,
-  })
+  // const { data: order, isLoading: isOrderLoading } = useQuery({
+  //   queryKey: ['order', id],
+  //   queryFn: () => getOneOrder(id),
+  //   enabled: !!id,
+  // })
 
+
+  const formatDate = (date) => {
+  if (!date) return "لايوجد"; // Return a default value if the date is undefined
+  const validDate = new Date(date);
+
+  if (isNaN(validDate.getTime())) {
+    return date; // Return a fallback value if the date is invalid
+  }
+
+  // Extract month, day, and year
+  const month = validDate.getMonth() + 1; // Months are zero-based
+  const day = validDate.getDate();
+  const year = validDate.getFullYear();
+
+  return `${day}-${month}-${year}`;
+};
   const { data: superVisors } = useQuery({
     queryKey: ['users'],
     queryFn: getSuperVisors
@@ -282,6 +298,9 @@ const EditOrder = () => {
         queryClient.invalidateQueries({ queryKey: ['orders'] })
         toast.success("تم تعديل الطلب بنجاح")
       }
+        else if(res.status === "error"){
+                 toast.error(res?.details[0])
+            }
     },
     onError: (err) => {
       console.log(err)
@@ -289,10 +308,11 @@ const EditOrder = () => {
     }
   })
 
+
+
   useEffect(() => {
    
       const orderData = JSON.parse(localStorage.getItem("theOrder"))
-      console.log(orderData)
       setProductQuantity(orderData?.customersData?.length || 1)
       setInitialValues({
         customersData: orderData?.customersData || [],
@@ -317,11 +337,16 @@ const EditOrder = () => {
         ([key, value]) => value !== "" && key !== "productPrice"
       )
     )
+    filteredValues.sellingDate = formatDate(values.sellingDate)
+    filteredValues.deliveryDate = formatDate(values.deliveryDate)
     mutation.mutate({ values: filteredValues, id })
-    // console.log("values",filteredValues) 
+
   }
 
-  if (isOrderLoading || !initialValues) return <p className='text-center'>جاري تحميل البيانات...</p>
+if(initialValues === null) {
+  return <div className='flex justify-center items-center h-screen'>Loading...</div>
+}
+else{
 
   return (
     <div className='w-full mx-auto flex flex-col gap-3'>
@@ -334,7 +359,7 @@ const EditOrder = () => {
       >
         {({ values, setFieldValue, touched, errors }) => {
           useEffect(() => {
-            const currentLength = values.customersData.length
+            const currentLength = values?.customersData?.length
             if (productQuantity > currentLength) {
               const newCustomers = Array.from({ length: productQuantity - currentLength }, () => ({
                 customerName: '',
@@ -342,9 +367,9 @@ const EditOrder = () => {
                 birthDate: '',
                 phone: ''
               }))
-              setFieldValue('customersData', [...values.customersData, ...newCustomers])
+              setFieldValue('customersData', [...values?.customersData, ...newCustomers])
             } else if (productQuantity < currentLength) {
-              setFieldValue('customersData', values.customersData.slice(0, productQuantity))
+              setFieldValue('customersData', values?.customersData.slice(0, productQuantity))
             }
           }, [productQuantity])
 
@@ -382,7 +407,7 @@ const EditOrder = () => {
               <FieldArray name='customersData'>
                 {() => (
                   <div className='flex flex-col gap-10'>
-                    {values.customersData.map((_, i) => (
+                    {values?.customersData.map((_, i) => (
                       <div className='flex flex-col gap-8 w-full' key={i}>
                         <Custom label='اسم العميل' name={`customersData[${i}].customerName`} />
                         <Custom label='تاريخ الميلاد' name={`customersData[${i}].birthDate`} />
@@ -423,7 +448,7 @@ const EditOrder = () => {
                 <option value='كاش'>كاش</option>
                 <option value='تحويل بنك أهلي'>تحويل بنك أهلي</option>
                 <option value='تحويل بنك راجحي'>تحويل بنك راجحي</option>
-                <option value='شبكي'>شبكي</option>
+                <option value='شبكة'>شبكة</option>
               </Field>
 
               <Custom label='ملاحظات' name='notes' />
@@ -443,6 +468,7 @@ const EditOrder = () => {
       </Formik>
     </div>
   )
+}
 }
 
 export default EditOrder

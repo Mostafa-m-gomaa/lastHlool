@@ -1186,7 +1186,7 @@ const EditReport = () => {
 
       mutation.mutate(values);
   
-    console.log(values)
+  
     }
   };
 
@@ -1203,11 +1203,11 @@ const EditReport = () => {
   }
 
 
-  useEffect(()=>{
-  if(cashWithMe + cash < 0){
-    toast.error("المبلغ المدخل اكبر من المبلغ المتاح")
-  }
-  } , [cash , cashWithMe])
+  // useEffect(()=>{
+  // if(cashWithMe + cash < 0){
+  //   toast.error("المبلغ المدخل اكبر من المبلغ المتاح")
+  // }
+  // } , [cash , cashWithMe])
 
   return (
     <div className="w-full py-6 flex flex-col gap-8 items-center">
@@ -1241,7 +1241,7 @@ const EditReport = () => {
                         <option value="كاش">كاش</option>
                         <option value="تحويل بنك أهلي">تحويل بنك أهلي</option>
                         <option value="تحويل بنك راجحي">تحويل بنك راجحي</option>
-                        <option value="شبكي">شبكي</option>
+                        <option value="شبكة">شبكة</option>
                       </Field>
 
                       <CustomInput
@@ -1407,7 +1407,7 @@ const EditReport = () => {
                                     <option value="كاش">كاش</option>
                                     <option value="تحويل بنك أهلي">تحويل بنك أهلي</option>
                                     <option value="تحويل بنك راجحي">تحويل بنك راجحي</option>
-                                    <option value="شبكي">شبكي</option>
+                                    <option value="شبكة">شبكة</option>
                                   </Field>
 
                                   <Button

@@ -126,7 +126,7 @@ const EditProduct = () => {
         else{
             toast.error("هناك خطأ")
         }
-        console.log("res", res)
+      
     },
   })
 

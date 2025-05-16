@@ -29,6 +29,7 @@ import Targets from './pages/Targets';
 import AddTarget from './pages/AddTarget';
 import SalesReward from './pages/SalesRewards';
 import EditReport from './pages/EditRep';
+import DuesOverMe from './pages/DuesOverMe';
 
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
     <Route path="orders" element={<Orders/>} />
     <Route path="addreport" element={<CreateReport/>} />
     <Route path="supervisorsdues" element={<SuperVisorsDues/>} />
+    <Route path="duesoverme" element={<DuesOverMe/>} />
     <Route path="addtarget" element={<AddTarget/>} />
     <Route path="undelivered45" element={<UndeliveredOrders title={"الطلبات التي مر عليها 45 يوم او اكثر"} num={1}/>} />
     <Route path="undelivered60" element={<UndeliveredOrders title={"الطلبات التي مر عليها 60 يوم او اكثر"} num={2}/>} />

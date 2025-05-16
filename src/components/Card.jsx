@@ -5,7 +5,7 @@ import manIcon from '../assets/man.png'
 import womanIcon from '../assets/woman.png'
 import { ShowPopOver } from './showCardPopOver';
 import { useMutation , useQueryClient } from '@tanstack/react-query';
-import { cancelTheOrder, makeOrderAttheDeliver, retrieveOrder } from '@/api/orders';
+import { cancelTheOrder, deleteOrder, makeOrderAttheDeliver, retrieveOrder } from '@/api/orders';
 import { toast } from 'react-hot-toast';
 import { Loader2Icon } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -66,7 +66,24 @@ const retrieveMutation = useMutation({
         console.log(err)
     }
 })
+const deleteMutation = useMutation({
+    mutationKey: "deleteorders",
+    mutationFn: () => deleteOrder(item._id),
+    onSuccess: (res) => {
+    
+      if(res?.status === "success"){
+
+        queryClient.invalidateQueries("orders")
+        toast.success("تم حذف الطلب بنجاح");
+      }
+    
+    } ,
+    onError: (err) => {
+        console.log(err)
+    }
+})
    
+
 
           return (
             
@@ -84,10 +101,14 @@ const retrieveMutation = useMutation({
     <img src={item?.gender === "ذكر" ? manIcon : womanIcon} alt=""  className='w-[50px] lg:w-[80px]'/>
     <div className="flex flex-col items-end gap-3 w-[70%]">
     <h2 className="font-bold text-[15px] lg:text-xl">{item?.product || "not-found"}</h2>
-                  <div className="max-w-full flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex  *:items-center *:rounded-md  *:text-center  *:gap-2 *:flex-row-reverse  ">
+                  <div className="max-w-full flex-wrap justify-end flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex  *:items-center *:rounded-md  *:text-center  *:gap-2 *:flex-row-reverse  ">
                     <div><span> اسم العميل الاول</span> : <span>{item?.customersData[0]?.customerName}</span> </div>
                     <div><span>رقم سند العربون</span> : <span>{item.receipt || "لا يوجد رقم سند"}</span> </div>
                     <div><span>تاريخ الميلاد</span> : <span>{formatDate(item?.customersData[0]?.birthDate)}</span> </div>
+                    {item?.customersData[1]?.customerName &&    <div><span> اسم العميل الثاني</span> : <span>{item?.customersData[1]?.customerName}</span> </div> }
+                    {item?.customersData[1]?.customerName &&    <div><span>تاريخ الميلاد</span> : <span>{formatDate(item?.customersData[1]?.birthDate)}</span> </div> }
+                 
+                    
 
                   </div>
     </div>
@@ -98,6 +119,7 @@ const retrieveMutation = useMutation({
                   {["manager" , "admin"].includes(role) && props.deliveryStatus === "جاهز للتسليم" ? <Button type="button" disabled={mutation.isPending} onClick={mutation.mutate}>{mutation.isPending ? <Loader2Icon className='animate-spin' />:"جعله قيد التوصيل"}</Button> : null}
                   {["manager" , "admin"].includes(role) &&  !["ملغي"].includes(props.deliveryStatus) ? <Button className="bg-red-500" type="button" disabled={cancelMutation.isPending} onClick={cancelMutation.mutate}>{cancelMutation.isPending ? <Loader2Icon className='animate-spin' />:"الغاء الطلب"}</Button> : null}
                   {["manager" , "admin"].includes(role) &&  ["ملغي"].includes(props.deliveryStatus) ? <Button  type="button" disabled={retrieveMutation.isPending} onClick={retrieveMutation.mutate}>{retrieveMutation.isPending ? <Loader2Icon className='animate-spin' />:"استرجاع الطلب"}</Button> : null}
+                  {[ "admin"].includes(role)  ? <Button className="bg-red-500" type="button" disabled={deleteMutation.isPending} onClick={deleteMutation.mutate}>{deleteMutation.isPending ? <Loader2Icon className='animate-spin' />:"حذف"}</Button> : null}
                   <ShowPopOver item={item} />
                  <Button onClick ={()=>{localStorage.setItem("theOrder" , JSON.stringify(item))}}><Link to={`/home/editorder/${item._id}`}>تعديل</Link></Button>
                 </div>

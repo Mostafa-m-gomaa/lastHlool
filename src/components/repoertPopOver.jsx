@@ -13,7 +13,7 @@ import MyTableRow from "./MyTableRow";
 
 
 export function ReportPopOver({item}) {
-  
+
   const formatDate = (date) => {
     if (!date) return "لايوجد"; // Return a default value if the date is undefined
     const validDate = new Date(date);
@@ -34,6 +34,7 @@ export function ReportPopOver({item}) {
       const outGoings = item?.outgoings || [];
       const deliveredOrders = item?.deliveredOrders || [];
       const salesMenRestMoney = item?.salesMenRestMoney || [];
+      const burnOuts = item?.burnOuts || [];
 
 
 
@@ -107,6 +108,19 @@ outGoings.map((item ,i)=>(
 ))
 : 
 <MyTableRow title={"المخرجات"} content={"لا يوجد"} />} 
+{burnOuts.length > 0 ? 
+burnOuts.map((item ,i)=>(
+    <div className="flex w-full justify-between  text-white border-b-2 border-white flex-row-reverse" key={i}>
+    <div className="w-[40%] bg-myBlue text-center py-2 text-white">المصروفات</div>
+    
+    <div className="w-[59%] text-black p-2 flex flex-col *:flex *:justify-between">
+      <span><span>{item?.amount}</span> : <span>المبلغ</span></span>
+      <span><span>{item?.description || "لا يوجد"}</span> : <span>السبب</span></span>
+    </div>
+    </div> 
+))
+: 
+<MyTableRow title={"المصاريف"} content={"لا يوجد"} />} 
 
         </div>
       </DialogContent>

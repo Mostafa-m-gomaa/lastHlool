@@ -80,7 +80,7 @@ useEffect(()=>{
       { name: "الصفحة الرئيسية", link: "/home/salesHome" , icon:<House/> },
       { name: "طلباتي", link: "/home/myorders" , icon:<ClipboardPlus/> },
       { name: "تقاريري", link: "/home/myreports" , icon:<ClipboardMinus/> },
-      { name: "المستحقات عليا", link: "/home/supervisorsdues", icon:<ClipboardMinus/> },
+      { name: "مستحقات الشركة", link: "/home/duesoverme", icon:<ClipboardMinus/> },
     ])
 
   }

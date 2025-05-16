@@ -111,7 +111,7 @@ toast.error("برجاء تفعيل الحاسبة")
   };
   
 
-console.log(commissionInputs)
+
 
 const [usersCommission, setUsersCommission] = useState([]);
 
@@ -123,7 +123,7 @@ const mutation =useMutation({
   mutationFn:(values)=>createReport(values),
   onSuccess:(res)=>{
    
-console.log(res)
+
     if(res.status === "success"){
       toast.success("تم انشاء التقرير بنجاح")
       history("/home/myreports")
@@ -427,7 +427,7 @@ if(cashWithMe + cash < 0){
                     <option value="كاش">كاش</option>
                     <option value="تحويل بنك أهلي">تحويل بنك أهلي</option>
                     <option value="تحويل بنك راجحي">تحويل بنك راجحي</option>
-                    <option value="شبكي">شبكي</option>
+                    <option value="شبكة">شبكة</option>
                     </Field>
                
                     <CustomInput
@@ -581,7 +581,7 @@ if(cashWithMe + cash < 0){
           <option value="كاش">كاش</option> 
           <option value="تحويل بنك أهلي">تحويل بنك أهلي</option>
           <option value="تحويل بنك راجحي">تحويل بنك راجحي</option>
-          <option value="شبكي">شبكي</option>
+          <option value="شبكة">شبكة</option>
                               </Field>
 
                               <Button type="button" onClick={() => removeRestOrderCost(restIndex)}>حذف</Button>

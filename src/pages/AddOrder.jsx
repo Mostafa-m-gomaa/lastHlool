@@ -211,7 +211,7 @@ const AddOrder = () => {
     queryKey: ['products'],
     queryFn: getAvailableProducts
   })
-console.log("product" ,products)
+
   const productsItems = products?.data || []
   const [productQuantity, setProductQuantity] = useState(1)
 
@@ -240,7 +240,7 @@ console.log("product" ,products)
   const mutation = useMutation({
     mutationFn: (values) => createOrder(values),
     onSuccess: (res) => {
-     console.log(res)
+    
       if(res.status === "success"){
 
         queryClient.invalidateQueries({ queryKey: ['orders'] })
@@ -349,7 +349,7 @@ console.log("product" ,products)
                   <option value='كاش'>كاش</option>
                   <option value='تحويل بنك أهلي'>تحويل بنك أهلي</option>
                   <option value='تحويل بنك راجحي'>تحويل بنك راجحي</option>
-                  <option value='شبكي'>شبكي</option>
+                  <option value='شبكة'>شبكة</option>
                 </Field>
                 {touched.depositPaymentMethod && errors.depositPaymentMethod && <div className='text-red-500'>{errors.depositPaymentMethod}</div>}
               </div>
