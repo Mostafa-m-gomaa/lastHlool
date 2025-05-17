@@ -52,8 +52,8 @@ export function TabsDemo({ setDeliveryStatus, filterChang, categorizedOrders }) 
  
 
   return (
-    <Tabs defaultValue="" className="w-[100%] mx-auto">
-      <TabsList className="w-full min-h-fit flex flex-wrap justify-center gap-4 *:w-[45%] *:lg:w-[10%] *:flex *:items-center *:gap-2">
+    <Tabs defaultValue="" className="w-[100%] mx-auto ">
+      <TabsList className="w-full border-2 max-w-full  min-h-fit flex flex-wrap justify-center gap-2 *:w-[45%] *:lg:w-[30%] *:flex  *:items-center *:gap-2">
         <TabsTrigger onClick={() => filterChang("deliveryStatus", "غير جاهز للتسليم")} value="غير جاهزة للاستلام">
         <LoaderPinwheel />  <span className="text-[12px] lg:text-[15px]">غير جاهزة للاستلام</span>
         </TabsTrigger>
@@ -70,10 +70,10 @@ export function TabsDemo({ setDeliveryStatus, filterChang, categorizedOrders }) 
         <TabsTrigger onClick={() => filterChang("deliveryStatus", "ملغي")} value="ملغي">
         <Ban color="#db0000" /><span className="text-[12px] lg:text-[15px]">الملغي</span>
         </TabsTrigger>
-        <Link to="/home/undelivered45">
+        <Link to="/home/undelivered45" className="justify-center flex  items-center">
         <div className="text-[30px]">45</div><span className="text-[12px] lg:text-[15px]">45 يوم</span>
         </Link>
-        <Link to="/home/undelivered60">
+        <Link className="justify-center flex  items-center" to="/home/undelivered60">
         <div className="text-[30px]">60</div><span className="text-[12px] lg:text-[15px]">60 يوم</span>
         </Link>
       </TabsList>

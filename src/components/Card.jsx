@@ -19,7 +19,7 @@ const formatDate = (date) => {
   const validDate = new Date(date);
 
   if (isNaN(validDate.getTime())) {
-    return "Invalid Date"; // Return a fallback value if the date is invalid
+    return date; // Return a fallback value if the date is invalid
   }
 
   // Extract month, day, and year
@@ -101,12 +101,16 @@ const deleteMutation = useMutation({
     <img src={item?.gender === "ذكر" ? manIcon : womanIcon} alt=""  className='w-[50px] lg:w-[80px]'/>
     <div className="flex flex-col items-end gap-3 w-[70%]">
     <h2 className="font-bold text-[15px] lg:text-xl">{item?.product || "not-found"}</h2>
-                  <div className="max-w-full flex-wrap justify-end flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex  *:items-center *:rounded-md  *:text-center  *:gap-2 *:flex-row-reverse  ">
-                    <div><span> اسم العميل الاول</span> : <span>{item?.customersData[0]?.customerName}</span> </div>
+                  <div className="max-w-full flex-wrap justify-end flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex   *:rounded-md  *:text-center  *:gap-2   ">
+                    <div className="flex flex-col items-end gap-2">
                     <div><span>رقم سند العربون</span> : <span>{item.receipt || "لا يوجد رقم سند"}</span> </div>
+                    <div><span> اسم العميل الاول</span> : <span>{item?.customersData[0]?.customerName}</span> </div>
                     <div><span>تاريخ الميلاد</span> : <span>{formatDate(item?.customersData[0]?.birthDate)}</span> </div>
+                    <div><span> الجنس</span> : <span>{item?.customersData[0]?.gender}</span> </div>
                     {item?.customersData[1]?.customerName &&    <div><span> اسم العميل الثاني</span> : <span>{item?.customersData[1]?.customerName}</span> </div> }
                     {item?.customersData[1]?.customerName &&    <div><span>تاريخ الميلاد</span> : <span>{formatDate(item?.customersData[1]?.birthDate)}</span> </div> }
+                    {item?.customersData[1]?.customerName &&    <div><span> الجنس</span> : <span>{item?.customersData[1]?.gender}</span> </div> }
+                    </div>
                  
                     
 

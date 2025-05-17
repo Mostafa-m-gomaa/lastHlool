@@ -16,7 +16,7 @@ const formatDate = (date) => {
   const validDate = new Date(date);
 
   if (isNaN(validDate.getTime())) {
-    return "Invalid Date"; // Return a fallback value if the date is invalid
+    return date; // Return a fallback value if the date is invalid
   }
 
   // Extract month, day, and year
