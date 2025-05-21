@@ -106,30 +106,39 @@ export const editOrderValidation = Yup.object({
 
 
 export const addReportValidationSchema = Yup.object().shape({
+  reportDate: Yup.string().required("يجب أن تدخل تاريخ التقرير"),
     newOrders: Yup.array()
       .of(
         Yup.object().shape({
-                    deposit: Yup.number()
+                    deposit: Yup.number().required("يجب أن تدخل مبلغ العربون")
             .typeError("يجب إدخال مبلغ صالح")
             .min(0, "المبلغ يجب أن يكون أكبر من صفر"),
-          depositPaymentMethod: Yup.string(),
-          product: Yup.string(),
+          depositPaymentMethod: Yup.string().required("يجب أن تدخل طريقة دفع مبلغ العربون"),
+          product: Yup.string().required("يجب أن تختار المنتج"),
+          salesMan: Yup.string().required("يجب أن تختار المندوب"),
+        })
+      ),
+    extraDeposits: Yup.array()
+      .of(
+        Yup.object().shape({
+              deposit: Yup.number().required("يجب أن تدخل مبلغ العربون")
+            .typeError("يجب إدخال مبلغ صالح")
+            .min(0, "المبلغ يجب أن يكون أكبر من صفر"),
+          paymentMethod: Yup.string().required("يجب أن تدخل طريقة دفع مبلغ العربون"),
+          order: Yup.string().required("يجب أن تختار المنتج"),
+          deposit: Yup.string().required("يجب أن تدخل مبلغ العربون"),
+          receipt: Yup.string().required("يجب أن تدخل رقم السند"),
         })
       ),
     deliveredOrders: Yup.array().of(
       Yup.object().shape({
-deliveryCommission: Yup.number().typeError("يجب أن يكون مبلغًا صالحًا").required("يجب أن تدخل عمولة رجل التوصيل") ,
-deservedSalesManCommission: Yup.number().typeError("يجب أن يكون مبلغًا صالحًا") ,
-salesManGottenCommission: Yup.number().typeError("يجب أن يكون مبلغًا صالحًا").required("يجب أن تدخل عمولة المندوب") ,
-deservedSupervisorCommission: Yup.number().typeError("يجب أن يكون مبلغًا صالحًا") ,
-supervisorGottenCommission: Yup.number().typeError("يجب أن يكون مبلغًا صالحًا").required("يجب أن تدخل عمولة المشرف") ,
-deliveryReceipt: Yup.number().typeError("يجب أن يكون رقماً صالحاً") ,
+    order: Yup.string().required("يجب أن تختار الطلب"),
 restOrderCost : Yup.array().of(
   Yup.object().shape({
-    amount: Yup.number()
+    amount: Yup.number().required("يجب أن تدخل المبلغ")
     .typeError("يجب إدخال مبلغ صالح")
     .min(0, "المبلغ يجب أن يكون أكبر من صفر"),
-    paymentMethod: Yup.string()
+    paymentMethod: Yup.string().required("يجب أن تدخل طريقة الدفع"),
   }
 )
 )
@@ -137,10 +146,6 @@ restOrderCost : Yup.array().of(
       })
     ),
    
-    fuelCost: Yup.number()
-      .typeError("يجب إدخال مبلغ صالح")
-      .required("تكلفة الوقود مطلوبة")
-      .min(0, "التكلفة يجب أن تكون أكبر من صفر"),
     
     description: Yup.string()
       .nullable()

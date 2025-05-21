@@ -297,6 +297,7 @@ const EditOrder = () => {
       if (res.status === 'success') {
         queryClient.invalidateQueries({ queryKey: ['orders'] })
         toast.success("تم تعديل الطلب بنجاح")
+        history('/manageOrders')
       }
         else if(res.status === "error"){
                  toast.error(res?.details[0])

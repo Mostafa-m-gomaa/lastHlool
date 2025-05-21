@@ -16,9 +16,7 @@ import clsx from "clsx"
 
 export function OrdersTable({orders}) {
   const theOrders = orders || []
-console.log("the orders",orders)
-console.log("the orders",theOrders)
- const role = localStorage.getItem("role")
+
 
  
  const formatDate = (date) => {
@@ -36,6 +34,8 @@ console.log("the orders",theOrders)
 
   return `${day}/${month}/${year}`;
 };
+
+console.log(orders)
   return (
     <div className="h-[70vh] overflow-y-auto bg-white">
 
@@ -43,8 +43,20 @@ console.log("the orders",theOrders)
     <Table className="w-[95%] mx-auto rtl p-2 table-fixed relative">
       <TableHeader className=" bg-gray-100 ">
         <TableRow className="capitalize text-[15px] lg:text-[20px] font-bold *:w-[200px] *:border-2">
+          <TableHead className ="">رقم الطلب</TableHead>
           <TableHead className="">المنتج</TableHead>
-          <TableHead className="">بيانات العملاء</TableHead>
+          <TableHead className="">اسم العميل الاول</TableHead>
+          <TableHead className="">رقم هاتف العميل الاول</TableHead>
+          <TableHead className="">تاريخ ميلاد العميل الاول</TableHead>
+          <TableHead className="">جنس العميل الاول</TableHead>
+          <TableHead className="">اسم العميل الثاني</TableHead>
+          <TableHead className="">رقم هاتف العميل الثاني</TableHead>
+          <TableHead className="">تاريخ ميلاد العميل الثاني</TableHead>
+          <TableHead className="">جنس العميل الثاني</TableHead>
+          <TableHead className="">اسم العميل الثالث</TableHead>
+          <TableHead className="">رقم هاتف العميل الثالث</TableHead>
+          <TableHead className="">تاريخ ميلاد العميل الثالث</TableHead>
+          <TableHead className="">جنس العميل الثالث</TableHead>
       
        
           <TableHead className="">رقم سند العربون</TableHead>
@@ -61,7 +73,6 @@ console.log("the orders",theOrders)
           <TableHead className="">العربون</TableHead>
           <TableHead className="">طريقة دفع العربون</TableHead>
           <TableHead className ="">المبلغ المتبقي للطلب</TableHead>
-          {/* <TableHead className ="">مسئول التوصيل</TableHead> */}
           <TableHead className="">تاريخ التسليم المتوقع</TableHead>
           <TableHead className="">تاريخ التسليم الفعلي</TableHead>
           <TableHead className="">سند التسليم</TableHead>
@@ -69,13 +80,13 @@ console.log("the orders",theOrders)
          
           <TableHead className="">عمولة المشرف</TableHead>
           <TableHead className="">عمولة المندوب</TableHead>
+          <TableHead className ="">مسئول التوصيل</TableHead>
           <TableHead className ="">عمولة التوصيل</TableHead>
           <TableHead className="">حالة التوصيل</TableHead>
           <TableHead className="">المنطة</TableHead>
           <TableHead className="">المدينة</TableHead>
           <TableHead className="">ملاحظات</TableHead>
           <TableHead className="">تاريخ التحديث</TableHead>
-          <TableHead className ="">رقم الطلب</TableHead>
           <TableHead className="">تاريخ الانشاء</TableHead>
           <TableHead className ="">تاريخ انتهاء المنتج</TableHead>
           <TableHead className ="">عربون اضافي 1 </TableHead>
@@ -96,9 +107,10 @@ console.log("the orders",theOrders)
   {theOrders.length > 0 ? (
     theOrders.map((item, index) => (
       <TableRow key={item._id || index} className="text-[14px] lg:text-[18px] *:w-[200px]">
-        <TableCell>{index +1} - {item?.product || "لايوجد"}</TableCell>
+        <TableCell>{index +1}</TableCell>
+        <TableCell> {item?.product || "لايوجد"}</TableCell>
 
-<TableCell >
+{/* <TableCell >
         {item?.customersData?.map((customer, i) => (
           <div key={i}  className="flex flex-col py-[10px] bg-white">
            <span> {customer?.customerName || "لايوجد"}</span> 
@@ -107,6 +119,54 @@ console.log("the orders",theOrders)
            <span> {customer?.birthDate ? formatDate(customer?.birthDate) : "لايوجد"}</span> 
             </div>
         ))}
+</TableCell> */}
+<TableCell >
+  {item?.customersData[0]?.customerName || "لايوجد"}
+   
+</TableCell>
+<TableCell >
+  {item?.customersData[0]?.phone || "لايوجد"}
+   
+</TableCell>
+<TableCell >
+  {item?.customersData[0]?.birthDate || "لايوجد"}
+   
+</TableCell>
+<TableCell >
+  {item?.customersData[0]?.gender || "لايوجد"}
+   
+</TableCell>
+<TableCell >
+  {item?.customersData[1]?.customerName || "لايوجد"}
+   
+</TableCell>
+<TableCell >
+  {item?.customersData[1]?.phone || "لايوجد"}
+   
+</TableCell>
+<TableCell >
+  {item?.customersData[1]?.birthDate || "لايوجد"}
+   
+</TableCell>
+<TableCell >
+  {item?.customersData[1]?.gender || "لايوجد"}
+   
+</TableCell>
+<TableCell >
+  {item?.customersData[2]?.customerName || "لايوجد"}
+   
+</TableCell>
+<TableCell >
+  {item?.customersData[2]?.phone || "لايوجد"}
+   
+</TableCell>
+<TableCell >
+  {item?.customersData[2]?.birthDate || "لايوجد"}
+   
+</TableCell>
+<TableCell >
+  {item?.customersData[2]?.gender || "لايوجد"}
+   
 </TableCell>
 
 
@@ -134,6 +194,7 @@ console.log("the orders",theOrders)
         {/* <TableCell>{item?.restMoneyPaymentMethod || "لايوجد"}</TableCell> */}
         <TableCell>{item?.supervisorCommission || "لايوجد"}</TableCell>
         <TableCell>{item?.salesManCommission || "لايوجد"}</TableCell>
+        <TableCell>{item?.deliveryMan?.name || "لايوجد"}</TableCell>
         <TableCell>{item?.deliveryCommission || "لايوجد"}</TableCell>
         <TableCell>{item?.deliveryStatus || "لايوجد"}</TableCell>
         <TableCell>{item?.country || "لايوجد"}</TableCell>
@@ -141,7 +202,6 @@ console.log("the orders",theOrders)
         <TableCell>{item?.notes || "لايوجد"}</TableCell>
         <TableCell>{formatDate(item?.updatedAt)}</TableCell>
  
-        <TableCell>{index +1}</TableCell>
         <TableCell>{formatDate(item?.createdAt)}</TableCell>
         <TableCell>{formatDate(item?.productEndDate) || "لايوجد"}</TableCell>
         {item?.extraDeposits?.length > 0 ?

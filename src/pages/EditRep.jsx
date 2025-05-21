@@ -1008,27 +1008,42 @@ const EditReport = () => {
   };
 
   useEffect(() => {
-    if (details?.report) {
-      // Initialize commission inputs from existing report
-      const initialCommissions = {};
-      details.report.outgoings?.forEach((outgoing) => {
-        initialCommissions[outgoing.user] = outgoing.gottenCommission;
-      });
+    // if (details?.report) {
+    //   // Initialize commission inputs from existing report
+    //   const initialCommissions = {};
+    //   details.report.outgoings?.forEach((outgoing) => {
+    //     initialCommissions[outgoing.user] = outgoing.gottenCommission;
+    //   });
 
-      // Format dates in the report data
-      const formattedReport = {
-        ...details.report,
-        reportDate: formatDateForInput(details.report.reportDate),
-        // Format any other dates if needed
-      };
+    //   // Format dates in the report data
+    //   const formattedReport = {
+    //     ...details.report,
+    //     reportDate: formatDateForInput(details.report.reportDate),
+    //     // Format any other dates if needed
+    //   };
 
-      setInitialValues(formattedReport);
-      setOutgoings(details.report.outgoings || []);
-      setCategorizedMoney(details.report.categorizedMoney || []);
-      setCommissionInputs(initialCommissions);
-      setHasbaCheck(true);
-      setcheckOutGoings(true);
-    }
+    //   setInitialValues(formattedReport);
+    //   setOutgoings(details.report.outgoings || []);
+    //   setCategorizedMoney(details.report.categorizedMoney || []);
+    //   setCommissionInputs(initialCommissions);
+    //   setHasbaCheck(true);
+    //   setcheckOutGoings(true);
+    // }
+
+
+    const report = JSON.parse(localStorage.getItem("report"));
+    console.log(report);
+    setInitialValues({
+         newOrders: report?.newOrders || [],
+    deliveredOrders: report?.deliveredOrders || [],
+    outgoings: report?.outgoings || [],
+    categorizedMoney:report?.categorizedMoney || [],
+    burnOuts: report?.burnOuts || [],
+    description: report?.description || "",
+    reportDate: report?.reportDate || "",
+    extraDeposits: report?.extraDeposits || [],
+    userDues: report?.userDues || [],
+    })
   }, [details]);
 
   const aggregateUserCommissions = (userCommission) => {
@@ -1257,8 +1272,8 @@ const EditReport = () => {
                       >
                         <option value="">اختر المندوب</option>
                         {salesMenItems.map((item) => (
-                          <option value={item.name} key={item._id}>
-                            {item.name}
+                          <option value={item?.name} key={item._id}>
+                            {item?.name}
                           </option>
                         ))}
                       </Field>

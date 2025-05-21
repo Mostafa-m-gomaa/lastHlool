@@ -13,27 +13,31 @@ import { DollarSign } from 'lucide-react';
 import SalesTargets from './SalesTargets';
 import Loader from '@/components/Loader';
 import { getOrdersAnalytics } from '@/api/orders';
-
+import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { format, isValid, parse } from "date-fns";
+import { cn } from "@/lib/utils";
 
 const SalesHome = () => {
-const queryClient = useQueryClient()
 
-  const [endDate, setEndDate] = React.useState(() => {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const year = today.getFullYear();
-    return `${year}-${month}-${day}`;
-  });
-  
-  const [startDate, setStartDate] = React.useState(() => {
-    const end = new Date(endDate);
-    end.setDate(end.getDate() - 7);
-    const day = String(end.getDate()).padStart(2, "0");
-    const month = String(end.getMonth() + 1).padStart(2, "0");
-    const year = end.getFullYear();
-    return `${year}-${month}-${day}`;
-  });
+const [endDate, setEndDate] = React.useState(() => {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const year = today.getFullYear();
+  return `${day}-${month}-${year}`;
+});
+
+const [startDate, setStartDate] = React.useState(() => {
+  const end = new Date();
+  end.setDate(end.getDate() - 7);
+  const day = String(end.getDate()).padStart(2, "0");
+  const month = String(end.getMonth() + 1).padStart(2, "0");
+  const year = end.getFullYear();
+  return `${day}-${month}-${year}`;
+});
 
 const {data , isLoading , isError} = useQuery({
     queryKey:['ordersAnalyticsSales',startDate,endDate],
@@ -63,7 +67,13 @@ const {data , isLoading , isError} = useQuery({
     })
 const cashItems = myCash?.data || []
 
+const parseDate = (str) => {
+  const [day, month, year] = str.split("-");
+  const date = new Date(`${year}-${month}-${day}`);
+  return isValid(date) ? date : null;
+};
 
+const formatDate = (date) => format(date, "dd-MM-yyyy");
   return (
     <div className="flex flex-col py-8 gap-4">
             <div className="flex w-[90%] mx-auto flex-col lg:flex-row">
@@ -74,32 +84,70 @@ const cashItems = myCash?.data || []
     for="input"
      className="text-blue-500 text-xs font-semibold relative top-2 ml-[7px] px-[3px] bg-[#e8e8e8] w-fit"
     >Start Date</label>
-  <input
-    id="password"
-    type="date"
-    value={startDate}
-    onChange={(e)=>setStartDate(e.target.value)}
-    placeholder="Write here..."
-    name="input"
-     className="border-blue-500 input px-[10px] py-[11px] text-xs bg-[#e8e8e8] border-2 rounded-[5px] w-[210px] focus:outline-none placeholder:text-black/25"
-    dateFormat="dd/MM/yyyy" 
-  />
+ <Popover>
+  <PopoverTrigger asChild>
+    <Button
+      variant="outline"
+      className={cn(
+        "border-blue-500 input px-[10px] py-[11px] text-xs bg-[#e8e8e8] border-2 rounded-[5px] w-[210px] focus:outline-none",
+        !startDate && "text-muted-foreground"
+      )}
+    >
+      <CalendarIcon className="mr-2 h-4 w-4" />
+      {startDate ? startDate : "اختر التاريخ"}
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-auto p-0">
+    <Calendar
+      mode="single"
+      selected={parseDate(startDate)}
+      onSelect={(selectedDate) => {
+        if (isValid(selectedDate)) {
+          setStartDate(formatDate(selectedDate));
+        }
+      }}
+      initialFocus
+      captionLayout="dropdown"
+      fromYear={1970}
+      toYear={new Date().getFullYear() + 10}
+    />
+  </PopoverContent>
+</Popover>
 </div>
 <div  className="input flex flex-col w-fit static">
   <label
     for="input"
      className="text-blue-500 text-xs font-semibold relative top-2 ml-[7px] px-[3px] bg-[#e8e8e8] w-fit"
     >End Date</label>
-  <input
-    id="password"
-    type="date"
-    placeholder="Write here..."
-    name="input"
-    value={endDate}
-    onChange={(e)=>setEndDate(e.target.value)}
- 
-     className="border-blue-500 input px-[10px] py-[11px] text-xs bg-[#e8e8e8] border-2 rounded-[5px] w-[210px] focus:outline-none placeholder:text-black/25"
-  />
+ <Popover>
+  <PopoverTrigger asChild>
+    <Button
+      variant="outline"
+      className={cn(
+        "border-blue-500 input px-[10px] py-[11px] text-xs bg-[#e8e8e8] border-2 rounded-[5px] w-[210px] focus:outline-none",
+        !endDate && "text-muted-foreground"
+      )}
+    >
+      <CalendarIcon className="mr-2 h-4 w-4" />
+      {endDate ? endDate : "اختر التاريخ"}
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-auto p-0">
+    <Calendar
+      mode="single"
+      selected={parseDate(endDate)}
+      onSelect={(selectedDate) => {
+        if (isValid(selectedDate)) {
+          setEndDate(formatDate(selectedDate));
+        }
+      }}
+      initialFocus
+      captionLayout="dropdown"
+      fromYear={1970}
+      toYear={new Date().getFullYear() + 10}
+    />
+  </PopoverContent>
+</Popover>
 </div>
 </div>
         <h1 className='bg-white p-4 rounded-md '>لوحة القيادة</h1>
@@ -132,13 +180,13 @@ const cashItems = myCash?.data || []
           <div className="w-full flex flex-col gap-4 lg:w-[55%]  p-4 rounded-md ">
     <div className="flex w-full justify-end gap-4 flex-wrap">
 
-            <HomeCard icon ={<DollarSign />} number={amount} title="اموالك" subTitle="المحفظة" color={"bg-[#f5b951]"} /> 
             <HomeCard link={"/home/myorders"} icon ={<Users/>} number={data?.categorizedOrders?.created || 0} title="طلباتك " subTitle="المجموع " color={"bg-[#012af9]"} />
             <HomeCard link={"/home/myorders"} icon ={<Users/>} number={data?.categorizedOrders?.readyToBeDelivered || 0} title="طلباتك التي تم تجهيزها" subTitle="المجموع " color={"bg-[#012af9]"} />
             <HomeCard link={"/home/myorders"} icon ={<Users/>} number={data?.categorizedOrders?.delivered || 0} title="طلباتك المسلمة" subTitle="المجموع " color={"bg-[#d73364]"} />
             <HomeCard link={"/home/myorders"} icon ={<Users/>} number={data?.categorizedOrders?.delivering || 0} title="طلباتك قيد توصيل" subTitle="المجموع " color={"bg-[#d73364]"} />
             <HomeCard link={"/home/myorders"} icon ={<Users/>} number={data?.categorizedOrders?.notReadyToBeDelivered || 0} title="طلباتك غير جاهزة للاستلام" subTitle="المجموع " color={"bg-[#d73364]"} />
             {localStorage.getItem("role") === "supervisor" &&     <HomeCard icon ={<DollarSign />} number={duesOverMe?.dues} title="اموال عليك" subTitle="المحفظة" color={"bg-[#f5b951]"} />}
+            {localStorage.getItem("role") != "supervisor" &&                 <HomeCard icon ={<DollarSign />} number={amount} title="اموالك" subTitle="المحفظة" color={"bg-[#f5b951]"} />}
         
 
 

@@ -23,7 +23,7 @@ export function PopoverDemo({id }) {
     const mutation =useMutation({
         mutationFn:({mutationId,values})=>makeOrderReady(mutationId,values) ,
         onSuccess:(res)=>{
-           
+           console.log(res)
             queryClient.invalidateQueries({queryKey:["orders"]})
             if(res.status === "success"){
                toast.success("تم تحديث الطلب بنجاح")
@@ -43,7 +43,7 @@ export function PopoverDemo({id }) {
         // values.productIssuanceDate = new Date(values.productIssuanceDate).toISOString()
 
         mutation.mutate({mutationId : id ,values})
-        // console.log(values)
+        console.log(values)
     }
   return (
     <Popover>

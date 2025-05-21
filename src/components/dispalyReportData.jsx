@@ -15,7 +15,7 @@ const ReportCard = ({ report }) => {
     const queryClient = useQueryClient()
     const param =useParams().id
     const totalIncome = report?.categorizedMoney?.reduce((acc, item) => acc + item.amount, 0) || 0
-
+console.log(report)
 const mutation = useMutation({
     mutationKey: "reports",
     mutationFn: () => approveReport(param),
@@ -61,7 +61,7 @@ const formatDate = (date) => {
         </CardHeader>
         <CardContent className="text-right *:justify-between *:flex *:flex-row-reverse *:gap-16 *:items-center  *:text-[12px] *:lg:text-[15px] flex flex-col gap-3 items-end ">
           <p><strong>حالة التقرير</strong> {report?.status === "pending" ? "في انتظار تاكيد المطابق": report?.status}</p>
-          <p><strong>المبلغ المتبقي مع المشرف</strong> {report?.gottenRestCompanyMoney || 0}</p>
+          <p><strong>المبلغ المتبقي مع المشرف</strong> {report?.companyDues || 0}</p>
           <p><strong>الوصف</strong> {report?.description || "لا يوجد وصف"}</p>
           <p><strong>تاريخ التقرير</strong> {formatDate(report?.reportDate)}</p>
           <p><strong>تاريخ الانشاء</strong> {formatDate(report?.createdAt)}</p>

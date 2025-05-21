@@ -15,7 +15,8 @@ import { Input } from "@/components/ui/input";
 import CustomInput from "@/formik/InputForAddReport";
 import { getSalesMan } from "@/api/users";
 import { getProducts } from "@/api/products";
-
+import { ErrorMessage } from "formik";
+import FormikError from '../formik/FormikError'
 
 
 
@@ -123,10 +124,14 @@ const mutation =useMutation({
   mutationFn:(values)=>createReport(values),
   onSuccess:(res)=>{
    
-
+console.log(res)
     if(res.status === "success"){
       toast.success("تم انشاء التقرير بنجاح")
       history("/home/myreports")
+    }
+    else if(res.status === "fail"){
+      toast.error(res.message)
+      // history("/home/myreports")
     }
   },
   onError:(error)=>{
@@ -205,13 +210,13 @@ const hasba =(values)=>{
     // if(values.deliveredOrders[0].order === ""){
     //   toast.error("برجاء إضافة طلبات مسلمة")
     // }
-    //  if (categorizedMoney.length === 0) {
-    //   calculateCategorizedMoney(values);
-    //   aggregateUserCommissions(usersCommission);
+     if (categorizedMoney.length === 0) {
+      calculateCategorizedMoney(values);
+      aggregateUserCommissions(usersCommission);
 
-    // } else {
+    } else {
     
-    // }
+    }
 
 if(hasbaCheck === false){
   toast.error("برجاء تفعيل الحاسبة")
@@ -403,7 +408,7 @@ if(cashWithMe + cash < 0){
       initialValues={initialValues}
       onSubmit={onSubmit}
       // enableReinitialize
-      // validationSchema={addReportValidationSchema}
+      validationSchema={addReportValidationSchema}
      
     >
       {({ values, setFieldValue }) => (
@@ -429,6 +434,7 @@ if(cashWithMe + cash < 0){
                     <option value="تحويل بنك راجحي">تحويل بنك راجحي</option>
                     <option value="شبكة">شبكة</option>
                     </Field>
+                    <ErrorMessage   name={`newOrders[${index}].depositPaymentMethod`} component={FormikError} />  
                
                     <CustomInput
                       name={`newOrders[${index}].deposit`}
@@ -436,6 +442,8 @@ if(cashWithMe + cash < 0){
                       type={"number"}
                     
                     />
+       <ErrorMessage   name={`newOrders[${index}].deposit`} component={FormikError} />  
+
                     <Field as="select"   name={`newOrders[${index}].salesMan`}    className="border-2 border-black rounded-lg p-2">
                       <option value="">اختر المندوب</option>
                     {salesMenItems.map((item,i)=>(
@@ -444,6 +452,8 @@ if(cashWithMe + cash < 0){
                       </option>
                     ))}
                     </Field>
+            <ErrorMessage   name={`newOrders[${index}].salesMan`}   component={FormikError} />  
+
                  
               
                 
@@ -455,7 +465,8 @@ if(cashWithMe + cash < 0){
                       <option key={item._id}  value={item.title}>{item.title}</option>
                     ))}
                     </Field>
-                 
+                             <ErrorMessage   name={`newOrders[${index}].product`}  component={FormikError} />  
+
                     <Button type="button" onClick={() => remove(index)}>حذف</Button>
                   </div>
                 ))}
@@ -534,7 +545,7 @@ if(cashWithMe + cash < 0){
     setFieldValue("deliveredOrders", updatedDeliveredOrders);
   }}
 />
-                    <CustomInput
+<ErrorMessage name={`deliveredOrders[${index}].order`} component={FormikError} />                    <CustomInput
                       name={`deliveredOrders[${index}].customerName`}
                       label="اسم العميل"
                       type={"text"}
@@ -571,6 +582,8 @@ if(cashWithMe + cash < 0){
                                 type={"number"}
                              
                               />
+                                          <ErrorMessage      name={`deliveredOrders[${index}].restOrderCost[${restIndex}].amount`}  component={FormikError} />  
+
                               <Field
                                 name={`deliveredOrders[${index}].restOrderCost[${restIndex}].paymentMethod`}
                                 as="select"
@@ -583,6 +596,8 @@ if(cashWithMe + cash < 0){
           <option value="تحويل بنك راجحي">تحويل بنك راجحي</option>
           <option value="شبكة">شبكة</option>
                               </Field>
+                <ErrorMessage name={`deliveredOrders[${index}].restOrderCost[${restIndex}].paymentMethod`}  component={FormikError} />  
+
 
                               <Button type="button" onClick={() => removeRestOrderCost(restIndex)}>حذف</Button>
                             </div>
@@ -626,12 +641,15 @@ if(cashWithMe + cash < 0){
                           );
                         }}
                       />
+    <ErrorMessage name={`extraDeposits[${restIndex}].order`} component={FormikError} />
+
                               <CustomInput
                                 name={`extraDeposits[${restIndex}].deposit`}
                                 label="المبلغ "
                                 type={"number"}
                              
                               />
+
                               <CustomInput
                                 name={`extraDeposits[${restIndex}].receipt`}
                                 label="  سند العربون اضافي"
@@ -642,6 +660,7 @@ if(cashWithMe + cash < 0){
                                 name={`extraDeposits[${restIndex}].paymentMethod`}
                                 as="select"
                                 className="border-2 border-black rounded-lg p-2"
+
                               >
                                 <option value="">طريقة الدفع</option>
                            
@@ -650,6 +669,8 @@ if(cashWithMe + cash < 0){
           <option value="تحويل بنك راجحي">تحويل بنك راجحي</option>
           <option value="supervisor">رقمي</option>
                               </Field>
+                                                          
+                <ErrorMessage   name={`extraDeposits[${restIndex}].paymentMethod`}  component={FormikError} />
 
                               <Button type="button" onClick={() => removeRestOrderCost(restIndex)}>حذف</Button>
                             </div>
@@ -689,9 +710,17 @@ if(cashWithMe + cash < 0){
         )}
       </div>
     )}
-       <Button type="button" onClick={()=>hasba(values)}>
-        الحاسبة
-      </Button>
+       <Button
+  type="button"
+  
+  onClick={() => {
+    hasba(values); // تنفيذ الحاسبة
+    setFieldValue("burnOuts", []); // تصفير المصروفات
+    setFieldValue("userDues", []); // تصفير المصروفات
+  }}
+>
+ الحاسبة
+</Button>
 
     <CustomInput type={"text"} name="description" label="الوصف" />
   </div>
@@ -787,12 +816,7 @@ if(cashWithMe + cash < 0){
   )}
 </FieldArray>
 
-{/* <CustomInput
-            name={`reportDate`}
-            label="تاريخ التقرير"
-            type={"date"}
-         
-          /> */}
+
     
 <Custom
             name={`reportDate`}

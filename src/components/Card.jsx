@@ -98,28 +98,41 @@ const deleteMutation = useMutation({
    
    <div className="flex w-[95%] mx-auto justify-between flex-row-reverse  items-center">
     
-    <img src={item?.gender === "ذكر" ? manIcon : womanIcon} alt=""  className='w-[50px] lg:w-[80px]'/>
+    <img src={item?.customersData[0]?.gender === "ذكر" ? manIcon : womanIcon} alt=""  className='w-[50px] lg:w-[80px]'/>
     <div className="flex flex-col items-end gap-3 w-[70%]">
     <h2 className="font-bold text-[15px] lg:text-xl">{item?.product || "not-found"}</h2>
                   <div className="max-w-full flex-wrap justify-end flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex   *:rounded-md  *:text-center  *:gap-2   ">
                     <div className="flex flex-col items-end gap-2">
                     <div><span>رقم سند العربون</span> : <span>{item.receipt || "لا يوجد رقم سند"}</span> </div>
                     <div><span> اسم العميل الاول</span> : <span>{item?.customersData[0]?.customerName}</span> </div>
-                    <div><span>تاريخ الميلاد</span> : <span>{formatDate(item?.customersData[0]?.birthDate)}</span> </div>
-                    <div><span> الجنس</span> : <span>{item?.customersData[0]?.gender}</span> </div>
-                    {item?.customersData[1]?.customerName &&    <div><span> اسم العميل الثاني</span> : <span>{item?.customersData[1]?.customerName}</span> </div> }
-                    {item?.customersData[1]?.customerName &&    <div><span>تاريخ الميلاد</span> : <span>{formatDate(item?.customersData[1]?.birthDate)}</span> </div> }
-                    {item?.customersData[1]?.customerName &&    <div><span> الجنس</span> : <span>{item?.customersData[1]?.gender}</span> </div> }
+                    <div><span> رقم الهاتف</span> : <span>{item?.customersData[0]?.phone}</span> </div>
+                    <div><span>تاريخ الميلاد</span> : <span>{item?.customersData[0]?.birthDate}</span> </div>
+                    <div><span>تاريخ البيع</span> : <span>{formatDate(item?.sellingDate)}</span> </div>
+                  
                     </div>
                  
                     
 
                   </div>
     </div>
+    {item?.customersData[1]?.customerName &&  <img src={item?.customersData[1]?.gender === "ذكر" ? manIcon : womanIcon} alt=""  className='w-[50px] lg:w-[80px]'/>}
+{item?.customersData[1]?.customerName &&     <div className="flex flex-col items-end gap-3 w-[70%]">
+                  <div className="max-w-full flex-wrap justify-end flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex   *:rounded-md  *:text-center  *:gap-2   ">
+                    <div className="flex flex-col items-end gap-2">
+                    {item?.customersData[1]?.customerName &&    <div><span> اسم العميل الثاني</span> : <span>{item?.customersData[1]?.customerName}</span> </div> }
+                    {item?.customersData[1]?.customerName &&    <div><span>رقم الهاتف</span> : <span>{item?.customersData[1]?.phone}</span> </div> }
+                    {item?.customersData[1]?.customerName &&    <div><span>تاريخ الميلاد</span> : <span>{item?.customersData[1]?.birthDate}</span> </div> }
+                    </div>
+                 
+                    
+
+                  </div>
+    </div>} 
+
                 <div className="flex flex-col lg:flex-row items-center gap-2">
 
-                  {["manager" , "admin"].includes(role) && props.deliveryStatus === "غير جاهز للتسليم" ? <PopoverDemo id={item._id} /> : null}
-                  {["manager" , "admin"].includes(role) && props.deliveryStatus === "جاهز للتسليم" ? <PopoverDemo id={item._id} /> : null}
+                  {["manager" , "admin"].includes(role) ? <PopoverDemo id={item._id} /> : null}
+                  {/* {["manager" , "admin"].includes(role) && props.deliveryStatus === "جاهز للتسليم" ? <PopoverDemo id={item._id} /> : null} */}
                   {["manager" , "admin"].includes(role) && props.deliveryStatus === "جاهز للتسليم" ? <Button type="button" disabled={mutation.isPending} onClick={mutation.mutate}>{mutation.isPending ? <Loader2Icon className='animate-spin' />:"جعله قيد التوصيل"}</Button> : null}
                   {["manager" , "admin"].includes(role) &&  !["ملغي"].includes(props.deliveryStatus) ? <Button className="bg-red-500" type="button" disabled={cancelMutation.isPending} onClick={cancelMutation.mutate}>{cancelMutation.isPending ? <Loader2Icon className='animate-spin' />:"الغاء الطلب"}</Button> : null}
                   {["manager" , "admin"].includes(role) &&  ["ملغي"].includes(props.deliveryStatus) ? <Button  type="button" disabled={retrieveMutation.isPending} onClick={retrieveMutation.mutate}>{retrieveMutation.isPending ? <Loader2Icon className='animate-spin' />:"استرجاع الطلب"}</Button> : null}

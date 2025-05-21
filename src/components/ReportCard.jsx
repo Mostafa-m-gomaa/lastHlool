@@ -95,8 +95,8 @@ const queryClient = useQueryClient()
                   <Button><Link to={`/home/onereport/${item?._id}`}>عرض بالتفصيل</Link></Button>
                   {localStorage.getItem("role") != "supervisor"  &&  <Button onClick={mutation.mutate}>السماح بالتعديل</Button>}
                   {localStorage.getItem("role") === "admin"  &&  <Button className="bg-red-600" disabled={deleteMutation.isPending} onClick={deleteMutation.mutate}>حذف</Button>}
-                  {localStorage.getItem("role") === "supervisor" && numberToUpdate > 0  &&  <Button><Link to={`/home/editreport/${item._id}`} >تعديل</Link></Button>}
-                  {localStorage.getItem("role") === "validator" &&  <Button><Link to={`/home/editreport/${item._id}`} >تعديل</Link></Button>}
+                  {localStorage.getItem("role") === "supervisor" && numberToUpdate > 0  &&  <Button> <Link onClick={()=>localStorage.setItem("report" , JSON.stringify(item))} to={`/home/editreport/${item._id}`} >تعديل</Link></Button>}
+                  {localStorage.getItem("role") === "validator" &&  <Button><Link onClick={()=>localStorage.setItem("report" , JSON.stringify(item))} to={`/home/editreport/${item._id}`} >تعديل</Link></Button>}
                   {/* <Button><Link to={`/home/editreport/${item._id}`} >تعديل</Link></Button> */}
 
                 </div>
