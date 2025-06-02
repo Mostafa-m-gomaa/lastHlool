@@ -30,6 +30,7 @@ import AddTarget from './pages/AddTarget';
 import SalesReward from './pages/SalesRewards';
 import EditReport from './pages/EditRep';
 import DuesOverMe from './pages/DuesOverMe';
+import EmployersDues from './pages/employersDues';
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
     <Route path="salesHome" element={<SalesHome/>} />
     <Route path="managersHome" element={<ManagersHome/>} />
     <Route path="users" element={<Users/>} />
+    <Route path="emplyersdues" element={<EmployersDues/>} />
     <Route path="products" element={<Products/>} />
     <Route path="addUser" element={<AddUser/>} />
     <Route path="addProduct" element={<AddProduct/>} />

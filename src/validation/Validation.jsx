@@ -14,6 +14,9 @@ export const CreateUsersValidation =Yup.object({
     role: Yup.string().required("يجب أن تختار الوظيفة") ,
     passwordConfirm: Yup.string().oneOf([Yup.ref('password'), null], 'كلمة السر غير متطابقة')
 })
+export const UpdateUsersValidation =Yup.object({
+    password: Yup.string().min(8 , "الرقم السري لا يقل عن 8 ارقام"),
+})
 export const productValidation =Yup.object({
     title: Yup.string().required("يجب أن تدخل الاسم") ,
     desc: Yup.string().required("يجب أن تدخل الوصف") ,

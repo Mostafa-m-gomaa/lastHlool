@@ -60,7 +60,7 @@ export function OrdersFilter({filterChange}) {
             </button>
           </header>
           <ul className="space-y-1 border-t border-gray-200 p-4">
-  {users?.map((item, i) =>
+  {users.length > 0 ? users?.map((item, i) =>
     item.role === "supervisor" && (
       <li key={item._id || i}>
         <label htmlFor={`supervisor-${i}`} className="inline-flex items-center gap-2">
@@ -78,7 +78,7 @@ export function OrdersFilter({filterChange}) {
         </label>
       </li>
     )
-  )}
+  ) : <li className="text-gray-500">لا يوجد مشرفين</li>}
 </ul>
 
         </div>
@@ -116,7 +116,7 @@ export function OrdersFilter({filterChange}) {
             </button>
           </header>
           <ul className="space-y-1 border-t border-gray-200 p-4">
-  {users?.map((item, i) =>
+  {users.length > 0 ? users?.map((item, i) =>
     item.role === "supervisor" && (
       <li key={item._id || i}>
         <label htmlFor={`delivery-${i}`} className="inline-flex items-center gap-2">
@@ -134,7 +134,7 @@ export function OrdersFilter({filterChange}) {
         </label>
       </li>
     )
-  )}
+  ) : <li className="text-gray-500">لا يوجد مسئولين توصيل</li>}
 </ul>
 
         </div>
@@ -174,7 +174,7 @@ export function OrdersFilter({filterChange}) {
             </button>
           </header>
           <ul className="space-y-1 border-t border-gray-200 p-4">
-  {users?.map((item, i) =>
+  {users.length >  0 ?  users?.map((item, i) =>
     item.role === "sales" && (
       <li key={item._id || i}>
         <label htmlFor={`supervisor-${i}`} className="inline-flex items-center gap-2">
@@ -192,7 +192,7 @@ export function OrdersFilter({filterChange}) {
         </label>
       </li>
     )
-  )}
+  ) : <li className="text-gray-500">لا يوجد مندوبيين</li>}
 </ul>
 
         </div>

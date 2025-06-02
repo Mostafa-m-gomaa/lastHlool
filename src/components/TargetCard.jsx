@@ -6,7 +6,7 @@ import { deleteTarget } from '@/api/targets';
 import toast from 'react-hot-toast';
 
 const TargetCard = ({target}) => {
-
+console.log(target)
 const queryClient = useQueryClient()
 
     const mutation = useMutation({
@@ -20,11 +20,11 @@ const queryClient = useQueryClient()
     })
 
     const formatDate = (date) => {
-        if (!date) return "لايوجد"; // Return a default value if the date is undefined
+        if (!date) return date; // Return a default value if the date is undefined
         const validDate = new Date(date);
       
         if (isNaN(validDate.getTime())) {
-          return "Invalid Date"; // Return a fallback value if the date is invalid
+          return date; // Return a fallback value if the date is invalid
         }
       
         // Extract month, day, and year

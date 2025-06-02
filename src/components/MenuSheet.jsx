@@ -56,6 +56,7 @@ useEffect(()=>{
       { name: "الموظفين", link: "/home/users" , icon:<Users/> },
       { name: "التقارير", link: "/home/reports", icon:<ClipboardMinus/> },
       { name: "المستحقات علي المشرفين", link: "/home/supervisorsdues", icon:<ClipboardMinus/> },
+      { name: "مستحقات الموظفين", link: "/home/emplyersdues", icon:<ClipboardMinus/> },
     ])
   }
   else if(role === "manager"){
@@ -110,7 +111,7 @@ useEffect(()=>{
           <User />
           </div>
         </SheetHeader>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2  overflow-y-auto">
           {menu.map((item, index) => (
             <Link
               to={item.link}

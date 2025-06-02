@@ -8,6 +8,7 @@ import {Loader2} from "lucide-react"
 import toast from 'react-hot-toast' 
 import { useNavigate, useParams } from 'react-router-dom'
 import { getOneUser, updateUser } from '@/api/users'
+import { UpdateUsersValidation } from '@/validation/Validation'
 
 
 const UpdateUser = () => {
@@ -26,14 +27,15 @@ const UpdateUser = () => {
     const initialValues={
         name:data?.data.name,
         email:data?.data.email,
-        role:data?.data.role
+        role:data?.data.role ,
+        password: ""
     }
     
     const mutation = useMutation({
         mutationKey:"users",
         mutationFn:({id ,values})=>updateUser(id ,values) ,
         onSuccess:(res)=>{
-      
+      console.log(res)
             if(res.errors){
                 toast.error(res.errors[0].msg)
             }
@@ -50,17 +52,21 @@ const UpdateUser = () => {
         if(values.email === initialValues.email){
             delete values.email
         }
+        if(values.password === ""){
+            delete values.password
+        }
       
         mutation.mutate({id:param ,values})
     }
   return (
     <div className='w-[100%] mx-auto flex flex-col gap-3'>
         <h1 className='py-12'>املأ البيانات الأتية لتعديل موظف</h1>
-        <Formik initialValues={initialValues} onSubmit={onSubmit}  enableReinitialize>
+        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={UpdateUsersValidation}  enableReinitialize >
             {({errors ,touched})=>    <Form className='flex flex-col gap-10 w-[80%] mx-auto py-7'>
                 
                 <Custom label="الاسم" name="name" err={errors.name}  />
                 <Custom label="الايميل" name="email" err={errors.email} />
+                <Custom label="كلمة السر" name="password" err={errors.password} />
       
                 <div>
         <Field as="select" name="role" className="w-full border-2 border-black rounded-lg p-2">

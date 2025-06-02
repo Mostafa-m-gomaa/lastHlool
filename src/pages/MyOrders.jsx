@@ -154,7 +154,7 @@ if (isError) {
 
       </div>
     
-{localStorage.getItem("role") !== "sales" && <OrdersFilter filterChange={handleFilterChange} />}    
+<OrdersFilter filterChange={handleFilterChange} /> 
       <TabsDemo categorizedOrders={orders?.categorizedOrders}  filterChang={handleFilterChange}  setDeliveryStatus={setDeliveryStatus}/>
           {isLoading ? <Loader />: 
           <div    data-aos="fade-right" className='w-[98%] lg:w-[95%] mx-auto flex flex-col items-end gap-3 justify-center'>

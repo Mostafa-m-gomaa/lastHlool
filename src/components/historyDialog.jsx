@@ -13,7 +13,7 @@ import { Link } from "react-router-dom"
 
 
 export function HistoryDialog({history}) {
-
+console.log(history)
     
   const formatDate = (date) => {
     if (!date) return "لايوجد"; // Return a default value if the date is undefined
@@ -37,7 +37,6 @@ export function HistoryDialog({history}) {
     
 
 
-
   return (
     <Dialog  open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -56,7 +55,8 @@ export function HistoryDialog({history}) {
             <div className="flex bg-slate-400 p-4 rounded-md w-[90%] mx-auto my-2 flex-col gap-2 items-end" key={index}>
                 <span>{item?.amount}</span>
                 <span>{item?.type}</span>
-                <span>{formatDate(item?.amount)}</span>
+                <span>{item?.paidAt ?formatDate(item?.paidAt) : "لم يتم الدفع بعد" } : تاريخ الدفع</span>
+                <span>{formatDate(item?.createdAt)} : تاريخ الانشاء</span>
                 {item.report &&  <Button>
 <Link to={`/home/onereport/${item?.report}`}>
         التقرير

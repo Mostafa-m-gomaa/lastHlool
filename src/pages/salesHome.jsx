@@ -186,8 +186,8 @@ const formatDate = (date) => format(date, "dd-MM-yyyy");
             <HomeCard link={"/home/myorders"} icon ={<Users/>} number={data?.categorizedOrders?.delivering || 0} title="طلباتك قيد توصيل" subTitle="المجموع " color={"bg-[#d73364]"} />
             <HomeCard link={"/home/myorders"} icon ={<Users/>} number={data?.categorizedOrders?.notReadyToBeDelivered || 0} title="طلباتك غير جاهزة للاستلام" subTitle="المجموع " color={"bg-[#d73364]"} />
             {localStorage.getItem("role") === "supervisor" &&     <HomeCard icon ={<DollarSign />} number={duesOverMe?.dues} title="اموال عليك" subTitle="المحفظة" color={"bg-[#f5b951]"} />}
-            {localStorage.getItem("role") != "supervisor" &&                 <HomeCard icon ={<DollarSign />} number={amount} title="اموالك" subTitle="المحفظة" color={"bg-[#f5b951]"} />}
-        
+               <HomeCard icon ={<DollarSign />} number={amount} title="اموالك" subTitle="المحفظة" color={"bg-[#f5b951]"} />
+      
 
 
     </div>

@@ -23,6 +23,7 @@ const Login = () => {
   const mutation = useMutation({
     mutationFn: (credentials) => login(credentials),
     onSuccess: (res) => {
+      // console.log(res);
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['todos'] });
     

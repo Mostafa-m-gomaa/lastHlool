@@ -58,7 +58,7 @@ export const getDeliveringOrders = (params = {} , page) => {
         })
     })
   }
-  export const cancelTheOrder =(id )=>{
+  export const cancelTheOrder =(id)=>{
 
     const url = `/orders/${id}`
     return fetchClient(url , {
@@ -87,13 +87,74 @@ export const getDeliveringOrders = (params = {} , page) => {
     })
   }
 
-  export const createOrder =(params)=>{
-    const url = `/orders`
-    return fetchClient(url , {
-        method:"POST",
-        body:JSON.stringify(params)
-    })
+  // export const createOrder =(params)=>{
+  //   const url = `/orders`
+  //   return fetchClient(url , {
+  //       method:"POST",
+  //       body:JSON.stringify(params)
+  //   })
+  // }
+
+  export const createOrder = (params) => {
+  const url = `/orders`;
+  const formData = new FormData();
+  if (params.receiptImage) {
+    formData.append('receiptImage', params.receiptImage);
+    delete params.receiptImage;
   }
+Object.entries(params).forEach(([key, value]) => {
+
+  if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+    formData.append(key, JSON.stringify(value));
+  }
+  else if (Array.isArray(value)) {
+    
+    // value?.forEach((item)=> formData.append("customersData",JSON.stringify(item)))
+    formData.append(key, JSON.stringify(value));
+  }
+  else {
+    formData.append(key, value);
+  }
+});
+
+
+
+  return fetchClient(url, {
+    method: 'POST',
+    body: formData,
+  });
+};
+
+
+  export const updatOrder = (params , id) => {
+  const url = `/orders/${id}`;
+  const formData = new FormData();
+  if (params.receiptImage) {
+    formData.append('receiptImage', params.receiptImage);
+    delete params.receiptImage;
+  }else {delete params.receiptImage;}
+Object.entries(params).forEach(([key, value]) => {
+
+  if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+    formData.append(key, JSON.stringify(value));
+  }
+  else if (Array.isArray(value)) {
+    
+    // value?.forEach((item)=> formData.append("customersData",JSON.stringify(item)))
+    formData.append(key, JSON.stringify(value));
+  }
+  else {
+    formData.append(key, value);
+  }
+});
+
+
+  return fetchClient(url, {
+    method: 'PUT',
+    body: formData,
+  });
+};
+
   export const updateOrder =(params,id)=>{
     const url = `/orders/${id}`
     return fetchClient(url , {
@@ -101,6 +162,8 @@ export const getDeliveringOrders = (params = {} , page) => {
         body:JSON.stringify(params)
     })
   }
+
+
 
   export const getOneOrder = (id) => {
     return fetchClient(`/orders/${id}`);
@@ -216,9 +279,18 @@ export const getMyReports = (params = {} , page) => {
     })
   }
 
+  export const payDuesForUser =(id , params)=>{
+
+    const url = `/user-dues/${id}`
+    return fetchClient(url , {
+        method:"PATCH",
+        body:JSON.stringify(params)
+    })
+  }
+
 
   export const getUsersDues =()=>{
-    return fetchClient(`/user-dues`)
+    return fetchClient(`/user-dues?limit=250`)
   }
   export const getMineDues =()=>{
     return fetchClient(`/user-dues/mine`)

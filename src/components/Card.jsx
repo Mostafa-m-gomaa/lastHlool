@@ -9,6 +9,7 @@ import { cancelTheOrder, deleteOrder, makeOrderAttheDeliver, retrieveOrder } fro
 import { toast } from 'react-hot-toast';
 import { Loader2Icon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import {ShowImage} from './ShowImage';
 
 
 const Card = ({number ,item , anim , ...props}) => {
@@ -108,7 +109,7 @@ const deleteMutation = useMutation({
                     <div><span> رقم الهاتف</span> : <span>{item?.customersData[0]?.phone}</span> </div>
                     <div><span>تاريخ الميلاد</span> : <span>{item?.customersData[0]?.birthDate}</span> </div>
                     <div><span>تاريخ البيع</span> : <span>{formatDate(item?.sellingDate)}</span> </div>
-                  
+                    {item?.receiptImage && <ShowImage image={item?.receiptImage} />}                  
                     </div>
                  
                     

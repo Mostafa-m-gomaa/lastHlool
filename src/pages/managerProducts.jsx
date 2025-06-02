@@ -68,7 +68,6 @@ const { data: orders, isLoading, isFetching, isError } = useQuery({
 const orderItems = orders?.data || []
 
 
-
 if (isError) {
   return <div>Internet Error</div>;
 }
@@ -93,6 +92,7 @@ if (isError) {
               item?.deliveryStatus === deliveryStatus ? <Card  key={index} number={index+1} item={item} anim={true}/> : null
           ))} */}
             {orderItems.map((item,index)=>( 
+              item?.deliveryStatus != "ملغي" &&
              <Card deliveryStatus={item.deliveryStatus}  key={index} number={index+1} item={item} anim={true}/> 
           ))}
             </div>

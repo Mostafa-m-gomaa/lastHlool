@@ -243,27 +243,24 @@ else if(checkOutGoings === false){
  
     }
   };
+const aggregateUserCommissions = (userCommission) => {
+  const commissionMap = new Map();
 
+  // 1. الحصول على بيانات الديليفري مان من localStorage
+  const localDeliveryManId = localStorage.getItem("id");
+  const localDeliveryManName = localStorage.getItem("name");
 
-
-  const aggregateUserCommissions = (userCommission) => {
-
-  
-
-    const commissionMap = new Map();
-  
-    userCommission.forEach(({
+  userCommission.forEach(
+    ({
       salesManName,
       saledManId,
       salesManComm,
       supervisorName,
       superVisorId,
       superVisorComm,
-      deliveryManName,
-      deliveryManId,
       deliveryCommisssion,
     }) => {
-      // Process Salesman
+      // 2. حساب عمولة مندوب المبيعات
       if (commissionMap.has(saledManId)) {
         commissionMap.get(saledManId).userCommission += salesManComm;
       } else {
@@ -273,9 +270,10 @@ else if(checkOutGoings === false){
           userCommission: salesManComm,
         });
       }
-  
-      // Process Supervisor / DeliveryMan (if IDs match, merge commissions)
-      if (superVisorId === deliveryManId) {
+
+      // 3. حساب المشرف + التوصيل
+      if (superVisorId === localDeliveryManId) {
+        // المشرف هو نفسه الديليفري مان
         if (commissionMap.has(superVisorId)) {
           commissionMap.get(superVisorId).userCommission += superVisorComm + deliveryCommisssion;
         } else {
@@ -286,7 +284,7 @@ else if(checkOutGoings === false){
           });
         }
       } else {
-        // Process Supervisor
+        // المشرف
         if (commissionMap.has(superVisorId)) {
           commissionMap.get(superVisorId).userCommission += superVisorComm;
         } else {
@@ -296,24 +294,97 @@ else if(checkOutGoings === false){
             userCommission: superVisorComm,
           });
         }
-  
-        // Process DeliveryMan
-        if (commissionMap.has(deliveryManId)) {
-          commissionMap.get(deliveryManId).userCommission += deliveryCommisssion;
-        } else {
-          commissionMap.set(deliveryManId, {
-            userName: deliveryManName,
-            userId: deliveryManId,
-            userCommission: deliveryCommisssion,
-          });
+
+        // 4. نحسب عمولة الديليفري مان من localStorage
+        if (localDeliveryManId) {
+          if (commissionMap.has(localDeliveryManId)) {
+            commissionMap.get(localDeliveryManId).userCommission += deliveryCommisssion;
+          } else {
+            commissionMap.set(localDeliveryManId, {
+              userName: localDeliveryManName,
+              userId: localDeliveryManId,
+              userCommission: deliveryCommisssion,
+            });
+          }
         }
       }
-    });
+    }
+  );
+
+  const result = Array.from(commissionMap.values());
+  setCommissions(result);
+  return result;
+};
+
+
+//   const aggregateUserCommissions = (userCommission) => {
+
+  
+
+//     const commissionMap = new Map();
+  
+//     userCommission.forEach(({
+//       salesManName,
+//       saledManId,
+//       salesManComm,
+//       supervisorName,
+//       superVisorId,
+//       superVisorComm,
+//       deliveryManName,
+//       deliveryManId,
+//       deliveryCommisssion,
+//     }) => {
+//       // Process Salesman
+//       if (commissionMap.has(saledManId)) {
+//         commissionMap.get(saledManId).userCommission += salesManComm;
+//       } else {
+//         commissionMap.set(saledManId, {
+//           userName: salesManName,
+//           userId: saledManId,
+//           userCommission: salesManComm,
+//         });
+//       }
+  
+//       // Process Supervisor / DeliveryMan (if IDs match, merge commissions)
+//       if (superVisorId === deliveryManId) {
+//         if (commissionMap.has(superVisorId)) {
+//           commissionMap.get(superVisorId).userCommission += superVisorComm + deliveryCommisssion;
+//         } else {
+//           commissionMap.set(superVisorId, {
+//             userName: supervisorName,
+//             userId: superVisorId,
+//             userCommission: superVisorComm + deliveryCommisssion,
+//           });
+//         }
+//       } else {
+//         // Process Supervisor
+//         if (commissionMap.has(superVisorId)) {
+//           commissionMap.get(superVisorId).userCommission += superVisorComm;
+//         } else {
+//           commissionMap.set(superVisorId, {
+//             userName: supervisorName,
+//             userId: superVisorId,
+//             userCommission: superVisorComm,
+//           });
+//         }
+  
+//         // Process DeliveryMan
+//         if (commissionMap.has(deliveryManId)) {
+//           commissionMap.get(deliveryManId).userCommission += deliveryCommisssion;
+//         } else {
+//           commissionMap.set(deliveryManId, {
+//             userName: deliveryManName,
+//             userId: deliveryManId,
+//             userCommission: deliveryCommisssion,
+//           });
+//         }
+//       }
+//     });
   
   
-setCommissions(Array.from(commissionMap.values())) 
-return Array.from(commissionMap.values())
-  };
+// setCommissions(Array.from(commissionMap.values())) 
+// return Array.from(commissionMap.values())
+//   };
 
 
 
@@ -484,7 +555,9 @@ if(cashWithMe + cash < 0){
                 {values.deliveredOrders.map((_, index) => (
                 <div key={index} className="border-b py-10 px-4 w-[90%] bg-white rounded-md shadow-2xl flex flex-col lg:flex-row  justify-center gap-10 items-center border-2 flex-wrap ">
           
-                      <DialogDemo
+
+
+<DialogDemo
   setOrder={(order) => {
     setRestCash(order?.remainingAmount || 0);
 
@@ -501,17 +574,47 @@ if(cashWithMe + cash < 0){
       deliveryManId: order?.deliveryMan?._id,
     };
 
-    // setUsersCommission((prev) => {
-    //   const existingIndex = prev.findIndex((item) => item.order === order?._id);
+    setUsersCommission((prev) => {
+      const updated = [...prev];
+      updated[index] = newCommissionEntry;
+      return updated;
+    });
 
-    //   if (existingIndex !== -1) {
-    //     const updated = [...prev];
-    //     updated[existingIndex] = newCommissionEntry;
-    //     return updated;
-    //   } else {
-    //     return [...prev, newCommissionEntry];
-    //   }
-    // });
+    const updatedDeliveredOrders = [...values.deliveredOrders];
+    updatedDeliveredOrders[index] = {
+      ...updatedDeliveredOrders[index],
+      customerName: order.customersData[0]?.customerName || "",
+      deliveryReceipt: order.DeliveryReceipt || "",
+      order: order._id || "",
+      deservedSalesManCommission: order.salesManCommission || "",
+      deservedSupervisorCommission: order.supervisorCommission || "",
+      deliveryCommission: order.deliveryCommission || "",
+      salesMan: order?.salesPerson?.name || "",
+    };
+
+    setFieldValue("deliveredOrders", updatedDeliveredOrders);
+  }}
+  excludedOrderIds={values.deliveredOrders.map((o) => o.order)} // ← أضف هذا السطر
+/>
+
+                      {/* <DialogDemo
+  setOrder={(order) => {
+    setRestCash(order?.remainingAmount || 0);
+
+    const newCommissionEntry = {
+      order: order?._id,
+      salesManName: order?.salesPerson?.name,
+      saledManId: order?.salesPerson?._id,
+      salesManComm: order.salesManCommission,
+      supervisorName: order?.supervisor?.name,
+      superVisorId: order?.supervisor?._id,
+      superVisorComm: order?.supervisorCommission,
+      deliveryCommisssion: order?.deliveryCommission || 0,
+      deliveryManName: order?.deliveryMan?.name,
+      deliveryManId: order?.deliveryMan?._id,
+    };
+
+   
 
     setUsersCommission((prev) => {
       const updated = [...prev];
@@ -544,7 +647,7 @@ if(cashWithMe + cash < 0){
 
     setFieldValue("deliveredOrders", updatedDeliveredOrders);
   }}
-/>
+/> */}
 <ErrorMessage name={`deliveredOrders[${index}].order`} component={FormikError} />                    <CustomInput
                       name={`deliveredOrders[${index}].customerName`}
                       label="اسم العميل"
@@ -599,7 +702,7 @@ if(cashWithMe + cash < 0){
                 <ErrorMessage name={`deliveredOrders[${index}].restOrderCost[${restIndex}].paymentMethod`}  component={FormikError} />  
 
 
-                              <Button type="button" onClick={() => removeRestOrderCost(restIndex)}>حذف</Button>
+                           <Button type="button" onClick={() => removeRestOrderCost(restIndex)}>حذف</Button>   
                             </div>
                           ))}
                           <Button type="button" onClick={() => pushRestOrderCost(restMoneyObj)}>
@@ -610,7 +713,23 @@ if(cashWithMe + cash < 0){
                     </FieldArray>
                     
                    
-                    <Button type="button" onClick={() => remove(index)}>حذف</Button>
+                   <Button
+  type="button"
+  onClick={() => {
+    // احصل على ID الطلب اللي هيتم حذفه
+    const removedOrderId = values.deliveredOrders[index]?.order;
+
+    // 1. احذف الطلب من deliveredOrders
+    remove(index);
+
+    // 2. احذف بيانات الكوميشن الخاصة بالطلب ده
+    setUsersCommission((prev) =>
+      prev.filter((entry) => entry.order !== removedOrderId)
+    );
+  }}
+>
+  حذف
+</Button>
                   </div>
                 ))}
                 <Button type="button" onClick={() => push(deliveredOrdersObj)}>

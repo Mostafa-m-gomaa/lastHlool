@@ -244,7 +244,7 @@ import Custom from '@/formik/CustomInput'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getAvailableProducts } from '@/api/products'
 import { getSuperVisors } from '@/api/users'
-import { getOneOrder, updateOrder } from '@/api/orders'
+import { getOneOrder, updatOrder } from '@/api/orders'
 import { useNavigate, useParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { Loader2 } from 'lucide-react'
@@ -259,11 +259,7 @@ const EditOrder = () => {
   const [initialValues, setInitialValues] = useState(null)
   const [productQuantity, setProductQuantity] = useState(1)
 
-  // const { data: order, isLoading: isOrderLoading } = useQuery({
-  //   queryKey: ['order', id],
-  //   queryFn: () => getOneOrder(id),
-  //   enabled: !!id,
-  // })
+   const [receiptImage, setReceiptImage] = useState(null);
 
 
   const formatDate = (date) => {
@@ -292,7 +288,7 @@ const EditOrder = () => {
   })
 
   const mutation = useMutation({
-    mutationFn: ({ values, id }) => updateOrder(values, id),
+    mutationFn: ({ values, id }) => updatOrder({...values , receiptImage}, id),
     onSuccess: (res) => {
       if (res.status === 'success') {
         queryClient.invalidateQueries({ queryKey: ['orders'] })
@@ -340,7 +336,7 @@ const EditOrder = () => {
     )
     filteredValues.sellingDate = formatDate(values.sellingDate)
     filteredValues.deliveryDate = formatDate(values.deliveryDate)
-    mutation.mutate({ values: filteredValues, id })
+    mutation.mutate({ values: filteredValues , id })
 
   }
 
@@ -451,7 +447,15 @@ else{
                 <option value='تحويل بنك راجحي'>تحويل بنك راجحي</option>
                 <option value='شبكة'>شبكة</option>
               </Field>
-
+     <div>
+                <label className="mb-2 block text-sm font-medium">صورة السند</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setReceiptImage(e.target.files[0])}
+                  className="w-full border p-2 rounded-md"
+                />
+              </div>
               <Custom label='ملاحظات' name='notes' />
 
               <Button disabled={mutation.isPending} type='submit'>

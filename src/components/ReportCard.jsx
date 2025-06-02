@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import { availableRepsToUpdate  ,deleteReport,getaAvailableRepsCountsToUpdate} from '@/api/orders';
 import { useMutation, useQuery , useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import { Loader ,CheckCheck ,CircleX  } from 'lucide-react';
+
 
 
 
@@ -86,7 +88,8 @@ const queryClient = useQueryClient()
                     <div><span>الطلبات الجديد</span> : <span>{item?.newOrders.length || 0}</span> </div>
                     <div><span>الطلبات المسلمة</span> : <span>{item?.deliveredOrders.length || 0}</span> </div>
                     <div><span>تاريخ التقرير</span> : <span>{formatDate(item.reportDate)}</span> </div>
-                    <div><span>حالة التقرير</span> : <span>{item?.status}</span> </div>
+                  
+                    <div><span>حالة التقرير</span> : <span>{item?.status}</span> {item?.status === "قيد المطابقه" ? <Loader  className='animate-spin' color='#ff1100'/> :item?.status === "مكتمل بنجاح" ? <CheckCheck color="#00ff11"  className='animate-bounce'/> : item?.status === "معلق" && <CircleX   className='animate-pulse'/> }   </div>
 
                   </div>
     </div>

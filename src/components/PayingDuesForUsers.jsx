@@ -1,4 +1,4 @@
-import { makeOrderReady, payDues } from "@/api/orders"
+import { makeOrderReady, payDues, payDuesForUser } from "@/api/orders"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,21 +10,19 @@ import {
 import { useMutation , useQueryClient } from "@tanstack/react-query"
 import { Form, Formik , Field } from "formik"
 import toast from "react-hot-toast"
-import { Settings } from 'lucide-react';
-import Custom from "@/formik/CustomInput"
 
-export function PayDues({id}) {
+
+export function PayingDuesForUsers({id}) {
     const queryClient = useQueryClient()
     const initialValues ={
-        gottenMoney:"",
-        paidAt : ""
+        paidAmount:"",
     }
 
     const mutation =useMutation({
-        mutationFn:({mutationId,values})=>payDues(mutationId,values) ,
+        mutationFn:({mutationId,values})=>payDuesForUser(mutationId,values) ,
         onSuccess:(res)=>{
            console.log(res)
-            queryClient.invalidateQueries({queryKey:["dues"]})
+            queryClient.invalidateQueries({queryKey:["duesForUsers"]})
             if(res.status === "success"){
                toast.success("تم تحديث الطلب بنجاح")
             }
@@ -51,7 +49,7 @@ export function PayDues({id}) {
       <PopoverContent className="w-80">
         <div className="flex flex-col gap-4">
           <div className="space-y-2">
-            <h4 className="font-medium leading-none">اعداد الطلب</h4>
+            <h4 className="font-medium leading-none">دفع</h4>
           </div>
           <div className="flex flex-col gap-2">
             <Formik initialValues={initialValues} onSubmit={onSubmit}>
@@ -62,14 +60,13 @@ export function PayDues({id}) {
                      <Label htmlFor="width">المبلغ المستلم</Label>
               <Field
               as={Input}
-              name="gottenMoney"
+              name="paidAmount"
               type="number"
               className="col-span-2 h-8"
               required
             />
 
 
-            <Custom name="paidAt" label="تاريخ الدفع" type="date" />
        <Button type="submit" disabled={mutation.isPending}>
         {mutation.isPending ? "Loading..." : "تحديث"}
        </Button>
