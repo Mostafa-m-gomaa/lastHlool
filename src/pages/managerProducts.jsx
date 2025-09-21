@@ -32,7 +32,7 @@ const [filters,setFilters]= useState({
   orderNumber:"",
   orderPrice:"",
   phone:"",
-  product:"",
+  productId:"",
   receipt:"",
   salesManCommission:"",
   salesPerson:"",
@@ -41,6 +41,8 @@ const [filters,setFilters]= useState({
   supervisorCommission:"",
   daysAgo:"",
   city:"",
+  day :"",
+  dateKey: "sellingDate"
 })
 
 const handleFilterChange = (key, value) => {
@@ -67,7 +69,6 @@ const { data: orders, isLoading, isFetching, isError } = useQuery({
 
 const orderItems = orders?.data || []
 
-
 if (isError) {
   return <div>Internet Error</div>;
 }
@@ -87,13 +88,13 @@ if (isError) {
      
       <TabsDemo categorizedOrders={orders?.categorizedOrders}  filterChang={handleFilterChange}  setDeliveryStatus={setDeliveryStatus}/>
           {isLoading ? <Loader />: 
-          <div    data-aos="fade-right" className='w-[98%] lg:w-[95%] mx-auto flex flex-col items-end gap-3 justify-center'>
+          <div    className='w-[98%] lg:w-[95%] mx-auto flex flex-col items-end gap-3 justify-center'>
             {/* {orderItems.map((item,index)=>( 
               item?.deliveryStatus === deliveryStatus ? <Card  key={index} number={index+1} item={item} anim={true}/> : null
           ))} */}
             {orderItems.map((item,index)=>( 
-              item?.deliveryStatus != "ملغي" &&
-             <Card deliveryStatus={item.deliveryStatus}  key={index} number={index+1} item={item} anim={true}/> 
+              
+             <Card deliveryStatus={item.deliveryStatus}  key={index} number={item?.orderNumber} item={item} anim={true}/> 
           ))}
             </div>
    

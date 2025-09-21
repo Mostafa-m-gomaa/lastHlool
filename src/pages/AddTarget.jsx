@@ -31,15 +31,15 @@ const mutation = useMutation({
     mutationKey:"users",
     mutationFn:(values)=>createTarget(values) ,
     onSuccess:(res)=>{
+        console.log(res)
         if(res.status === "success"){
          
-       
             queryClient.invalidateQueries({queryKey:["targets"]})
             toast.success("تم اضافة الهدف بنجاح بنجاح")
             history("/home/targets")
         }
-        else{
-            toast.error("حدث خطأ ما")
+        else if( res.status === "fail"){
+            toast.error(res.message)
         }
     },
 })

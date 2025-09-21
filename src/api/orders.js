@@ -9,8 +9,19 @@ export const getOrders = (params = {} , page) => {
     const url = queryString ? `/orders?limit=250 &&page=${page}&&${queryString}` : `/orders?limit=250 &&?page=${page}`;
     return fetchClient(url);
   };
-export const getOrdersAnalytics = (start , end) => {
+export const getOrdersAnalytics = (start , end ) => {
     const url =  `/orders/analytics?startDate=${start}&&endDate=${end}`;
+    return fetchClient(url);
+  };
+
+export const getAnalytics = (start , end , parms={}) => {
+
+    const filteredParams = Object.fromEntries(
+        Object.entries(parms).filter(([_, value]) => value) // Remove empty values
+      );
+      const queryString = new URLSearchParams(filteredParams).toString();
+    const url = queryString ? `/orders/analytics?startDate=${start}&&endDate=${end}&&${queryString}` : `/orders/analytics?startDate=${start}&&endDate=${end}`;
+    console.log(url)
     return fetchClient(url);
   };
 export const getUndeliveredOrders = (params = {} , page) => {
@@ -287,6 +298,22 @@ export const getMyReports = (params = {} , page) => {
         body:JSON.stringify(params)
     })
   }
+  export const assignDuesForUser =(id , params)=>{
+
+    const url = `/user-dues/assign/${id}`
+    return fetchClient(url , {
+        method:"PATCH",
+        body:JSON.stringify(params)
+    })
+  }
+  export const createDuesForUser =(params)=>{
+
+    const url = `/user-dues`
+    return fetchClient(url , {
+        method:"POST",
+        body:JSON.stringify(params)
+    })
+  }
 
 
   export const getUsersDues =()=>{
@@ -298,3 +325,22 @@ export const getMyReports = (params = {} , page) => {
   export const getDuesOverMe =()=>{
     return fetchClient(`/company-dues/mine`)
   }
+  export const getHistory =(id , parms = {} )=>{
+       const filteredParams = Object.fromEntries(
+          Object.entries(parms).filter(([_, value]) => value) // Remove empty values
+        );
+        const queryString = new URLSearchParams(filteredParams).toString();
+                const url = queryString ? `/company-dues/history/${id}?limit=250 &&${queryString}` : `/company-dues/history/${id}?limit=250`;
+
+    return fetchClient(url)
+  }
+
+
+  // export const getUsers =(parms = {} , page)=>{
+  //     const filteredParams = Object.fromEntries(
+  //         Object.entries(parms).filter(([_, value]) => value) // Remove empty values
+  //       );
+  //       const queryString = new URLSearchParams(filteredParams).toString();
+  //       const url = queryString ? `/users?limit=250 &&page=${page}&&${queryString}` : `/users?limit=250 &&page=${page}`;
+  //       return fetchClient(url);
+  // }

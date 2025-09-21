@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { toast } from 'react-hot-toast'
 import { PaginationDemo } from '@/components/Pagination'
 import UserCard from '@/components/UserCard'
+import { UsersFilter } from '@/components/UsersFilter'
 const Users = () => {
   const [usersItems , setUsersItems] = useState([])
   const [searchParam , setSearchParam] = useState("")
@@ -19,15 +20,47 @@ const Users = () => {
   const [searchObject , setSearchObject] = useState({})
   const [page, setPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(1);
+const [filters,setFilters]= useState({
+ role : "" ,
+ email : "",
+ name : "",
+
+})
+
+const handleFilterChange = (key, value) => {
+  setFilters((prev) => ({
+    ...prev,
+    [key]: value || undefined, // Ensure empty values are removed
+  }));
+};
+
+
   const {data : users , isLoading  , isError } = useQuery(
     {
-    queryKey:["users" ,searchObject ,page ],
+     queryKey: [
+        "users",
+        filters,
+        page
+      ],
     queryFn: ({queryKey})=>{
 const param = queryKey[1] || []
 const page = queryKey[2] 
 return getUsers(param ,page)
     }
     });
+
+    // const { data: orders, isLoading, isFetching, isError } = useQuery({
+    //   queryKey: [
+    //     "orders",
+    //     filters,
+    //     page
+    //   ],
+    //   queryFn: ({ queryKey }) => {
+    //     const params = queryKey[1] || {};
+    //     const page = queryKey[2] ;
+    //     return getOrders(params , page); // Pass the entire object
+    //   },
+    // });
 
 
  const onSearchChange = (value) => {
@@ -58,11 +91,8 @@ if (isError) {
     <div className='w-[100%]  mx-auto flex flex-col gap-3'>
       <div className="flex w-[90%] mx-auto flex-col lg:flex-row-reverse justify-between items-center py-4 gap-8">
           <h1 className=''>الموظفين</h1>
-          <div className="flex w-full lg:w-[50%] gap-4">
-
-          <ComboboxOrders  setParam={setSearchParam} forWhat="users"/>
-           <Input type="text" placeholder="اكتب هنا"  onChange={(e)=>onSearchChange(e.target.value)} />
-          </div>
+         
+            <UsersFilter filterChange={handleFilterChange}  />
           <Button > <Link to="/home/addUser"> اضافة موظف</Link> </Button>
 
       </div>

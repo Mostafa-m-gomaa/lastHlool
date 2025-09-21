@@ -31,6 +31,12 @@ import SalesReward from './pages/SalesRewards';
 import EditReport from './pages/EditRep';
 import DuesOverMe from './pages/DuesOverMe';
 import EmployersDues from './pages/employersDues';
+import Mytargets from './pages/Mytargets';
+import Notifications from './pages/Notifications';
+import AnalysisPage from './pages/AnalysisPage';
+import OrderPage from './pages/OrderPage';
+import EditTarget from './pages/EditTarget';
+import Countries from './pages/Countries';
 
 
 function App() {
@@ -80,9 +86,15 @@ function App() {
     <Route path="undelivered45" element={<UndeliveredOrders title={"الطلبات التي مر عليها 45 يوم او اكثر"} num={1}/>} />
     <Route path="undelivered60" element={<UndeliveredOrders title={"الطلبات التي مر عليها 60 يوم او اكثر"} num={2}/>} />
     <Route path="onereport/:id" element={<ReportDetails/>} />
+    <Route path="oneorder/:id" element={<OrderPage/>} />
     <Route path="targets" element={<Targets/>} />
     <Route path="salesrewards" element={<SalesReward/>} />
     <Route path="editreport/:id" element={<EditReport/>} />
+    <Route path="targets/:id" element={<EditTarget/>} />
+    <Route path="mytargets" element={<Mytargets/>} />
+    <Route path="notifications" element={<Notifications />} />
+    <Route path="analysis" element={<AnalysisPage />} />
+    <Route path="countries" element={< Countries />} />
     </Route>
   </Routes>
 </div>

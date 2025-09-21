@@ -14,6 +14,8 @@ import { Form, Formik, Field } from "formik"
 import toast from "react-hot-toast"
 import { useState } from "react"
 import { payTarget } from "@/api/targets"
+import Custom from "@/formik/CustomInput"
+
 
 export function PayReward({ id }) {
   const queryClient = useQueryClient()
@@ -26,7 +28,7 @@ export function PayReward({ id }) {
   const mutation = useMutation({
     mutationFn: ({ mutationId, values }) => payTarget(mutationId, values),
     onSuccess: (res) => {
-       
+       console.log(res)
       queryClient.invalidateQueries({ queryKey: ["adminTargetsAn"] })
       if (res.status === "success") {
         toast.success("تم تحديث الطلب بنجاح")
@@ -41,7 +43,7 @@ export function PayReward({ id }) {
   })
 
   const onSubmit = (values) => {
-    values.paidAt = new Date(values.paidAt).toISOString()
+    // values.paidAt = new Date(values.paidAt).toISOString()
     mutation.mutate({ mutationId: id, values })
   }
 
@@ -60,14 +62,17 @@ export function PayReward({ id }) {
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {() => (
             <Form className="grid gap-4">
-              <Label htmlFor="paidAt">تاريخ الدفع</Label>
+              {/* <Label htmlFor="paidAt">تاريخ الدفع</Label>
               <Field
                 as={Input}
                 name="paidAt"
                 type="date"
                 className="h-8"
                 required
-              />
+              /> */}
+
+                          <Custom name="paidAt" label="تاريخ الدفع" type="date" />
+
               <Button type="submit" disabled={mutation.isPending}>
                 {mutation.isPending ? "Loading..." : "تحديث"}
               </Button>

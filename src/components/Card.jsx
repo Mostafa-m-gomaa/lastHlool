@@ -44,11 +44,17 @@ const mutation = useMutation({
     }
 })
 const cancelMutation = useMutation({
-    mutationKey: "orders",
     mutationFn: () => cancelTheOrder(item._id),
     onSuccess: (res) => {
+      console.log(res)
+      console.log(item._id)
+      if(res?.status === "success"){
     toast.success("تم تحديث حالة الطلب بنجاح");
     queryClient.invalidateQueries("orders")
+      }else{
+        toast.error("حدث خطأ أثناء إلغاء الطلب");
+      }
+
     
     } ,
     onError: (err) => {
@@ -59,6 +65,7 @@ const retrieveMutation = useMutation({
     mutationKey: "orders",
     mutationFn: () => retrieveOrder(item._id),
     onSuccess: (res) => {
+      console.log(res)
     toast.success("تم تحديث حالة و نقله الي غير جاهز للتسليم");
     queryClient.invalidateQueries("orders")
     
@@ -91,15 +98,14 @@ const deleteMutation = useMutation({
         <div
         onClick={props.click ? ()=>props.click(item) : null }
         // data-aos={anim ? "fade-right" : ""}
-        className=" min-h-fit w-[90%] mx-auto bg-white hover:bg-[#3891da] transition-all shadow-[0px_0px_15px_rgba(0,0,0,0.09)] py-2 px-4 space-y-3 relative overflow-hidden"
-        >
+        className="min-h-fit w-[98%] mx-auto bg-white hover:bg-[#3891da] transition-all shadow-[0px_0px_15px_rgba(0,0,0,0.09)] py-2 px-[0.2px] space-y-3 relative overflow-hidden ">
           <div className="w-14 h-14 lg:w-20 lg:h-20 bg-myBlue rounded-full absolute -right-5 -top-7">
             <p className="absolute bottom-1 left-3  lg:bottom-4 lg:left-5 text-white text-[16px] lg:text-[20px]">{number < 10 ? `0${number}`: number}</p>
           </div>
    
-   <div className="flex w-[95%] mx-auto justify-between flex-row-reverse  items-center">
+   <div className="flex w-[98%] mx-auto justify-between flex-row-reverse  items-center">
     
-    <img src={item?.customersData[0]?.gender === "ذكر" ? manIcon : womanIcon} alt=""  className='w-[50px] lg:w-[80px]'/>
+    <img src={item?.customersData[0]?.gender === "ذكر" ? manIcon : womanIcon} alt=""  className='w-[40px] lg:w-[80px]'/>
     <div className="flex flex-col items-end gap-3 w-[70%]">
     <h2 className="font-bold text-[15px] lg:text-xl">{item?.product || "not-found"}</h2>
                   <div className="max-w-full flex-wrap justify-end flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex   *:rounded-md  *:text-center  *:gap-2   ">

@@ -18,7 +18,7 @@ export function ShowPopOver({item}) {
     const validDate = new Date(date);
   
     if (isNaN(validDate.getTime())) {
-      return "Invalid Date"; // Return a fallback value if the date is invalid
+      return date; // Return a fallback value if the date is invalid
     }
   
     // Extract month, day, and year
@@ -28,7 +28,8 @@ export function ShowPopOver({item}) {
   
     return `${day}/${month}/${year}`;
   };
-
+  const sumDeposites = item?.extraDeposits?.reduce((acc, deposit) => acc + deposit.deposit, 0) || 0;
+  // console.log("exytre" , sumDeposites)
   return (
     <Dialog >
       <DialogTrigger asChild>
@@ -47,17 +48,19 @@ export function ShowPopOver({item}) {
           <div className="w-[45%] bg-myBlue text-white text-center flex flex-col gap-4 py-3  *:min-h-[60px] text-[13px] lg:text-[16px]"> 
                <div className="">المنتج</div>
                 <div className="">سعر المنتج</div>
-                <div className="">البلد</div>
+                <div className="">المنطقة</div>
+                <div className="">المدينة</div>
                 <div className="">تاريخ الانشاء</div>
                 <div className="">تاريخ التوصيل المتوقع</div>
                 <div className="">تاريخ التوصيل الفعلي</div>
                 <div className="">حالة التوصيل</div>
                 <div className="">مسئول التوصيل</div>
                 <div className="">عمولة التوصيل</div>
-                <div className="">اصدار البطاقة</div>
+                <div className="">رقم سند العربون</div>
                 <div className="">مبلغ العربون</div>
                 <div className="">طريقة دفع مبلغ العربون</div>
-                <div className="">طريقة دفع الدفعه الباقي</div>
+                <div className="">عربون اضافي </div>
+                <div className="">طريقة دفع المبلغ المتبقي</div>
                 <div className="">ملاحظات</div>
                 <div className="">الكمية</div>
                 <div className="">اسم المندوب</div>
@@ -78,6 +81,7 @@ export function ShowPopOver({item}) {
                       <div>{item?.productPrice || "غير موجود"}</div>
                      
                       <div>{item?.country || "غير موجود"}</div>
+                      <div>{item?.city || "غير موجود"}</div>
                       <div>{formatDate(item?.createdAt)}</div>
                       <div>{formatDate(item?.deliveryDate)}</div>
                       <div>{item?.actualDeliveryDate? formatDate(item?.actualDeliveryDate) : "لم يتم التسليم"}</div>
@@ -88,6 +92,7 @@ export function ShowPopOver({item}) {
       
                       <div>{item?.deposit || "غير موجود"}</div>
                       <div>{item?.depositPaymentMethod  || ""}</div>
+                      <div>{sumDeposites}</div>
                       <div>{item?.restMoneyPaymentMethod || "غير موجود"}</div>
                       <div>{item?.notes || "غير موجود"}</div>
                       <div>{item?.quantity || "غير موجود"}</div>
@@ -123,6 +128,7 @@ export function ShowPopOver({item}) {
               <div className="">سعر المنتج</div>
       
               <div className="">المنطقة</div>
+              <div className="">المدينة</div>
            
               <div className="">تاريخ التوصيل المتوقع</div>
               <div className="">تاريخ التوصيل الفعلي</div>
@@ -152,6 +158,7 @@ export function ShowPopOver({item}) {
                     <div>{item?.productPrice || "غير موجود"}</div>
              
                     <div>{item?.country || "غير موجود"}</div>
+                    <div>{item?.city || "غير موجود"}</div>
  
             
                     <div>{formatDate(item?.deliveryDate)}</div>

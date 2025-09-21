@@ -56,7 +56,6 @@ if (isError) {
 const duesItems = dues?.data || []
 
 
-  
   return (
     <div className='w-[100%]  mx-auto flex flex-col gap-3'>
       <div className="flex w-[90%] mx-auto flex-row-reverse items-center py-4">
@@ -67,7 +66,7 @@ const duesItems = dues?.data || []
       {isLoading ? <Loader />: 
           <div className='w-[98%] lg:w-[95%] mx-auto flex flex-col items-end gap-3 justify-center'>
             {duesItems?.map((item)=>( 
-           <DuesCard key={item._id} item={item} />
+           <DuesCard key={item?._id} item={item} />
           ))}
             </div>
    

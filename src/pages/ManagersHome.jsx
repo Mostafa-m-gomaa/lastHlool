@@ -61,8 +61,7 @@ const parseDate = (str) => {
 };
 
 const formatDate = (date) => format(date, "dd-MM-yyyy");
-
-
+console.log(data)
   return (
     <div className="flex flex-col py-8 gap-4">
       <div className="flex w-[90%] mx-auto flex-col lg:flex-row">
@@ -153,7 +152,7 @@ const formatDate = (date) => format(date, "dd-MM-yyyy");
             <HomeCard link="/home/manageOrders" icon ={<Users/>} number={data?.categorizedOrders?.created || 0} title="مبيعات  " subTitle="المجموع " color={"bg-[#012af9]"} />
             <HomeCard link="/home/manageOrders" icon ={<Users/>} number={data?.categorizedOrders?.readyToBeDelivered || 0} title="الطلبات الجاهزة" subTitle="المجموع" color={"bg-[#d73364]"} />
             <HomeCard link="/home/manageOrders" icon ={<Users/>} number={data?.categorizedOrders?.delivered || 0} title="التسليمات" subTitle="المجموع" color={"bg-[#d7ab33]"} />
-            <HomeCard link="/home/reports" icon ={<Users/>} number={data?.reportsCount || 0} title="تقارير قيد المطابقة" subTitle="المجموع " color={"bg-[#51e1b6]"} />
+            <HomeCard link="/home/reports" icon ={<Users/>} number={data?.categorizedReports?.processing || 0} title="تقارير قيد المطابقة" subTitle="المجموع " color={"bg-[#51e1b6]"} />
 
     </div>
     <div className="flex w-full justify-center gap-8 flex-wrap">

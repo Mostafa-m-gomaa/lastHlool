@@ -12,6 +12,9 @@ import { Link } from 'react-router-dom';
 import { AlertDelete } from './Alert';
 import { Loader2, Pencil } from 'lucide-react';
 import { PayingDuesForUsers } from './PayingDuesForUsers';
+import { HistoryDialog } from './HistoryDialog';
+import { HistoryForUsers } from './HistoryForUsers';
+import { AddDuesForUsers } from './AddDuesForUsers';
 
 
 
@@ -23,7 +26,6 @@ const UserCardForDues = ({number ,item}) => {
             queryClient.invalidateQueries({queryKey:["users"]})
         }
     })
-
 
 
     
@@ -54,6 +56,8 @@ const UserCardForDues = ({number ,item}) => {
     </div>
     <div className="flex flex-col lg:flex-row items-center gap-2">
 <PayingDuesForUsers id={item?._id} />
+<AddDuesForUsers id={item?._id} />
+    <HistoryForUsers history ={item?.history} />
 <span className='bg-sky-600 p-2 text-white rounded-md text-[12px] lg:text-[15px]'>
 
 {item?.dues}

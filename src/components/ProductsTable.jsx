@@ -51,6 +51,7 @@ import Loader from "./Loader"
             <TableHead className="">الاسم</TableHead>
             <TableHead className="">الوصف</TableHead>
             <TableHead className="">السعر</TableHead>
+            <TableHead className="">فترة الصلاحة</TableHead>
             <TableHead className="">عمولة المشرف</TableHead>
             <TableHead className="">عمولة المندوب</TableHead>
             <TableHead className="">عمولة التوصيل</TableHead>
@@ -65,6 +66,7 @@ import Loader from "./Loader"
     <TableCell className="w-[24%] border-r-2 border-gray-400 overflow-hidden" >{item?.title} </TableCell>
     <TableCell className="w-[24%] border-r-2 border-gray-400 overflow-hidden" >{item?.desc}</TableCell>
     <TableCell className="w-[24%] border-r-2 border-gray-400 overflow-hidden" >{item?.price}</TableCell>
+    <TableCell className="w-[24%] border-r-2 border-gray-400 overflow-hidden" >{item?.ValidityPeriod}</TableCell>
     <TableCell className="w-[24%] border-r-2 border-gray-400 overflow-hidden" >{item?.supervisorCommission}</TableCell>
     <TableCell className="w-[24%] border-r-2 border-gray-400 overflow-hidden" >{item?.salesManCommission}</TableCell>
     <TableCell className="w-[24%] border-r-2 border-gray-400 overflow-hidden" >{item?.deliveryCommission || "لا يوجد"}</TableCell>

@@ -1,3 +1,5 @@
+
+
 "use client"
 
 import * as React from "react"
@@ -15,25 +17,26 @@ import {
 
 export function DatePickerDemo({searchFunc , ...props}) {
   const [date, setDate] = React.useState()
-  function formatDate(date) {
-    const options = { year: 'numeric', month: 'long', day: '2-digit' };
-    return new Intl.DateTimeFormat('en-US', options).format(new Date(date));
-  }
-  function formatDate(dateString) {
-    const date = new Date(dateString);
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  }
-  
-  const getFormattedDate = (today) => {
-    // const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Ensure 2 digits
-    const day = String(today.getDate()).padStart(2, "0"); // Ensure 2 digits
-  
-    return `${year}-${month}-${day}`;
+
+
+  const formatDate = (dateObj) => {
+  const day = String(dateObj.getDate()).padStart(2, '0');
+  const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // الشهر صفر-مبني
+  const year = dateObj.getFullYear();
+
+  return `${day}-${month}-${year}`;
+};
+
+    const [open, setOpen] = React.useState(false); // تحكم يدوي
+ const handleDateChange = (selectedDate) => {
+    if (selectedDate) {
+      setDate(selectedDate);
+      searchFunc(props.type, formatDate(selectedDate));
+      setOpen(false); // ✅ اقفل البوب اوفر بعد الاختيار
+    }
   };
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
@@ -46,16 +49,12 @@ export function DatePickerDemo({searchFunc , ...props}) {
           {date ? format(date, "PPP") : <span>{props.title || "اختر تاريخ"}</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent className="w-auto p-0 z-50">
         <Calendar
           mode="single"
           selected={date}
-          onSelect={(selectedDate)=>{
-            setDate (selectedDate),
-            searchFunc(props.type, getFormattedDate(selectedDate))
 
-          }}
-          
+         onSelect={handleDateChange}
              initialFocus
           // يجعل المستخدم قادر على اختيار السنة بسهولة
           captionLayout="dropdown"
@@ -66,3 +65,16 @@ export function DatePickerDemo({searchFunc , ...props}) {
     </Popover>
   )
 }
+
+
+
+
+          // onSelect={(selectedDate)=>{
+          //   setDate (selectedDate) ;
+          //   searchFunc(props.type, formatDate(selectedDate)) ;
+
+          // }}
+//           onSelect={(selectedDate) => {
+//   setDate(selectedDate),
+//   searchFunc(props.type, formatDate(selectedDate))
+// }}

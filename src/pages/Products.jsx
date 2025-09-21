@@ -16,7 +16,7 @@ import { toast } from 'react-hot-toast'
 
 const Products = () => {
   const [page,setPage]=useState(1)
-  const [searchParam , setSearchParam] = useState("")
+  const [searchParam , setSearchParam] = useState("title")
   const queryClient = useQueryClient()
   const [searchObject , setSearchObject] = useState({})
   const [numberOfPages, setNumberOfPages] = useState(1);
@@ -34,11 +34,8 @@ const Products = () => {
   const productItems = products?.data || []
 
 
-
   const onSearchChange = (value) => {
-    if(searchParam === ""){
-      toast.error("اختر الفلتر اولا")
-    }
+ 
     setSearchObject({[searchParam]:value})
    }
 

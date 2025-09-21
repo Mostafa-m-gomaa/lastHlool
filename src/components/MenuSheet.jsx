@@ -10,7 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import logo from '../assets/logo.png'
-import { House } from 'lucide-react';
+import { AlignVerticalDistributeStartIcon, AlignVerticalJustifyStart, Construction, House } from 'lucide-react';
 import { User } from 'lucide-react';
 import { ShoppingBasket } from 'lucide-react';
 import { Users } from 'lucide-react';
@@ -50,6 +50,7 @@ useEffect(()=>{
   if(role === "admin"){
     setMenu([
       { name: "الصفحة الرئيسية", link: "/home" , icon:<House/> },
+      { name: "التحليلات", link: "/home/analysis" , icon:<AlignVerticalJustifyStart/> },
       { name: "التارجت", link: "/home/targets" , icon:  <Crosshair /> },
       { name: "ادارة الطلبات", link: "/home/manageOrders" , icon:<ArrowDownUp/> },
       { name: "المنتجات", link: "/home/products" , icon:<ShoppingBasket/> },
@@ -57,6 +58,7 @@ useEffect(()=>{
       { name: "التقارير", link: "/home/reports", icon:<ClipboardMinus/> },
       { name: "المستحقات علي المشرفين", link: "/home/supervisorsdues", icon:<ClipboardMinus/> },
       { name: "مستحقات الموظفين", link: "/home/emplyersdues", icon:<ClipboardMinus/> },
+      { name: "المناطق", link: "/home/countries", icon:<Construction/> },
     ])
   }
   else if(role === "manager"){
@@ -66,12 +68,15 @@ useEffect(()=>{
       { name: "ادارة الطلبات", link: "/home/manageOrders" , icon:<ArrowDownUp/> },
       { name: "التقارير", link: "/home/reports"},
       { name: "المستحقات علي المشرفين", link: "/home/supervisorsdues", icon:<ClipboardMinus/> },
+            { name: "المناطق", link: "/home/countries", icon:<Construction/> },
+
     ])
   }
   else if(role === "sales"){
     setMenu([
       { name: "الصفحة الرئيسية", link: "/home/salesHome" , icon:<House/> },
       { name: "طلباتي", link: "/home/myorders" , icon:<ClipboardPlus/> },
+      { name: "التارجت", link: "/home/mytargets" , icon:<Crosshair />},
     
     ])
 
@@ -145,46 +150,3 @@ useEffect(()=>{
 }
 
 
-// import { Link } from "react-router-dom"
-// import { useLocation } from "react-router-dom"
-
-// export function MenuSheet() {
-//     const menu = [
-//         {
-//             name: 'الطلبات',
-//             link: '/home'
-//         } ,
-//         {
-//             name: 'المنتجات',
-//             link: '/home/products'
-//         } ,
-//         {
-//             name: 'الموظفين',
-//             link: '/home/users'
-//         } 
-//     ]
-
-//     const location = useLocation().pathname
-//   return (
-//     <Sheet>
-//       <SheetTrigger asChild>
-//         <Button >القائمة</Button>
-//       </SheetTrigger>
-//       <SheetContent className="flex flex-col border-2 ">
-//         <SheetHeader>
-//           <img src={logo} className="w-[50%] mx-auto rounded-md" alt="" />
-          
- 
-//         </SheetHeader>
-//         <div className="flex flex-col gap-2">
-//             {menu.map((item,index)=>{
-//                 return <Link to={`${item.link}`} key={index} className={`p-2 text-right rounded-md  cursor-pointer transition-all hover:bg-myBlue ${location === item.link  ? "bg-myBlue text-white": "bg-gray-300"}`}>{item.name}</Link>
-//             })}
-//             <Link to={`/`}  className={`p-2 text-right rounded-md bg-red-600  cursor-pointer transition-all text-white w-fit `}>تسجيل الخروج</Link>
-//         </div>
-
-
-//       </SheetContent>
-//     </Sheet>
-//   )
-// }

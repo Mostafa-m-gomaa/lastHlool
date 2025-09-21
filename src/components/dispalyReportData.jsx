@@ -15,7 +15,6 @@ const ReportCard = ({ report }) => {
     const queryClient = useQueryClient()
     const param =useParams().id
     const totalIncome = report?.categorizedMoney?.reduce((acc, item) => acc + item.amount, 0) || 0
-console.log(report)
 const mutation = useMutation({
     mutationKey: "reports",
     mutationFn: () => approveReport(param),
@@ -126,6 +125,32 @@ const formatDate = (date) => {
       </Card>
       
       {/* Outgoings */}
+      <Card>
+        <CardHeader className="flex items-center flex-row-reverse justify-between ">
+          <CardTitle>العرابين الاضافية</CardTitle>
+          <img className="w-[50px] lg:w-[80px]" src={cashImg} />
+        </CardHeader>
+        <CardContent>
+          {report?.extraDeposits?.length > 0 ? (
+            <ul className="space-y-2 ">
+                 
+              {report?.extraDeposits?.map((item, i) => (
+                <li key={i} className="border p-2 rounded-lg *:flex *:flex-row-reverse *:gap-16 flex flex-col gap-2 *:items-center  *:text-[12px] *:lg:text-[15px] ">
+                  <p><strong>المبلغ</strong> {item?.deposit || 0}</p>
+                  <p><strong>طريقة التحصيل</strong> {item?.paymentMethod}</p>
+                  <p><strong>سند العربون</strong> {item?.receipt}</p>
+                </li>
+              ))}
+            </ul>
+          ) : <p>لا يوجد تصنيف</p>}
+
+                <li  className="border p-2 rounded-lg *:flex *:flex-row-reverse *:gap-16 flex flex-col gap-2 *:items-center  *:text-[12px] *:lg:text-[15px] ">
+        
+                </li>
+        </CardContent>
+       
+      </Card>
+
       <Card>
         <CardHeader className="flex items-center flex-row-reverse justify-between ">
           <CardTitle>تصنيف الواردات</CardTitle>

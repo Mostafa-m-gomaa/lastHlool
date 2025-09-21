@@ -49,7 +49,7 @@ export function RewardPopOver({rewards}) {
 {rewards.map((rewards,i)=>(
     <div className="flex flex-row-reverse justify-between p-2 border-b border-gray-200">
         <div className="font-semibold text-[18px]">{rewards?.reward}</div>
-        <div>{formatDate(rewards?.paidAt)}</div>
+        <div>{rewards?.paidAt ? formatDate(rewards?.paidAt) :"تاريخ الدفع"}</div>
         <div className={`${rewards?.isPaid ? "bg-[green]" : "bg-red-600"} text-white px-2`}>{rewards?.isPaid ?"تم الدفع" : "لم يتم الدفع"}</div>
         {! rewards?.isPaid && <PayReward id={rewards?._id} />}
     </div>

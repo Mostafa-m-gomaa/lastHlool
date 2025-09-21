@@ -38,7 +38,7 @@ const [filters,setFilters]= useState({
   orderNumber:"",
   orderPrice:"",
   phone:"",
-  product:"",
+  productId:"",
   receipt:"",
   salesManCommission:"",
   salesPerson:"",
@@ -102,55 +102,100 @@ const formatDate = (date) => {
   return `${day}/${month}/${year}`;
 };
 
-const exportToExcel = () => {
-  setLoader(true)
-  const worksheetData = orderItems.map((item) => ({
-    "المنتج": item?.product || "لايوجد",
-    "اسم العميل": item?.customerName || "لايوجد",
-    "رقم سند العربون": item?.receipt || "لايوجد",
-    "الجنس": item?.gender || "لايوجد",
-    "المتبقي علي انتهاء المنتج": item?.expireAfter || "لايوجد",
-    "تاريخ الميلاد العميل": formatDate(item?.birthDate),
-    "اسم المشرف": item?.supervisor?.name || "لايوجد",
-    "اسم المندوب": item?.salesPerson?.name || "لايوجد",
-    "تاريخ البيع": formatDate(item?.sellingDate),
-    "الكمية": item?.quantity || "لايوجد",
-    "سعر المنتج": item?.productPrice || "لايوجد",
+// const exportToExcel = () => {
+//   setLoader(true)
+//   const worksheetData = orderItems.map((item) => ({
+//     "المنتج": item?.product || "لايوجد",
+//     "اسم العميل": item?.customerName || "لايوجد",
+//     "رقم سند العربون": item?.receipt || "لايوجد",
+//     "الجنس": item?.gender || "لايوجد",
+//     "المتبقي علي انتهاء المنتج": item?.expireAfter || "لايوجد",
+//     "تاريخ الميلاد العميل": formatDate(item?.birthDate),
+//     "اسم المشرف": item?.supervisor?.name || "لايوجد",
+//     "اسم المندوب": item?.salesPerson?.name || "لايوجد",
+//     "تاريخ البيع": formatDate(item?.sellingDate),
+//     "الكمية": item?.quantity || "لايوجد",
+//     "سعر المنتج": item?.productPrice || "لايوجد",
    
-    "العربون": item?.deposit || "لايوجد",
-    "طريقة دفع العربون": item?.depositPaymentMethod || "لايوجد",
-    "المتبقي منذ دفع العربون": item?.daysAgo || "لايوجد",
-    "المبلغ المتبقي للطلب": item?.remainingAmount || "لايوجد",
-    "مسئول التوصيل": item?.deliveryMan?.name || "لايوجد",
-    "تاريخ التسليم المتوقع": formatDate(item?.deliveryDate),
-    "تاريخ التسليم": formatDate(item?.actualDeliveryDate),
-    "سند التسليم": item?.DeliveryReceipt || "لايوجد",
-    "اصدار البطاقة": item?.productIssuanceDate ? formatDate(item.productIssuanceDate) : "لا يوجد",
-    "طريقة دفع الدفعه الباقي": item?.restMoneyPaymentMethod || "لايوجد",
-    "عمولة المشرف": item?.supervisorCommission || "لايوجد",
-    "عمولة المندوب": item?.salesManCommission || "لايوجد",
-    "عمولة التوصيل": item?.deliveryCommission || "لايوجد",
-    "حالة التوصيل": item?.deliveryStatus || "لايوجد",
-    "البلد": item?.country || "لايوجد",
-    "ملاحظات": item?.notes || "لايوجد",
-    "تاريخ التحديث": formatDate(item?.updatedAt),
-    "رقم الهاتف": item?.phone || "لايوجد",
-    "رقم الطلب": item?.orderNumber || "لايوجد",
-    "تاريخ الانشاء": formatDate(item?.createdAt),
-    "تاريخ انتهاء المنتج": formatDate(item?.productEndDate) || "لايوجد",
+//     "العربون": item?.deposit || "لايوجد",
+//     "طريقة دفع العربون": item?.depositPaymentMethod || "لايوجد",
+//     "المتبقي منذ دفع العربون": item?.daysAgo || "لايوجد",
+//     "المبلغ المتبقي للطلب": item?.remainingAmount || "لايوجد",
+//     "مسئول التوصيل": item?.deliveryMan?.name || "لايوجد",
+//     "تاريخ التسليم المتوقع": formatDate(item?.deliveryDate),
+//     "تاريخ التسليم": formatDate(item?.actualDeliveryDate),
+//     "سند التسليم": item?.DeliveryReceipt || "لايوجد",
+//     "اصدار البطاقة": item?.productIssuanceDate ? formatDate(item.productIssuanceDate) : "لا يوجد",
+//     "طريقة دفع الدفعه الباقي": item?.restMoneyPaymentMethod || "لايوجد",
+//     "عمولة المشرف": item?.supervisorCommission || "لايوجد",
+//     "عمولة المندوب": item?.salesManCommission || "لايوجد",
+//     "عمولة التوصيل": item?.deliveryCommission || "لايوجد",
+//     "حالة التوصيل": item?.deliveryStatus || "لايوجد",
+//     "البلد": item?.country || "لايوجد",
+//     "ملاحظات": item?.notes || "لايوجد",
+//     "تاريخ التحديث": formatDate(item?.updatedAt),
+//     "رقم الهاتف": item?.phone || "لايوجد",
+//     "رقم الطلب": item?.orderNumber || "لايوجد",
+//     "تاريخ الانشاء": formatDate(item?.createdAt),
+//     "تاريخ انتهاء المنتج": formatDate(item?.productEndDate) || "لايوجد",
+//   }));
+
+//   const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+//   const workbook = XLSX.utils.book_new();
+//   XLSX.utils.book_append_sheet(workbook, worksheet, "Orders");
+
+//   const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+//   const data = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+
+//   saveAs(data, "orders.xlsx");
+//   setLoader(false)
+// };
+
+const exportToExcel = () => {
+  const dataForExcel = orderItems.map((item, index) => ({
+    "رقم": index + 1,
+    "رقم الطلب": item.orderNumber || "",
+    "المنتج": item.product || "",
+    "اسم العميل الاول": item.customersData?.[0]?.customerName || "",
+    "رقم العميل الاول": item.customersData?.[0]?.phone || "",
+    "تاريخ ميلاد الاول": formatDate(item.customersData?.[0]?.birthDate),
+    "جنس العميل الاول": item.customersData?.[0]?.gender || "",
+    "اسم العميل الثاني": item.customersData?.[1]?.customerName || "",
+    "رقم العميل الثاني": item.customersData?.[1]?.phone || "",
+    "تاريخ ميلاد الثاني": formatDate(item.customersData?.[1]?.birthDate),
+    "جنس العميل الثاني": item.customersData?.[1]?.gender || "",
+    "اسم العميل الثالث": item.customersData?.[2]?.customerName || "",
+    "رقم العميل الثالث": item.customersData?.[2]?.phone || "",
+    "تاريخ ميلاد الثالث": formatDate(item.customersData?.[2]?.birthDate),
+    "جنس العميل الثالث": item.customersData?.[2]?.gender || "",
+    "العربون": item.deposit || "",
+    "طريقة الدفع": item.depositPaymentMethod || "",
+    "المتبقي": item.remainingAmount || "",
+    "التاريخ المتوقع للتسليم": formatDate(item.deliveryDate),
+    "التاريخ الفعلي للتسليم": formatDate(item.actualDeliveryDate),
+    "سند التسليم": item.DeliveryReceipt || "",
+    "حالة التوصيل": item.deliveryStatus || "",
+    "المندوب": item.deliveryMan?.name || "",
+    "المشرف": item.supervisor?.name || "",
+    "عمولة التوصيل": item.deliveryCommission || "",
+    "ملاحظات": item.notes || "",
+    "تاريخ البيع": formatDate(item.sellingDate),
+    "تاريخ الإنشاء": formatDate(item.createdAt),
   }));
 
-  const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+  const worksheet = XLSX.utils.json_to_sheet(dataForExcel);
   const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Orders");
+  XLSX.utils.book_append_sheet(workbook, worksheet, "الطلبات");
 
-  const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
-  const data = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
-
-  saveAs(data, "orders.xlsx");
-  setLoader(false)
+  const excelBuffer = XLSX.write(workbook, {
+    bookType: "xlsx",
+    type: "array",
+  });
+  const blob = new Blob([excelBuffer], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
+  saveAs(blob, "الطلبات.xlsx");
 };
-
 
   
   return (
@@ -158,9 +203,9 @@ const exportToExcel = () => {
       <div className="flex flex-col w-[90%] mx-auto gap-4 items-center py-4">
         <div className="flex justify-between w-full items-center">
 
-          <Button onClick={exportToExcel}>{loader ?<LoaderPinwheel className='animate-spin' /> : <Download /> }</Button>
-                     <Button className="mx-2" > <Link to="/home/addOrder"> اضافة طلب</Link> </Button>
-          
+          <Button onClick={exportToExcel}>
+            {loader ?<LoaderPinwheel className='animate-spin' /> : <Download /> }</Button>
+            <Button className="mx-2" > <Link to="/home/addOrder"> اضافة طلب</Link> </Button>
           <h1>القالب الرئيسي</h1>
         </div>
         <OrdersFilter filterChange={handleFilterChange} />

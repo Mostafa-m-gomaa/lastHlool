@@ -10,18 +10,20 @@ import {
 import { useMutation , useQueryClient } from "@tanstack/react-query"
 import { Form, Formik , Field } from "formik"
 import toast from "react-hot-toast"
+import Custom from "@/formik/CustomInput"
 
 
 export function PayingDuesForUsers({id}) {
     const queryClient = useQueryClient()
     const initialValues ={
         paidAmount:"",
+        actionDate : "" ,
+        reason : ""
     }
 
     const mutation =useMutation({
         mutationFn:({mutationId,values})=>payDuesForUser(mutationId,values) ,
         onSuccess:(res)=>{
-           console.log(res)
             queryClient.invalidateQueries({queryKey:["duesForUsers"]})
             if(res.status === "success"){
                toast.success("تم تحديث الطلب بنجاح")
@@ -65,8 +67,16 @@ export function PayingDuesForUsers({id}) {
               className="col-span-2 h-8"
               required
             />
+                     <Label htmlFor="width">السبب</Label>
+              <Field
+              as={Input}
+              name="reason"
+              type="text"
+              className="col-span-2 h-8"
+              required
+            />
 
-
+<Custom name="actionDate" label="تاريخ الدفع" type="date" />
        <Button type="submit" disabled={mutation.isPending}>
         {mutation.isPending ? "Loading..." : "تحديث"}
        </Button>

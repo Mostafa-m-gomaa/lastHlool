@@ -30,43 +30,8 @@ const formatDate = (date) => {
   return `${day}/${month}/${year}`;
 };
 const queryClient = useQueryClient()
-// const mutation = useMutation({
-//     mutationKey: "orders",
-//     mutationFn: () => makeOrderAttheDeliver(item._id),
-//     onSuccess: (res) => {
-//     toast.success("تم تحديث حالة الطلب بنجاح");
-//     queryClient.invalidateQueries("orders")
-    
-//     } ,
-//     onError: (err) => {
-//         console.log(err)
-//     }
-// })
-// const cancelMutation = useMutation({
-//     mutationKey: "orders",
-//     mutationFn: () => cancelTheOrder(item._id),
-//     onSuccess: (res) => {
-//     toast.success("تم تحديث حالة الطلب بنجاح");
-//     queryClient.invalidateQueries("orders")
-    
-//     } ,
-//     onError: (err) => {
-//         console.log(err)
-//     }
-// })
-// const retrieveMutation = useMutation({
-//     mutationKey: "orders",
-//     mutationFn: () => retrieveOrder(item._id),
-//     onSuccess: (res) => {
-//     toast.success("تم تحديث حالة و نقله الي غير جاهز للتسليم");
-//     queryClient.invalidateQueries("orders")
-    
-//     } ,
-//     onError: (err) => {
-//         console.log(err)
-//     }
-// })
-   
+console.log(item)
+
 
           return (
             
@@ -83,13 +48,18 @@ const queryClient = useQueryClient()
     <div className="flex flex-col items-end gap-3 w-[70%]">
     <h2 className="font-bold text-[15px] lg:text-xl">{item?.user?.name || "sales"}</h2>
                   <div className="max-w-full flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex  *:items-center *:rounded-md  *:text-center  *:gap-2 *:flex-row-reverse  ">
-                   {/* {item?.} */}
+                   {item?.target?.title}
+                  </div>
+                  <div className="max-w-full flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex  *:items-center *:rounded-md  *:text-center  *:gap-2 *:flex-row-reverse  ">
+                   {item?.targetDay}
+                  </div>
+                  <div className="max-w-full flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex  *:items-center *:rounded-md  *:text-center  *:gap-2 *:flex-row-reverse  ">
+                   {item?.totalDeliveredOrders} : الطلبات المسلمة
                   </div>
     </div>
                 <div className="flex flex-col lg:flex-row items-center gap-2">
 
-                {/* <PopoverDemo id={item._id} />  */}
-                  {/* <ShowPopOver item={item} /> */}
+             
                   <RewardPopOver rewards={item?.rewards || []}/>
                 </div>
 

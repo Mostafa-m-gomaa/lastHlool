@@ -17,13 +17,14 @@ export function PayDues({id}) {
     const queryClient = useQueryClient()
     const initialValues ={
         gottenMoney:"",
-        paidAt : ""
+        paidAt : "" ,
+        operation : "pay" ,
+        reason : ""
     }
 
     const mutation =useMutation({
         mutationFn:({mutationId,values})=>payDues(mutationId,values) ,
         onSuccess:(res)=>{
-           console.log(res)
             queryClient.invalidateQueries({queryKey:["dues"]})
             if(res.status === "success"){
                toast.success("تم تحديث الطلب بنجاح")
@@ -67,8 +68,15 @@ export function PayDues({id}) {
               className="col-span-2 h-8"
               required
             />
+                     <Label htmlFor="width">السبب</Label>
 
-
+     <Field
+              as={Input}
+              name="reason"
+              type="text"
+              className="col-span-2 h-8"
+              required
+            />
             <Custom name="paidAt" label="تاريخ الدفع" type="date" />
        <Button type="submit" disabled={mutation.isPending}>
         {mutation.isPending ? "Loading..." : "تحديث"}

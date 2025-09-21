@@ -48,9 +48,6 @@ if (isError) {
   
  
 const reportItems = reports?.data || []
-console.log(reportItems)
-
-
   return (
     <div className='w-[100%]  mx-auto flex flex-col gap-3'>
       <div className="flex w-[90%] mx-auto flex-row-reverse items-center py-4">

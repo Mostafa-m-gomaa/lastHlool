@@ -35,7 +35,6 @@ const UpdateUser = () => {
         mutationKey:"users",
         mutationFn:({id ,values})=>updateUser(id ,values) ,
         onSuccess:(res)=>{
-      console.log(res)
             if(res.errors){
                 toast.error(res.errors[0].msg)
             }

@@ -11,6 +11,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AlertDelete } from './Alert';
 import { Loader2, Pencil } from 'lucide-react';
+import { CreateDuesForUsers } from './CreateDuesForUser';
+import { ValidatorSupers } from './ValidatorSupers';
 
 
 
@@ -32,14 +34,14 @@ const UserCard = ({number ,item}) => {
 
     }
 
-    
+    console.log(item)
 
    
 
           return (
             
         <div
-        data-aos="fade-right"
+      
           className="w-[90%] mx-auto bg-white shadow-[0px_0px_15px_rgba(0,0,0,0.09)] py-2 px-4 space-y-3 relative overflow-hidden"
         >
           <div className="w-14 h-14 lg:w-20 lg:h-20 bg-myBlue rounded-full absolute -right-5 -top-7">
@@ -60,9 +62,11 @@ const UserCard = ({number ,item}) => {
                   </div>
     </div>
     <div className="flex flex-col lg:flex-row items-center gap-2">
+      {item?.role === "validator" && <ValidatorSupers supers={item?.supervisors} id={item._id}/> }
       {item?.role !== "admin" && <AlertDelete id={item._id}/> }
 <Button  className=" p-1 h-fit lg:px-4 lg:py-2" ><Link to={`/home/updateuser/${item._id}`}><Pencil /></Link></Button>
 {item?.role !== "admin" && <Button  className="p-1 h-fit text-[10px] lg:text-[14px] lg:px-4 lg:py-2" onClick ={()=>setActive(item._id , item.active)}>   {item.active ? " تعطيل " : "تنشيط"} {mutation.isPending ? <Loader2 className="animate-spin"/>:null}</Button> }
+{["supervisor" , "sales"].includes(item?.role) && <CreateDuesForUsers id={item?._id} /> }
 
    </div>
    </div>

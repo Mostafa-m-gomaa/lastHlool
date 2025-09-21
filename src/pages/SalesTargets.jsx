@@ -30,7 +30,6 @@ const targetsItems = targets?.data || []
     const mutation = useMutation({
         mutationFn:(id)=>participateTarget(id),
         onSuccess:(res)=>{
-            console.log(res)
             if(res.status === "success"){
                 queryClient.invalidateQueries({queryKey:["usertargets"]})
                 toast.success("تم اشتراكك في التارجت بنجاح")

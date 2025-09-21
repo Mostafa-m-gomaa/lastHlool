@@ -80,7 +80,6 @@ if (isError) {
 }
   
  
-console.log(orders)
 
   
   return (

@@ -124,7 +124,6 @@ const mutation =useMutation({
   mutationFn:(values)=>createReport(values),
   onSuccess:(res)=>{
    
-console.log(res)
     if(res.status === "success"){
       toast.success("تم انشاء التقرير بنجاح")
       history("/home/myreports")
@@ -317,78 +316,7 @@ const aggregateUserCommissions = (userCommission) => {
 };
 
 
-//   const aggregateUserCommissions = (userCommission) => {
 
-  
-
-//     const commissionMap = new Map();
-  
-//     userCommission.forEach(({
-//       salesManName,
-//       saledManId,
-//       salesManComm,
-//       supervisorName,
-//       superVisorId,
-//       superVisorComm,
-//       deliveryManName,
-//       deliveryManId,
-//       deliveryCommisssion,
-//     }) => {
-//       // Process Salesman
-//       if (commissionMap.has(saledManId)) {
-//         commissionMap.get(saledManId).userCommission += salesManComm;
-//       } else {
-//         commissionMap.set(saledManId, {
-//           userName: salesManName,
-//           userId: saledManId,
-//           userCommission: salesManComm,
-//         });
-//       }
-  
-//       // Process Supervisor / DeliveryMan (if IDs match, merge commissions)
-//       if (superVisorId === deliveryManId) {
-//         if (commissionMap.has(superVisorId)) {
-//           commissionMap.get(superVisorId).userCommission += superVisorComm + deliveryCommisssion;
-//         } else {
-//           commissionMap.set(superVisorId, {
-//             userName: supervisorName,
-//             userId: superVisorId,
-//             userCommission: superVisorComm + deliveryCommisssion,
-//           });
-//         }
-//       } else {
-//         // Process Supervisor
-//         if (commissionMap.has(superVisorId)) {
-//           commissionMap.get(superVisorId).userCommission += superVisorComm;
-//         } else {
-//           commissionMap.set(superVisorId, {
-//             userName: supervisorName,
-//             userId: superVisorId,
-//             userCommission: superVisorComm,
-//           });
-//         }
-  
-//         // Process DeliveryMan
-//         if (commissionMap.has(deliveryManId)) {
-//           commissionMap.get(deliveryManId).userCommission += deliveryCommisssion;
-//         } else {
-//           commissionMap.set(deliveryManId, {
-//             userName: deliveryManName,
-//             userId: deliveryManId,
-//             userCommission: deliveryCommisssion,
-//           });
-//         }
-//       }
-//     });
-  
-  
-// setCommissions(Array.from(commissionMap.values())) 
-// return Array.from(commissionMap.values())
-//   };
-
-
-
-  // categorize money function 
 
 useEffect(()=>{
 if(cashWithMe + cash < 0){
@@ -559,8 +487,10 @@ if(cashWithMe + cash < 0){
 
 <DialogDemo
   setOrder={(order) => {
-    setRestCash(order?.remainingAmount || 0);
-
+    console.log(order);
+    // setRestCash(order?.deposit || 0);
+    // setRestCash(order?.extraDeposits || 0);
+    // setRestCash(order?.orderPrice || 0);
     const newCommissionEntry = {
       order: order?._id,
       salesManName: order?.salesPerson?.name,
@@ -572,6 +502,8 @@ if(cashWithMe + cash < 0){
       deliveryCommisssion: order?.deliveryCommission || 0,
       deliveryManName: order?.deliveryMan?.name,
       deliveryManId: order?.deliveryMan?._id,
+      
+     
     };
 
     setUsersCommission((prev) => {
@@ -590,6 +522,9 @@ if(cashWithMe + cash < 0){
       deservedSupervisorCommission: order.supervisorCommission || "",
       deliveryCommission: order.deliveryCommission || "",
       salesMan: order?.salesPerson?.name || "",
+      supervisor: order?.supervisor?.name || "",
+      restCash: order?.remainingAmount || 0 ,
+      extraDeposits: order?.extraDeposits || [] ,
     };
 
     setFieldValue("deliveredOrders", updatedDeliveredOrders);
@@ -597,57 +532,7 @@ if(cashWithMe + cash < 0){
   excludedOrderIds={values.deliveredOrders.map((o) => o.order)} // ← أضف هذا السطر
 />
 
-                      {/* <DialogDemo
-  setOrder={(order) => {
-    setRestCash(order?.remainingAmount || 0);
-
-    const newCommissionEntry = {
-      order: order?._id,
-      salesManName: order?.salesPerson?.name,
-      saledManId: order?.salesPerson?._id,
-      salesManComm: order.salesManCommission,
-      supervisorName: order?.supervisor?.name,
-      superVisorId: order?.supervisor?._id,
-      superVisorComm: order?.supervisorCommission,
-      deliveryCommisssion: order?.deliveryCommission || 0,
-      deliveryManName: order?.deliveryMan?.name,
-      deliveryManId: order?.deliveryMan?._id,
-    };
-
-   
-
-    setUsersCommission((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        order: order?._id,
-        salesManName: order?.salesPerson?.name,
-        saledManId: order?.salesPerson?._id,
-        salesManComm: order.salesManCommission,
-        supervisorName: order?.supervisor?.name,
-        superVisorId: order?.supervisor?._id,
-        superVisorComm: order?.supervisorCommission,
-        deliveryCommisssion: order?.deliveryCommission || 0,
-        deliveryManName: order?.deliveryMan?.name,
-        deliveryManId: order?.deliveryMan?._id,
-      };
-      return updated;
-    });
-
-    const updatedDeliveredOrders = [...values.deliveredOrders];
-    updatedDeliveredOrders[index] = {
-      ...updatedDeliveredOrders[index],
-      customerName: order.customersData[0]?.customerName || "",
-      deliveryReceipt: order.DeliveryReceipt || "",
-      order: order._id || "",
-      deservedSalesManCommission: order.salesManCommission || "",
-      deservedSupervisorCommission: order.supervisorCommission || "",
-      deliveryCommission: order.deliveryCommission || "",
-      salesMan: order?.salesPerson?.name || "",
-    };
-
-    setFieldValue("deliveredOrders", updatedDeliveredOrders);
-  }}
-/> */}
+  
 <ErrorMessage name={`deliveredOrders[${index}].order`} component={FormikError} />                    <CustomInput
                       name={`deliveredOrders[${index}].customerName`}
                       label="اسم العميل"
@@ -667,13 +552,42 @@ if(cashWithMe + cash < 0){
                       type={"text"}
                       disabled ={true}
                     />
-                   
-                   
+                    <CustomInput
+                      name={`deliveredOrders[${index}].supervisor`}
+                      label="المشرف"
+                      type={"text"}
+                      disabled ={true}
+                    />
+                    <CustomInput
+                      name={`deliveredOrders[${index}].restCash`}
+                      label="المبلغ المتبقي للطلب"
+                      type={"text"}
+                      disabled ={true}
+                    />
                  
                     <CustomInput type={"number"} name={`deliveredOrders[${index}].deservedSalesManCommission`} label="العمولة المستحقة للمندوب"  disabled ={true}  />
                     <CustomInput type={"number"} name={`deliveredOrders[${index}].deservedSupervisorCommission`} label="العمولة المستحقة للمشرف" disabled ={true}  />
                     <CustomInput type={"number"} name={`deliveredOrders[${index}].deliveryCommission`} label="عمولة التوصيل" disabled ={true} />
-                    <div>المبلغ الباقي لاستلام الطلب : {restCash}</div>
+                    <div className="w-full flex flex-col items-center gap-4">
+  <h2 className="text-lg font-bold">العرابين الاضافية</h2>
+  {values?.deliveredOrders[index]?.extraDeposits?.length > 0 ? (
+    values?.deliveredOrders[index]?.extraDeposits?.map((deposit, depositIndex) => (
+      <div key={depositIndex} className="flex gap-6 flex-wrap justify-center items-center w-[80%] bg-gray-100 p-4 rounded-md">
+        <div className="flex flex-col">
+          <label className="font-semibold text-right">المبلغ</label>
+          <div className="p-2 border rounded bg-white">{deposit?.deposit}</div>
+        </div>
+        <div className="flex flex-col">
+          <label className="font-semibold text-right">طريقة الدفع</label>
+          <div className="p-2 border rounded bg-white">{deposit?.paymentMethod}</div>
+        </div>
+        
+      </div>
+    ))
+  ) : (
+    <div className="text-gray-500">لا يوجد إيداعات إضافية</div>
+  )}
+</div>
                     <FieldArray name={`deliveredOrders[${index}].restOrderCost`}>
                       {({ push: pushRestOrderCost, remove: removeRestOrderCost }) => (
                         <div className="flex flex-col gap-4 items-center w-full ">
@@ -747,7 +661,8 @@ if(cashWithMe + cash < 0){
                           {values.extraDeposits.map((_, restIndex) => (
                             <div key={restIndex} className="flex flex-row-reverse flex-wrap  gap-10 items-center w-[80%] justify-center pt-8 pb-6 rounded-md  bg-gray-200 ">
                           <DialogDemo
-                        setOrder={(order) => {        
+                          
+                        setOrder={(order) => {  
                           const updatedDeliveredOrders = [
                             ...values.extraDeposits,
                           ];
@@ -808,7 +723,7 @@ if(cashWithMe + cash < 0){
       <div className="flex flex-col border-2 border-black p-4 rounded-md gap-2 w-full">
         <h2>العمولات المستحقة</h2>
         <div>{cashWithMe} الصندوق</div>
-        {/* <div>{cash} اجمالي المبلغ لهذا التقرير</div> */}
+        <div>{cash} اجمالي المبلغ لهذا التقرير</div>
         <div>{cash + cashWithMe} الاجمالي الكلي:</div>
         {commessions.map((item, i) =>
           item.userId === undefined ? null : (

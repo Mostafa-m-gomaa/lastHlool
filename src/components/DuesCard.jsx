@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom';
 import { PayDues } from './PayDuesPopOver';
 import { LoaderPinwheel } from 'lucide-react';
 import { HistoryDialog } from './historyDialog';
+import { PutDues } from './PutDuesPop';
 
 
 
 
 const DuesCard = ({item}) => {
-   
   return (
     <div className="flex gap-6  bg-white w-[90%] mx-auto lg:w-[100%] p-4 rounded-md shadow-md flex-col lg:flex-row-reverse items-center justify-between">
   <div className="flex flex-row-reverse items-center gap-2 flex-wrap justify-center">
@@ -33,13 +33,10 @@ const DuesCard = ({item}) => {
  
   </div>
   <div className="flex items-center gap-2 justify-center">
-    {/* <Button>
-<Link to={`/home/onereport/${item?.report}`}>
-        التقرير
-</Link>
-    </Button> */}
-    <HistoryDialog history ={item?.history} />
+ 
+    <HistoryDialog  id={item?.supervisor?._id} />
     {localStorage.getItem("role") != "supervisor" && <PayDues  id={item?._id} />}
+    {localStorage.getItem("role") != "supervisor" && <PutDues  id={item?._id} />}
     
   </div>
     </div>

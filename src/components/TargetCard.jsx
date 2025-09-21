@@ -4,9 +4,10 @@ import { Button } from './ui/button';
 import { useMutation , useQueryClient } from '@tanstack/react-query';
 import { deleteTarget } from '@/api/targets';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
+
 
 const TargetCard = ({target}) => {
-console.log(target)
 const queryClient = useQueryClient()
 
     const mutation = useMutation({
@@ -57,6 +58,11 @@ const queryClient = useQueryClient()
                 </div>
             ))}
         </div>
+        <Button >
+            <Link onClick={()=>localStorage.setItem("target",JSON.stringify(target))} to={`/home/targets/${target._id}`} className="py-4">
+            تعديل
+            </Link>
+        </Button>
     </div>
   )
 }

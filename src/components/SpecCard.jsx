@@ -66,7 +66,7 @@ const retrieveMutation = useMutation({
     }
 })
    
-
+console.log(item)
           return (
             
         <div
@@ -86,7 +86,14 @@ const retrieveMutation = useMutation({
                   <div className="max-w-full flex flex-col lg:flex-row gap-2 text-[10px] lg:text-[15px] px-1 items-end lg:items-center *:min-w-fit  *:flex  *:items-center *:rounded-md  *:text-center  *:gap-2 *:flex-row-reverse  ">
                     {/* <div><span>اسم العميل</span> : <span>{item.customerName}</span> </div> */}
                     <div><span>رقم سند العربون</span> : <span>{item.receipt || "لا يوجد رقم سند"}</span> </div>
-                    <div><span>تاريخ الميلاد</span> : <span>{formatDate(item.birthDate)}</span> </div>
+                    <div className="flex flex-col">
+                {item?.customersData?.map((customer, index) => (
+                    <div key={index} className="flex gap-2 items-center flex flex-col">
+                      <span>{customer.customerName}</span>
+                      <span className="text-gray-500">({customer.phone})</span>
+                      </div>
+                ))}
+                    </div>
 
                   </div>
     </div>
